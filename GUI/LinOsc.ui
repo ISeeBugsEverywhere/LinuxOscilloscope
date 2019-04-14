@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>oscillWindow</class>
+ <widget class="QMainWindow" name="oscillWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>870</width>
+    <height>750</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Oscilloscope</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0" colspan="2">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Oscilloscope:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="idnLabel">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;If it is connected, IDN will be shown here.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::RichText</enum>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+    <item row="1" column="0" colspan="2">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QRadioButton" name="lxiRadio">
+        <property name="text">
+         <string>LXI?</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="lxiCombo">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="editable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="rs232Radio">
+        <property name="text">
+         <string>RS232?</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="rs232Combo">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="usbtmcRadio">
+        <property name="text">
+         <string>USBTMC?</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="usbtmcCombo">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="connectButton">
+        <property name="text">
+         <string>Connect</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="2" column="0" colspan="2">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="oscilloscopeTab">
+       <attribute name="title">
+        <string>Oscillloscope</string>
+       </attribute>
+       <widget class="QWidget" name="oscillographPlot" native="true">
+        <property name="geometry">
+         <rect>
+          <x>260</x>
+          <y>20</y>
+          <width>541</width>
+          <height>351</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="parametersTab">
+       <attribute name="title">
+        <string>Parameters</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="serialPortWidget" name="rs232Widget" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>30</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>238</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QPushButton" name="quitButton">
+      <property name="text">
+       <string>Quit</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>765</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>870</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionQuit_Ctrl_Q"/>
+   </widget>
+   <addaction name="menuFile"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionQuit_Ctrl_Q">
+   <property name="text">
+    <string>Quit(Ctrl+Q)</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>serialPortWidget</class>
+   <extends>QWidget</extends>
+   <header>GUI.serialPortWidget.serialPortWidget</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
