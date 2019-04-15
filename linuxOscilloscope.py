@@ -16,7 +16,39 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.actionQuit_Ctrl_Q.triggered.connect(self.quit_fn)
         self.quitShortcut = QtWidgets.QShortcut(QtGui.QKeySequence("Ctrl+Q"), self)
         self.quitShortcut.activated.connect(self.quit_fn)
+        #
+        self.setup_gui_fn()
+        #
+        self.ui.rs232Widget.returnPorts.connect(self.rescan_ports_fn)
+        self.ui.rs232Combo.currentIndexChanged.connect(self.idx_fn)
+        self.ui.rs232Widget.ui.comPortBox.currentIndexChanged.connect(self.idxfn)
         pass
+
+    def setup_gui_fn(self):
+        self.update_ports_fn()
+        pass
+
+    def update_ports_fn(self):
+        ports = self.ui.rs232Widget.get_port_names()
+        self.ui.rs232Combo.insertItems(0, [str(x.portName()) for x in ports])
+        self.get_usbtmc_devices_fn()
+        pass
+
+    def rescan_ports_fn(self, ports):
+        self.ui.rs232Combo.clear()
+        self.ui.rs232Combo.insertItems(0, [str(x.portName()) for x in ports])
+        self.get_usbtmc_devices()
+        pass
+
+    def get_usbtmc_devices_fn(self):
+        try:
+            self.ui.usbtmcCombo.clear()
+            mypath = "/dev"
+            for f in os.listdir(mypath):
+                if f.startswith('usbtmc'):
+                    self.ui.usbtmcCombo.addItem(mypath + "/" + f)
+        except Exception as ex:
+            pass
 
     def lxi_state_fn(self):
         if self.ui.lxiRadio.isChecked():
@@ -39,6 +71,15 @@ class LOsc(QtWidgets.QMainWindow):
             self.ui.rs232Combo.setEnabled(False)
             self.ui.usbtmcCombo.setEnabled(True)
             pass
+        pass
+
+    def idxfn(self, index):
+        self.ui.rs232Combo.setCurrentIndex(index)
+        pass
+
+    def idx_fn(self, index):
+        # self.ui.com_params_widget.ui.comPortBox.setCurrentIndex(index)
+        self.ui.rs232Widget.ui.comPortBox.setCurrentIndex(index)
         pass
 
     def quit_fn(self):
