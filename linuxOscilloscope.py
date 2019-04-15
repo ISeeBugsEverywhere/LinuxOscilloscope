@@ -22,6 +22,11 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.rs232Widget.returnPorts.connect(self.rescan_ports_fn)
         self.ui.rs232Combo.currentIndexChanged.connect(self.idx_fn)
         self.ui.rs232Widget.ui.comPortBox.currentIndexChanged.connect(self.idxfn)
+        # devices
+        self._rs232 = None
+        self._lxi = None
+        self._usbtmc = None
+        self._active = None
         pass
 
     def setup_gui_fn(self):
