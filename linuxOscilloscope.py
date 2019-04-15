@@ -14,7 +14,7 @@ class LOsc(QtWidgets.QMainWindow):
         # quit actions:
         self.ui.quitButton.clicked.connect(self.quit_fn)
         self.ui.actionQuit_Ctrl_Q.triggered.connect(self.quit_fn)
-        self.quitShortcut = QtWidgets.QShortcut(QtGui.QKeySequence("Ctrl+Q"), self)
+        self.quitShortcut = QtWidgets.QShortcut(QtGui.QKeySequence('Ctrl+Q'), self)
         self.quitShortcut.activated.connect(self.quit_fn)
         #
         self.setup_gui_fn()
