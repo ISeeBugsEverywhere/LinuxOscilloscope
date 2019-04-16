@@ -1,6 +1,9 @@
 import os, sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from GUI.LinOsc import Ui_oscillWindow
+from vxi11 import vxi11
+from HWaccess.USBTMC import USBTMC
+from PyQt5.QtCore import QIODevice
 
 class LOsc(QtWidgets.QMainWindow):
     def __init__(self):
@@ -26,7 +29,9 @@ class LOsc(QtWidgets.QMainWindow):
         self._rs232 = None
         self._lxi = None
         self._usbtmc = None
-        self._active = None
+        self._active = None # 0 - lxi, 1 - rs232, 2 - usbtmc, or strings lxi, rs232, usbtmc
+        # buttons:
+        self.ui.connectButton.clicked.connect(self.connect_device_fn)
         pass
 
     def setup_gui_fn(self):
@@ -89,4 +94,27 @@ class LOsc(QtWidgets.QMainWindow):
 
     def quit_fn(self):
         sys.exit(0)
+        pass
+
+    def connect_device_fn(self):
+        if self.ui.lxiRadio.isChecked():
+            ip = self.ui.lxiCombo.currentText()
+            self._lxi = vxi11.Instrument(ip)
+            self._lxi.open()
+            idn = self._lxi.ask('*idn?')
+            self.ui.idnLabel.setText(str(idn))
+            self._active = 'lxi'
+            pass
+        elif self.ui.rs232Radio.isChecked():
+            self._rs232 = self.ui.rs232Widget.getSerialPort()
+            status = self._rs232.open(QIODevice.ReadWrite)
+            if status:
+                pass
+            pass
+        elif self.ui.usbtmcRadio.isChecked():
+            self._usbtmc = USBTMC(self.ui.usbtmcCombo.currentText())
+            self._usbtmc.set_encoding()
+            self._usbtmc.set_errors_behavior()
+            idn = self._usbtmc.ask('*idn?')
+            self.ui.idnLabel.setText(str(idn))
         pass
