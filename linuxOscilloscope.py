@@ -106,10 +106,10 @@ class LOsc(QtWidgets.QMainWindow):
             self._active = 'lxi'
             pass
         elif self.ui.rs232Radio.isChecked():
-            self._rs232 = self.ui.rs232Widget.getSerialPort()
-            status = self._rs232.open(QIODevice.ReadWrite)
-            if status:
-                pass
+            # self._rs232 = self.ui.rs232Widget.getSerialPort()
+            # status = self._rs232.open(QIODevice.ReadWrite)
+            # if status:
+            #     pass
             pass
         elif self.ui.usbtmcRadio.isChecked():
             self._usbtmc = USBTMC(self.ui.usbtmcCombo.currentText())
@@ -117,4 +117,33 @@ class LOsc(QtWidgets.QMainWindow):
             self._usbtmc.set_errors_behavior()
             idn = self._usbtmc.ask('*idn?')
             self.ui.idnLabel.setText(str(idn))
+        pass
+
+    def append_html_paragraph(self, text, status=0):
+        txt = str(text)
+        html_red = '<font color="red">{x}</font>'
+        html_black = '<font color="black">{x}</font>'
+        html_magenta = '<font color="purple">{x}</font>'
+        if status == 0:
+            self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
+            self.ui.infoText.insertPlainText(self.new_line)
+            self.ui.infoText.setAlignment(QtCore.Qt.AlignLeft)
+            self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
+            self.ui.infoText.insertHtml(html_black.replace('{x}', txt))
+            self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
+        elif status == 1:
+            self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
+            self.ui.infoText.insertPlainText(self.new_line)
+            self.ui.infoText.setAlignment(QtCore.Qt.AlignRight)
+            # self.uinfoTextox.setFontWeight(QtGui.QFont.Bold)
+            self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
+            self.ui.infoText.insertHtml(html_magenta.replace('{x}', txt))
+            self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
+        elif status == -1:
+            self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
+            self.ui.infoText.insertPlainText(self.new_line)
+            self.ui.infoText.setAlignment(QtCore.Qt.AlignLeft)
+            self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
+            self.ui.infoText.insertHtml(html_red.replace('{x}', txt))
+            self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
         pass
