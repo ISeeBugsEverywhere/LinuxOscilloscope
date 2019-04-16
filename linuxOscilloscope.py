@@ -30,6 +30,7 @@ class LOsc(QtWidgets.QMainWindow):
         self._lxi = None
         self._usbtmc = None
         self._active = None # 0 - lxi, 1 - rs232, 2 - usbtmc, or strings lxi, rs232, usbtmc
+        self._new_line = os.linesep
         # buttons:
         self.ui.connectButton.clicked.connect(self.connect_device_fn)
         pass
@@ -126,14 +127,14 @@ class LOsc(QtWidgets.QMainWindow):
         html_magenta = '<font color="purple">{x}</font>'
         if status == 0:
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
-            self.ui.infoText.insertPlainText(self.new_line)
+            self.ui.infoText.insertPlainText(self._new_line)
             self.ui.infoText.setAlignment(QtCore.Qt.AlignLeft)
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
             self.ui.infoText.insertHtml(html_black.replace('{x}', txt))
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
         elif status == 1:
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
-            self.ui.infoText.insertPlainText(self.new_line)
+            self.ui.infoText.insertPlainText(self._new_line)
             self.ui.infoText.setAlignment(QtCore.Qt.AlignRight)
             # self.uinfoTextox.setFontWeight(QtGui.QFont.Bold)
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
@@ -141,7 +142,7 @@ class LOsc(QtWidgets.QMainWindow):
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
         elif status == -1:
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
-            self.ui.infoText.insertPlainText(self.new_line)
+            self.ui.infoText.insertPlainText(self._new_line)
             self.ui.infoText.setAlignment(QtCore.Qt.AlignLeft)
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
             self.ui.infoText.insertHtml(html_red.replace('{x}', txt))
