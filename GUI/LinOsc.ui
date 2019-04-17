@@ -70,7 +70,7 @@
       <item>
        <widget class="QRadioButton" name="lxiRadio">
         <property name="text">
-         <string>LXI?</string>
+         <string>L&amp;XI?</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -93,7 +93,7 @@
       <item>
        <widget class="QRadioButton" name="rs232Radio">
         <property name="text">
-         <string>RS232?</string>
+         <string>RS&amp;232?</string>
         </property>
        </widget>
       </item>
@@ -107,7 +107,7 @@
       <item>
        <widget class="QRadioButton" name="usbtmcRadio">
         <property name="text">
-         <string>USBTMC?</string>
+         <string>&amp;USBTMC?</string>
         </property>
        </widget>
       </item>
@@ -304,12 +304,21 @@
                <property name="text">
                 <string>CH1</string>
                </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
               </widget>
              </item>
              <item row="0" column="1">
               <widget class="QPushButton" name="ch2_btn">
                <property name="text">
                 <string>CH2</string>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -318,12 +327,18 @@
                <property name="text">
                 <string>CH3</string>
                </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
               </widget>
              </item>
              <item row="1" column="1">
               <widget class="QPushButton" name="ch4_btn">
                <property name="text">
                 <string>CH4</string>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -384,6 +399,19 @@
           </property>
          </spacer>
         </item>
+        <item row="0" column="2">
+         <spacer name="horizontalSpacer_8">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
         <item row="0" column="0">
          <widget class="serialPortWidget" name="rs232Widget" native="true">
           <property name="sizePolicy">
@@ -401,17 +429,55 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <spacer name="horizontalSpacer_8">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+         <widget class="QGroupBox" name="groupBox_4">
+          <property name="title">
+           <string>USBTMC options</string>
           </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
+          <layout class="QGridLayout" name="gridLayout_13">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_4">
+             <property name="text">
+              <string>Encoding</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QComboBox" name="usbtmc_encoding_box">
+             <item>
+              <property name="text">
+               <string>utf-8</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>ascii</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>Errors handling</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QComboBox" name="usbtmc_errors_box">
+             <item>
+              <property name="text">
+               <string>ignore</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>replace</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -694,12 +760,12 @@
      <x>0</x>
      <y>0</y>
      <width>985</width>
-     <height>31</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>File</string>
+     <string>Fi&amp;le</string>
     </property>
     <addaction name="actionQuit_Ctrl_Q"/>
    </widget>
@@ -708,7 +774,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionQuit_Ctrl_Q">
    <property name="text">
-    <string>Quit(Ctrl+Q)</string>
+    <string>&amp;Quit(Ctrl+Q)</string>
    </property>
   </action>
  </widget>
