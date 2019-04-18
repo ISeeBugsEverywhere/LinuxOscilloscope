@@ -31,61 +31,55 @@ class LOsc(QtWidgets.QMainWindow):
         self._usbtmc = None
         self._active = None # 0 - lxi, 1 - rs232, 2 - usbtmc, or strings lxi, rs232, usbtmc
         self._new_line = os.linesep
+        self._channels = []
+        #threads:
+        self._worker = None
+        self._thread = QtCore.QThread()
         # buttons:
         self.ui.connectButton.clicked.connect(self.connect_device_fn)
         self.ui.ch1_btn.clicked.connect(self.checked_fn1)
         self.ui.ch2_btn.clicked.connect(self.checked_fn2)
         self.ui.ch3_btn.clicked.connect(self.checked_fn3)
         self.ui.ch4_btn.clicked.connect(self.checked_fn4)
+        self.ui.execute_scpi_btn.clicked.connect(self.exec_scpi_fn)
+        pass
+
+    def exec_scpi_fn(self):
+        scpi_cmd = self.ui.scpi_cmd_box.currentText()
+        if self._active == 'lxi':
+            pass
+        elif self._active == 'usbtmc':
+            self._usbtmc.write(scpi_cmd)
+        elif self._active == 'rs232':
+            pass
         pass
 
     def checked_fn1(self):
         if not self.ui.ch1_btn.isChecked():
-            self.ui.ch1_btn.setChecked(True)
-            self.ui.ch2_btn.setChecked(False)
-            self.ui.ch3_btn.setChecked(False)
-            self.ui.ch4_btn.setChecked(False)
             print('ch1')
+            self._channels.remove('ch1')
         elif self.ui.ch1_btn.isChecked():
-            self.ui.ch2_btn.setChecked(False)
-            self.ui.ch3_btn.setChecked(False)
-            self.ui.ch4_btn.setChecked(False)
+            self._channels.append('ch1')
+            print('ch1 ...')
+            pass
 
     def checked_fn2(self):
         if not self.ui.ch2_btn.isChecked():
-            self.ui.ch1_btn.setChecked(False)
-            self.ui.ch2_btn.setChecked(True)
-            self.ui.ch3_btn.setChecked(False)
-            self.ui.ch4_btn.setChecked(False)
             print('ch2')
         elif self.ui.ch2_btn.isChecked():
-            self.ui.ch1_btn.setChecked(False)
-            self.ui.ch3_btn.setChecked(False)
-            self.ui.ch4_btn.setChecked(False)
+            print('ch2 ...')
 
     def checked_fn3(self):
         if not self.ui.ch3_btn.isChecked():
-            self.ui.ch1_btn.setChecked(False)
-            self.ui.ch2_btn.setChecked(False)
-            self.ui.ch3_btn.setChecked(True)
-            self.ui.ch4_btn.setChecked(False)
             print('ch3')
         elif self.ui.ch3_btn.isChecked():
-            self.ui.ch2_btn.setChecked(False)
-            self.ui.ch1_btn.setChecked(False)
-            self.ui.ch4_btn.setChecked(False)
+            print('ch3 ...')
 
     def checked_fn4(self):
         if not self.ui.ch4_btn.isChecked():
-            self.ui.ch1_btn.setChecked(False)
-            self.ui.ch2_btn.setChecked(False)
-            self.ui.ch3_btn.setChecked(False)
-            self.ui.ch4_btn.setChecked(True)
             print('ch4')
         elif self.ui.ch4_btn.isChecked():
-            self.ui.ch2_btn.setChecked(False)
-            self.ui.ch3_btn.setChecked(False)
-            self.ui.ch1_btn.setChecked(False)
+            print('ch4 ...')
 
     def setup_gui_fn(self):
         self.update_ports_fn()
