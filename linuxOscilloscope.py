@@ -31,7 +31,7 @@ class LOsc(QtWidgets.QMainWindow):
         self._usbtmc = None
         self._active = None # 0 - lxi, 1 - rs232, 2 - usbtmc, or strings lxi, rs232, usbtmc
         self._new_line = os.linesep
-        self._channels = []
+        self._active_channels = []
         #threads:
         self._worker = None
         self._thread = QtCore.QThread()
@@ -45,10 +45,12 @@ class LOsc(QtWidgets.QMainWindow):
         pass
 
     def exec_scpi_fn(self):
+        print('execute scpi cmd ...')
         scpi_cmd = self.ui.scpi_cmd_box.currentText()
         if self._active == 'lxi':
             pass
         elif self._active == 'usbtmc':
+            print(' on usbtmc ...')
             self._usbtmc.write(scpi_cmd)
         elif self._active == 'rs232':
             pass
@@ -164,6 +166,7 @@ class LOsc(QtWidgets.QMainWindow):
             self._usbtmc.set_errors_behavior(self.ui.usbtmc_errors_box.currentText())
             idn = self._usbtmc.ask('*idn?')
             self.ui.idnLabel.setText(str(idn))
+            self._active = 'usbtmc'
         pass
 
     def append_html_paragraph(self, text, status=0):
