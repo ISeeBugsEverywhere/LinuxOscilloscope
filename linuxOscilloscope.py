@@ -42,6 +42,10 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.ch3_btn.clicked.connect(self.checked_fn3)
         self.ui.ch4_btn.clicked.connect(self.checked_fn4)
         self.ui.execute_scpi_btn.clicked.connect(self.exec_scpi_fn)
+        self._channels = {'ch1':None, 'ch2':None, 'ch3':None, 'ch4':None} #dictionry for channels
+        pass
+
+    def fill_channels_fn(self):
         pass
 
     def exec_scpi_fn(self):
@@ -56,32 +60,32 @@ class LOsc(QtWidgets.QMainWindow):
             pass
         pass
 
-    def checked_fn1(self):
-        if not self.ui.ch1_btn.isChecked():
-            print('ch1')
-            self._channels.remove('ch1')
-        elif self.ui.ch1_btn.isChecked():
-            self._channels.append('ch1')
-            print('ch1 ...')
-            pass
-
-    def checked_fn2(self):
-        if not self.ui.ch2_btn.isChecked():
-            print('ch2')
-        elif self.ui.ch2_btn.isChecked():
-            print('ch2 ...')
-
-    def checked_fn3(self):
-        if not self.ui.ch3_btn.isChecked():
-            print('ch3')
-        elif self.ui.ch3_btn.isChecked():
-            print('ch3 ...')
-
-    def checked_fn4(self):
-        if not self.ui.ch4_btn.isChecked():
-            print('ch4')
-        elif self.ui.ch4_btn.isChecked():
-            print('ch4 ...')
+    # def checked_fn1(self):
+    #     if not self.ui.ch1_btn.isChecked():
+    #         print('ch1')
+    #         self._channels.remove('ch1')
+    #     elif self.ui.ch1_btn.isChecked():
+    #         self._channels.append('ch1')
+    #         print('ch1 ...')
+    #         pass
+    #
+    # def checked_fn2(self):
+    #     if not self.ui.ch2_btn.isChecked():
+    #         print('ch2')
+    #     elif self.ui.ch2_btn.isChecked():
+    #         print('ch2 ...')
+    #
+    # def checked_fn3(self):
+    #     if not self.ui.ch3_btn.isChecked():
+    #         print('ch3')
+    #     elif self.ui.ch3_btn.isChecked():
+    #         print('ch3 ...')
+    #
+    # def checked_fn4(self):
+    #     if not self.ui.ch4_btn.isChecked():
+    #         print('ch4')
+    #     elif self.ui.ch4_btn.isChecked():
+    #         print('ch4 ...')
 
     def setup_gui_fn(self):
         self.update_ports_fn()
