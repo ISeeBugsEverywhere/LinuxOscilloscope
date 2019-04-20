@@ -42,8 +42,19 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.ch3_btn.clicked.connect(self.checked_fn3)
         self.ui.ch4_btn.clicked.connect(self.checked_fn4)
         self.ui.execute_scpi_btn.clicked.connect(self.exec_scpi_fn)
-        self._channels = {'ch1':None, 'ch2':None, 'ch3':None, 'ch4':None} #dictionry for channels
+        self._channels = {1:None, 2:None, 3:None, 4:None} #dictionry for channels
+        self.collect_update_info()
         pass
+
+    def collect_update_info(self):
+        channels_string = self.ui.channels_names_box.text()
+        if channels_string is not None and len(channels_string) >= 2:
+            splitted = channels_string.split(',')
+            l = len(splitted)
+            self.append_html_paragraph(str(l)+' : given number of channels')
+            for i in range(0, l):
+                self._channels[i+1] = splitted[i]
+            pass
 
     def fill_channels_fn(self):
         pass
@@ -151,6 +162,7 @@ class LOsc(QtWidgets.QMainWindow):
 
     def connect_device_fn(self):
         try:
+            self.collect_update_info()
             if self.ui.lxiRadio.isChecked():
                 ip = self.ui.lxiCombo.currentText()
                 self._lxi = vxi11.Instrument(ip)
@@ -167,7 +179,7 @@ class LOsc(QtWidgets.QMainWindow):
                     idn = self._rs232.read(300)
                     self.ui.idnLabel.setText(str(idn))
                 else:
-                    self.append_html_paragraph('RS232 was opened: '+str(status), -1)
+                    self.append_html_paragraph('RS232 was opened: '+str(status), -1, True)
             elif self.ui.usbtmcRadio.isChecked():
                 self._usbtmc = USBTMC(self.ui.usbtmcCombo.currentText())
                 self._usbtmc.set_encoding(self.ui.usbtmc_encoding_box.currentText())
