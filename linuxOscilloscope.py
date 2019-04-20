@@ -60,32 +60,32 @@ class LOsc(QtWidgets.QMainWindow):
             pass
         pass
 
-    # def checked_fn1(self):
-    #     if not self.ui.ch1_btn.isChecked():
-    #         print('ch1')
-    #         self._channels.remove('ch1')
-    #     elif self.ui.ch1_btn.isChecked():
-    #         self._channels.append('ch1')
-    #         print('ch1 ...')
-    #         pass
-    #
-    # def checked_fn2(self):
-    #     if not self.ui.ch2_btn.isChecked():
-    #         print('ch2')
-    #     elif self.ui.ch2_btn.isChecked():
-    #         print('ch2 ...')
-    #
-    # def checked_fn3(self):
-    #     if not self.ui.ch3_btn.isChecked():
-    #         print('ch3')
-    #     elif self.ui.ch3_btn.isChecked():
-    #         print('ch3 ...')
-    #
-    # def checked_fn4(self):
-    #     if not self.ui.ch4_btn.isChecked():
-    #         print('ch4')
-    #     elif self.ui.ch4_btn.isChecked():
-    #         print('ch4 ...')
+    def checked_fn1(self):
+        if not self.ui.ch1_btn.isChecked():
+            print('ch1')
+            self._channels.remove('ch1')
+        elif self.ui.ch1_btn.isChecked():
+            self._channels.append('ch1')
+            print('ch1 ...')
+            pass
+
+    def checked_fn2(self):
+        if not self.ui.ch2_btn.isChecked():
+            print('ch2')
+        elif self.ui.ch2_btn.isChecked():
+            print('ch2 ...')
+
+    def checked_fn3(self):
+        if not self.ui.ch3_btn.isChecked():
+            print('ch3')
+        elif self.ui.ch3_btn.isChecked():
+            print('ch3 ...')
+
+    def checked_fn4(self):
+        if not self.ui.ch4_btn.isChecked():
+            print('ch4')
+        elif self.ui.ch4_btn.isChecked():
+            print('ch4 ...')
 
     def setup_gui_fn(self):
         self.update_ports_fn()
@@ -150,30 +150,37 @@ class LOsc(QtWidgets.QMainWindow):
         pass
 
     def connect_device_fn(self):
-        if self.ui.lxiRadio.isChecked():
-            ip = self.ui.lxiCombo.currentText()
-            self._lxi = vxi11.Instrument(ip)
-            self._lxi.open()
-            idn = self._lxi.ask('*idn?')
-            self.ui.idnLabel.setText(str(idn))
-            self._active = 'lxi'
+        try:
+            if self.ui.lxiRadio.isChecked():
+                ip = self.ui.lxiCombo.currentText()
+                self._lxi = vxi11.Instrument(ip)
+                self._lxi.open()
+                idn = self._lxi.ask('*idn?')
+                self.ui.idnLabel.setText(str(idn))
+                self._active = 'lxi'
+                pass
+            elif self.ui.rs232Radio.isChecked():
+                self._rs232 = self.ui.rs232Widget.getSerialPort()
+                status = self._rs232.open(QIODevice.ReadWrite)
+                if status:
+                    self._rs232.write(bytes('*idn?', encoding='ascii'))
+                    idn = self._rs232.read(300)
+                    self.ui.idnLabel.setText(str(idn))
+                else:
+                    self.append_html_paragraph('RS232 was opened: '+str(status), -1)
+            elif self.ui.usbtmcRadio.isChecked():
+                self._usbtmc = USBTMC(self.ui.usbtmcCombo.currentText())
+                self._usbtmc.set_encoding(self.ui.usbtmc_encoding_box.currentText())
+                self._usbtmc.set_errors_behavior(self.ui.usbtmc_errors_box.currentText())
+                idn = self._usbtmc.ask('*idn?')
+                self.ui.idnLabel.setText(str(idn))
+                self._active = 'usbtmc'
             pass
-        elif self.ui.rs232Radio.isChecked():
-            # self._rs232 = self.ui.rs232Widget.getSerialPort()
-            # status = self._rs232.open(QIODevice.ReadWrite)
-            # if status:
-            #     pass
+        except Exception as ex:
+            self.append_html_paragraph(str(ex), -1, True)
             pass
-        elif self.ui.usbtmcRadio.isChecked():
-            self._usbtmc = USBTMC(self.ui.usbtmcCombo.currentText())
-            self._usbtmc.set_encoding(self.ui.usbtmc_encoding_box.currentText())
-            self._usbtmc.set_errors_behavior(self.ui.usbtmc_errors_box.currentText())
-            idn = self._usbtmc.ask('*idn?')
-            self.ui.idnLabel.setText(str(idn))
-            self._active = 'usbtmc'
-        pass
 
-    def append_html_paragraph(self, text, status=0):
+    def append_html_paragraph(self, text, status=0, show = False):
         txt = str(text)
         html_red = '<font color="red">{x}</font>'
         html_black = '<font color="black">{x}</font>'
@@ -200,4 +207,6 @@ class LOsc(QtWidgets.QMainWindow):
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
             self.ui.infoText.insertHtml(html_red.replace('{x}', txt))
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
+        if show:
+            self.ui.tabWidget.setCurrentIndex(3)
         pass
