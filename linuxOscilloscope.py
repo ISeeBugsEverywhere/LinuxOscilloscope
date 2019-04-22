@@ -55,8 +55,15 @@ class LOsc(QtWidgets.QMainWindow):
             for i in range(0, l):
                 self._channels[i+1] = splitted[i]
             pass
+        self.fill_channels_fn()
 
     def fill_channels_fn(self):
+        dict_len = len(self._channels)
+        for key, value in self._channels.items():
+            print(key, value)
+            if value is not None:
+                self._active_channels.append(value)
+                pass
         pass
 
     def exec_scpi_fn(self):
