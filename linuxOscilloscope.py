@@ -64,6 +64,8 @@ class LOsc(QtWidgets.QMainWindow):
             if value is not None:
                 self._active_channels.append(value)
                 pass
+        if len(self._active_channels) > 0:
+            pass
         pass
 
     def exec_scpi_fn(self):
@@ -80,11 +82,12 @@ class LOsc(QtWidgets.QMainWindow):
 
     def checked_fn1(self):
         if not self.ui.ch1_btn.isChecked():
-            print('ch1')
-            self._channels.remove('ch1')
+            pass
+            # print('ch1')
+            # self._channels.remove('ch1')
         elif self.ui.ch1_btn.isChecked():
-            self._channels.append('ch1')
-            print('ch1 ...')
+            # self._channels.append('ch1')
+            # print('ch1 ...')
             pass
 
     def checked_fn2(self):
