@@ -43,7 +43,7 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.ch4_btn.clicked.connect(self.checked_fn4)
         self.ui.execute_scpi_btn.clicked.connect(self.exec_scpi_fn)
         self._channels = {1:None, 2:None, 3:None, 4:None} #dictionry for channels
-        self._commands_
+        # self._commands_
         self.collect_update_info()
         pass
 
