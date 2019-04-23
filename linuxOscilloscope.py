@@ -81,30 +81,46 @@ class LOsc(QtWidgets.QMainWindow):
 
     def checked_fn1(self):
         if not self.ui.ch1_btn.isChecked():
+            ch = self._channels[1]
+            self._active_channels.remove(ch)
             pass
             # print('ch1')
             # self._channels.remove('ch1')
         elif self.ui.ch1_btn.isChecked():
+            ch = self._channels[1]
+            self._active_channels.append(ch)
             # self._channels.append('ch1')
             # print('ch1 ...')
             pass
 
     def checked_fn2(self):
         if not self.ui.ch2_btn.isChecked():
+            ch = self._channels[2]
+            self._active_channels.remove(ch)
             print('ch2')
         elif self.ui.ch2_btn.isChecked():
+            ch = self._channels[2]
+            self._active_channels.append(ch)
             print('ch2 ...')
 
     def checked_fn3(self):
         if not self.ui.ch3_btn.isChecked():
+            ch = self._channels[3]
+            self._active_channels.remove(ch)
             print('ch3')
         elif self.ui.ch3_btn.isChecked():
+            ch = self._channels[3]
+            self._active_channels.append(ch)
             print('ch3 ...')
 
     def checked_fn4(self):
         if not self.ui.ch4_btn.isChecked():
+            ch = self._channels[4]
+            self._active_channels.remove(ch)
             print('ch4')
         elif self.ui.ch4_btn.isChecked():
+            ch = self._channels[4]
+            self._active_channels.append(ch)
             print('ch4 ...')
 
     def setup_gui_fn(self):
