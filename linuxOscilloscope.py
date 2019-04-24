@@ -43,8 +43,21 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.ch4_btn.clicked.connect(self.checked_fn4)
         self.ui.execute_scpi_btn.clicked.connect(self.exec_scpi_fn)
         self._channels = {1:None, 2:None, 3:None, 4:None} #dictionry for channels
-        self._commands_ = None #?
+        self.ui.get_vertical_cmds_btn.clicked.connect(self.get_v_cmds_fn)
+        self.ui.get_h_cmds_btn.clicked.connect(self.get_h_cmds_fn)
         self.collect_update_info()
+
+        pass
+
+    def get_v_cmds_fn(self):
+        food = 'bread'
+        vars(self)[food] = 'data'
+        print('vars(): ', vars(self))
+        print(self.bread)
+        pass
+
+    def get_h_cmds_fn(self):
+        print(vars(self))
         pass
 
     def collect_update_info(self):
@@ -81,32 +94,46 @@ class LOsc(QtWidgets.QMainWindow):
 
     def checked_fn1(self):
         if not self.ui.ch1_btn.isChecked():
-            self._active_channels.remove(self._channels[1])
+            ch = self._channels[1]
+            self._active_channels.remove(ch)
             pass
             # print('ch1')
             # self._channels.remove('ch1')
         elif self.ui.ch1_btn.isChecked():
+            ch = self._channels[1]
+            self._active_channels.append(ch)
             # self._channels.append('ch1')
             # print('ch1 ...')
-            self._active_channels.append(self._channels[1])
             pass
 
     def checked_fn2(self):
         if not self.ui.ch2_btn.isChecked():
+            ch = self._channels[2]
+            self._active_channels.remove(ch)
             print('ch2')
         elif self.ui.ch2_btn.isChecked():
+            ch = self._channels[2]
+            self._active_channels.append(ch)
             print('ch2 ...')
 
     def checked_fn3(self):
         if not self.ui.ch3_btn.isChecked():
+            ch = self._channels[3]
+            self._active_channels.remove(ch)
             print('ch3')
         elif self.ui.ch3_btn.isChecked():
+            ch = self._channels[3]
+            self._active_channels.append(ch)
             print('ch3 ...')
 
     def checked_fn4(self):
         if not self.ui.ch4_btn.isChecked():
+            ch = self._channels[4]
+            self._active_channels.remove(ch)
             print('ch4')
         elif self.ui.ch4_btn.isChecked():
+            ch = self._channels[4]
+            self._active_channels.append(ch)
             print('ch4 ...')
 
     def setup_gui_fn(self):
