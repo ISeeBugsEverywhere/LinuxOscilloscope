@@ -32,6 +32,8 @@ class LOsc(QtWidgets.QMainWindow):
         self._active = None # 0 - lxi, 1 - rs232, 2 - usbtmc, or strings lxi, rs232, usbtmc
         self._new_line = os.linesep
         self._active_channels = []
+        self._vertical_cmds_dict = {}
+        self._horizontal_cmds_dict = {}
         #threads:
         self._worker = None
         self._thread = QtCore.QThread()
@@ -50,10 +52,16 @@ class LOsc(QtWidgets.QMainWindow):
         pass
 
     def get_v_cmds_fn(self):
-        food = 'bread'
-        vars(self)[food] = 'data'
-        print('vars(): ', vars(self))
-        print(self.bread)
+        # food = 'bread'
+        # vars(self)[food] = 'data'
+        # print('vars(): ', vars(self))
+        # easier access is this way:
+        # setattr(self, 'bread', 'easier access')
+        # print(getattr(self, 'bread'))
+        entry_splitter = ':='
+        fname, _ = QtWidgets.QFileDialog().getOpenFileName(self, caption='Open V-scale commands')
+        if fname:
+            print('fname', fname)
         pass
 
     def get_h_cmds_fn(self):
