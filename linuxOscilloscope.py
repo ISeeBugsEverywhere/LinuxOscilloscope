@@ -4,6 +4,7 @@ from GUI.LinOsc import Ui_oscillWindow
 from vxi11 import vxi11
 from HWaccess.USBTMC import USBTMC
 from PyQt5.QtCore import QIODevice
+import numpy as np
 
 class LOsc(QtWidgets.QMainWindow):
     def __init__(self):
@@ -48,7 +49,6 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.get_vertical_cmds_btn.clicked.connect(self.get_v_cmds_fn)
         self.ui.get_h_cmds_btn.clicked.connect(self.get_h_cmds_fn)
         self.collect_update_info()
-
         pass
 
     def get_v_cmds_fn(self):
@@ -62,14 +62,33 @@ class LOsc(QtWidgets.QMainWindow):
         fname, _ = QtWidgets.QFileDialog().getOpenFileName(self, caption='Open V-scale commands')
         if fname:
             print('fname', fname)
+            f = open(fname, 'r')
+            lines = f.readlines()
+            content = [x.strip() for x in lines]
+            cmds = content
+            for i in cmds:
+                var, cmd = i.split(entry_splitter)
+                self._vertical_cmds_dict[var]=cmd
+                setattr(self, var, None)
+                pass
         pass
 
     def get_h_cmds_fn(self):
+        # setattr(self, 'bread', 'easier access')
+        # print(getattr(self, 'bread'))
+        entry_splitter = ':='
         fname, _ = QtWidgets.QFileDialog().getOpenFileName(self, caption='Open H-scale commands')
         if fname:
             print('fname', fname)
-        pass
-        print(vars(self))
+            f = open(fname, 'r')
+            lines = f.readlines()
+            content = [x.strip() for x in lines]
+            cmds = content
+            for i in cmds:
+                var, cmd = i.split(entry_splitter)
+                self._horizontal_cmds_dict[var] = cmd
+                setattr(self, var, None)
+                pass
         pass
 
     def collect_update_info(self):
