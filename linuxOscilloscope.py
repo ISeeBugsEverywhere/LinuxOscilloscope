@@ -49,6 +49,8 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.get_vertical_cmds_btn.clicked.connect(self.get_v_cmds_fn)
         self.ui.get_h_cmds_btn.clicked.connect(self.get_h_cmds_fn)
         self.collect_update_info()
+        self._y_expr = None
+        self._h_expr = None
         pass
 
     def get_v_cmds_fn(self):
@@ -71,6 +73,9 @@ class LOsc(QtWidgets.QMainWindow):
                 self._vertical_cmds_dict[var]=cmd
                 setattr(self, var, None)
                 pass
+
+        if len(self.ui.vertical_expression.text()) > 5:
+            self._y_expr = self.ui.vertical_expression.text()
         pass
 
     def get_h_cmds_fn(self):
@@ -89,7 +94,8 @@ class LOsc(QtWidgets.QMainWindow):
                 self._horizontal_cmds_dict[var] = cmd
                 setattr(self, var, None)
                 pass
-        pass
+        if len(self.ui.horizontal_expression.text()) > 5:
+            self._y_expr = self.ui.horizontal_expression.text()
 
     def collect_update_info(self):
         channels_string = self.ui.channels_names_box.text()
@@ -191,6 +197,7 @@ class LOsc(QtWidgets.QMainWindow):
                 if f.startswith('usbtmc'):
                     self.ui.usbtmcCombo.addItem(mypath + "/" + f)
         except Exception as ex:
+            print('There aren\'t any USBTMC devices or you are running on Windows machine')
             pass
 
     def lxi_state_fn(self):
