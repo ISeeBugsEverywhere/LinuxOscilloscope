@@ -188,7 +188,11 @@ class LOsc(QtWidgets.QMainWindow):
             pass
         elif self._active == 'usbtmc':
             print(' on usbtmc ...')
-            self._usbtmc.write(scpi_cmd)
+            if '?' in scpi_cmd:
+                ret = self._usbtmc.ask_string(scpi_cmd)
+                self.append_html_paragraph(str(ret),0, True)
+            else:
+                self._usbtmc.write(scpi_cmd)
         elif self._active == 'rs232':
             pass
         pass
