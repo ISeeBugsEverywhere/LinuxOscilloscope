@@ -108,8 +108,8 @@ class LOsc(QtWidgets.QMainWindow):
         # vars(self)[food] = 'data'
         # print('vars(): ', vars(self))
         # easier access is this way:
-        setattr(self, 'bread', 'easier access')
-        print(getattr(self, 'bread'))
+        # setattr(self, 'bread', 'easier access')
+        # print(getattr(self, 'bread'))
         entry_splitter = ':='
         fname, _ = QtWidgets.QFileDialog().getOpenFileName(self, caption='Open V-scale commands')
         if fname:
