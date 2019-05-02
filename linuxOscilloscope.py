@@ -4,6 +4,8 @@ from GUI.LinOsc import Ui_oscillWindow
 from vxi11 import vxi11
 from HWaccess.USBTMC import USBTMC
 from PyQt5.QtCore import QIODevice
+import numpy as np
+import math
 
 class LOsc(QtWidgets.QMainWindow):
     def __init__(self):
@@ -32,6 +34,8 @@ class LOsc(QtWidgets.QMainWindow):
         self._active = None # 0 - lxi, 1 - rs232, 2 - usbtmc, or strings lxi, rs232, usbtmc
         self._new_line = os.linesep
         self._active_channels = []
+        self._vertical_cmds_dict = {}
+        self._horizontal_cmds_dict = {}
         #threads:
         self._worker = None
         self._thread = QtCore.QThread()
@@ -46,19 +50,113 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.get_vertical_cmds_btn.clicked.connect(self.get_v_cmds_fn)
         self.ui.get_h_cmds_btn.clicked.connect(self.get_h_cmds_fn)
         self.collect_update_info()
+        self._y_expr = None
+        self._h_expr = None
+        self.ui.test_fn_btn.clicked.connect(self._test_eval_fn)
+        self.ui.get_data_btn.clicked.connect(self.get_data_fn)
+        pass
 
+    def get_data_fn(self):
+        y_data = self.get_vertical_data('chan1')
+        x_data = self.get_horizontal_data()
+        print('##########################')
+        print(y_data)
+        print('##########################')
+        print(x_data)
+        print('##########################')
+        pass
+
+    def _test_eval_fn(self):
+        '''
+        It works, just we ned to use self. before any variable
+        :return:
+        '''
+        exp = eval(self.ui.vertical_expression.text())
+        print(exp)
+        pass
+
+    def get_vertical_data(self, channel:str):
+        if self._active == 'lxi' and self._lxi is not None:
+            for key, value in self._vertical_cmds_dict:
+                print(key, value)
+                key = self._lxi.ask(value.replace('{x}', channel))
+        elif self._active == 'usbtmc' and self._lxi is not None:
+            for key, value in self._vertical_cmds_dict:
+                print(key, value)
+                key = self._usbtmc.ask(value.replace('{x}', channel))
+        elif self._active == 'rs232' and self._lxi is not None:
+            for key, value in self._vertical_cmds_dict:
+                print(key, value)
+                print('NOT IMPLEMENTED YET!')
+        else:
+            print('-30 mark - no recognisable device!')
+            sys.exit(-30)
+        y_data = eval(self._y_expr)
+        return y_data
+        pass
+
+    def get_horizontal_data(self):
+        if self._active == 'lxi' and self._lxi is not None:
+            for key, value in self._horizontal_cmds_dict:
+                print(key, value)
+                key = self._lxi.ask(value)
+        elif self._active == 'usbtmc' and self._lxi is not None:
+            for key, value in self._horizontal_cmds_dict:
+                print(key, value)
+                key = self._usbtmc.ask(value)
+        elif self._active == 'rs232' and self._lxi is not None:
+            for key, value in self._horizontal_cmds_dict:
+                print(key, value)
+                print('NOT IMPLEMENTED YET!')
+        else:
+            print('-30 mark - no recognisable device!')
+            sys.exit(-30)
+        x_data = eval(self._h_expr)
+        return x_data
         pass
 
     def get_v_cmds_fn(self):
-        food = 'bread'
-        vars(self)[food] = 'data'
-        print('vars(): ', vars(self))
-        print(self.bread)
+        # food = 'bread'
+        # vars(self)[food] = 'data'
+        # print('vars(): ', vars(self))
+        # easier access is this way:
+        # setattr(self, 'bread', 'easier access')
+        # print(getattr(self, 'bread'))
+        entry_splitter = ':='
+        fname, _ = QtWidgets.QFileDialog().getOpenFileName(self, caption='Open V-scale commands')
+        if fname:
+            print('fname', fname)
+            f = open(fname, 'r')
+            lines = f.readlines()
+            content = [x.strip() for x in lines]
+            cmds = content
+            for i in cmds:
+                var, cmd = i.split(entry_splitter)
+                self._vertical_cmds_dict[var]=cmd
+                setattr(self, var, 5)
+                pass
+        if len(self.ui.vertical_expression.text()) > 5:
+            self._y_expr = self.ui.vertical_expression.text()
         pass
 
     def get_h_cmds_fn(self):
-        print(vars(self))
-        pass
+        # setattr(self, 'bread', 'easier access')
+        # print(getattr(self, 'bread'))
+        entry_splitter = ':='
+        fname, _ = QtWidgets.QFileDialog().getOpenFileName(self, caption='Open H-scale commands')
+        if fname:
+            print('fname', fname)
+            f = open(fname, 'r')
+            lines = f.readlines()
+            content = [x.strip() for x in lines]
+            cmds = content
+            for i in cmds:
+                var, cmd = i.split(entry_splitter)
+                self._horizontal_cmds_dict[var] = cmd
+                setattr(self, var, None)
+                pass
+        if len(self.ui.horizontal_expression.text()) > 5:
+            self._y_expr = self.ui.horizontal_expression.text()
 
     def collect_update_info(self):
         channels_string = self.ui.channels_names_box.text()
@@ -160,6 +258,7 @@ class LOsc(QtWidgets.QMainWindow):
                 if f.startswith('usbtmc'):
                     self.ui.usbtmcCombo.addItem(mypath + "/" + f)
         except Exception as ex:
+            print('There aren\'t any USBTMC devices or you are running on Windows machine')
             pass
 
     def lxi_state_fn(self):
