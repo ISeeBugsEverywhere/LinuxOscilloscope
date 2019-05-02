@@ -324,7 +324,7 @@ class LOsc(QtWidgets.QMainWindow):
                 self._usbtmc = USBTMC(self.ui.usbtmcCombo.currentText())
                 self._usbtmc.set_encoding(self.ui.usbtmc_encoding_box.currentText())
                 self._usbtmc.set_errors_behavior(self.ui.usbtmc_errors_box.currentText())
-                idn = self._usbtmc.ask('*idn?')
+                idn = self._usbtmc.ask_string('*idn?')
                 self.ui.idnLabel.setText(str(idn))
                 self._active = 'usbtmc'
             pass
