@@ -51,6 +51,56 @@ class LOsc(QtWidgets.QMainWindow):
         self.collect_update_info()
         self._y_expr = None
         self._h_expr = None
+        self.ui.test_fn_btn.clicked.connect(self._test_eval_fn)
+        pass
+
+    def _test_eval_fn(self):
+        '''
+        It works, just we ned to use self. before any variable
+        :return:
+        '''
+        exp = eval(self.ui.vertical_expression.text())
+        print(exp)
+        pass
+
+    def get_vertical_data(self, channel:str):
+        if self._active == 'lxi' and self._lxi is not None:
+            for key, value in self._vertical_cmds_dict:
+                print(key, value)
+                key = self._lxi.ask(value)
+        elif self._active == 'usbtmc' and self._lxi is not None:
+            for key, value in self._vertical_cmds_dict:
+                print(key, value)
+                key = self._usbtmc.ask(value)
+        elif self._active == 'rs232' and self._lxi is not None:
+            for key, value in self._vertical_cmds_dict:
+                print(key, value)
+                print('NOT IMPLEMENTED YET!')
+        else:
+            print('-30 mark - no recognisable device!')
+            sys.exit(-30)
+        y_data = eval(self.ui.vertical_expression.text())
+        return y_data
+        pass
+
+    def get_horizontal_data(self):
+        if self._active == 'lxi' and self._lxi is not None:
+            for key, value in self._horizontal_cmds_dict:
+                print(key, value)
+                key = self._lxi.ask(value)
+        elif self._active == 'usbtmc' and self._lxi is not None:
+            for key, value in self._horizontal_cmds_dict:
+                print(key, value)
+                key = self._usbtmc.ask(value)
+        elif self._active == 'rs232' and self._lxi is not None:
+            for key, value in self._horizontal_cmds_dict:
+                print(key, value)
+                print('NOT IMPLEMENTED YET!')
+        else:
+            print('-30 mark - no recognisable device!')
+            sys.exit(-30)
+        x_data = eval(self.ui.vertical_expression.text())
+        return x_data
         pass
 
     def get_v_cmds_fn(self):
@@ -71,7 +121,7 @@ class LOsc(QtWidgets.QMainWindow):
             for i in cmds:
                 var, cmd = i.split(entry_splitter)
                 self._vertical_cmds_dict[var]=cmd
-                setattr(self, var, None)
+                setattr(self, var, 5)
                 pass
 
         if len(self.ui.vertical_expression.text()) > 5:
