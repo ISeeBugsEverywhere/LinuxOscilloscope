@@ -5,6 +5,7 @@ from vxi11 import vxi11
 from HWaccess.USBTMC import USBTMC
 from PyQt5.QtCore import QIODevice
 import numpy as np
+import math
 
 class LOsc(QtWidgets.QMainWindow):
     def __init__(self):
@@ -52,6 +53,17 @@ class LOsc(QtWidgets.QMainWindow):
         self._y_expr = None
         self._h_expr = None
         self.ui.test_fn_btn.clicked.connect(self._test_eval_fn)
+        self.ui.get_data_btn.clicked.connect(self.get_data_fn)
+        pass
+
+    def get_data_fn(self):
+        y_data = self.get_vertical_data('chan1')
+        x_data = self.get_horizontal_data()
+        print('##########################')
+        print(y_data)
+        print('##########################')
+        print(x_data)
+        print('##########################')
         pass
 
     def _test_eval_fn(self):
@@ -67,11 +79,11 @@ class LOsc(QtWidgets.QMainWindow):
         if self._active == 'lxi' and self._lxi is not None:
             for key, value in self._vertical_cmds_dict:
                 print(key, value)
-                key = self._lxi.ask(value)
+                key = self._lxi.ask(value.replace('{x}', channel))
         elif self._active == 'usbtmc' and self._lxi is not None:
             for key, value in self._vertical_cmds_dict:
                 print(key, value)
-                key = self._usbtmc.ask(value)
+                key = self._usbtmc.ask(value.replace('{x}', channel))
         elif self._active == 'rs232' and self._lxi is not None:
             for key, value in self._vertical_cmds_dict:
                 print(key, value)
@@ -79,7 +91,7 @@ class LOsc(QtWidgets.QMainWindow):
         else:
             print('-30 mark - no recognisable device!')
             sys.exit(-30)
-        y_data = eval(self.ui.vertical_expression.text())
+        y_data = eval(self._y_expr)
         return y_data
         pass
 
@@ -99,7 +111,7 @@ class LOsc(QtWidgets.QMainWindow):
         else:
             print('-30 mark - no recognisable device!')
             sys.exit(-30)
-        x_data = eval(self.ui.vertical_expression.text())
+        x_data = eval(self._h_expr)
         return x_data
         pass
 
@@ -123,7 +135,6 @@ class LOsc(QtWidgets.QMainWindow):
                 self._vertical_cmds_dict[var]=cmd
                 setattr(self, var, 5)
                 pass
-
         if len(self.ui.vertical_expression.text()) > 5:
             self._y_expr = self.ui.vertical_expression.text()
         pass
