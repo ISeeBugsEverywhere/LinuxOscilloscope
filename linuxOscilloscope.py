@@ -57,13 +57,16 @@ class LOsc(QtWidgets.QMainWindow):
         pass
 
     def get_data_fn(self):
-        y_data = self.get_vertical_data('chan1')
-        x_data = self.get_horizontal_data()
-        print('##########################')
-        print(y_data)
-        print('##########################')
-        print(x_data)
-        print('##########################')
+        try:
+            y_data = self.get_vertical_data('chan1')
+            x_data = self.get_horizontal_data()
+            print('##########################')
+            print(y_data)
+            print('##########################')
+            print(x_data)
+            print('##########################')
+        except Exception as ex:
+            print(str(ex), 'get data fn')
         pass
 
     def _test_eval_fn(self):
