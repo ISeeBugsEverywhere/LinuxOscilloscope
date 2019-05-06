@@ -57,6 +57,7 @@ class LOsc(QtWidgets.QMainWindow):
         pass
 
     def get_data_fn(self):
+        print('active ', self._active, 'usbtmc', self._usbtmc)
         try:
             y_data = self.get_vertical_data('chan1')
             x_data = self.get_horizontal_data()
@@ -83,11 +84,11 @@ class LOsc(QtWidgets.QMainWindow):
             for key, value in self._vertical_cmds_dict:
                 print(key, value)
                 key = self._lxi.ask(value.replace('{x}', channel))
-        elif self._active == 'usbtmc' and self._lxi is not None:
+        elif self._active == 'usbtmc' and self._usbtmc is not None:
             for key, value in self._vertical_cmds_dict:
                 print(key, value)
                 key = self._usbtmc.ask(value.replace('{x}', channel))
-        elif self._active == 'rs232' and self._lxi is not None:
+        elif self._active == 'rs232' and self._rs232 is not None:
             for key, value in self._vertical_cmds_dict:
                 print(key, value)
                 print('NOT IMPLEMENTED YET!')
@@ -331,6 +332,7 @@ class LOsc(QtWidgets.QMainWindow):
                 idn = self._usbtmc.ask_string('*idn?')
                 self.ui.idnLabel.setText(str(idn))
                 self._active = 'usbtmc'
+                print('Active is USBTMC')
             pass
         except Exception as ex:
             self.append_html_paragraph(str(ex), -1, True)
