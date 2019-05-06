@@ -53,11 +53,13 @@ class USBTMC:
     def closeDevice(self):
         os.close(self.FILE)
 
-    def ask_string(self, cmd, delay=1, length=4000):
+    def ask_string(self, cmd, delay=1, length=9000):
         string = None
+        print(cmd, ' will be executed on ask_string statement')
         try:
             self.write(cmd)
             time.sleep(delay)
+            print('Answer')
             ret = self.read(length)
             string = str(ret, encoding=self._encoding, errors=self._errors)
         except Exception as ex:
@@ -68,6 +70,7 @@ class USBTMC:
 
     def ask(self, cmd, delay=1, length=4000):
         ret = None
+        print(cmd, 'will be executed on ask statement')
         try:
             self.write(cmd)
             time.sleep(delay)
@@ -81,6 +84,7 @@ class USBTMC:
 
     def ask_values(self, cmd, delay=1, length=9000):
         array = None
+        print(cmd, ' will be executed on ask_values statement')
         try:
             self.write(cmd)
             time.sleep(delay)
