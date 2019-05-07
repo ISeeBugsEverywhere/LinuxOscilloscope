@@ -79,17 +79,26 @@ class LOsc(QtWidgets.QMainWindow):
         print(exp)
         pass
 
+    def trigger_expressions(self):
+        if len(self.ui.vertical_expression.text()) > 5:
+            self._y_expr = self.ui.vertical_expression.text()
+        if len(self.ui.horizontal_expression.text()) > 5:
+            self._h_expr = self.ui.horizontal_expression.text()
+
     def get_vertical_data(self, channel:str):
+        self.trigger_expressions()
+        print(self._vertical_cmds_dict, ' :: dict')
         if self._active == 'lxi' and self._lxi is not None:
-            for key, value in self._vertical_cmds_dict:
+            for key, value in self._vertical_cmds_dict.items():
                 print(key, value)
                 key = self._lxi.ask(value.replace('{x}', channel))
         elif self._active == 'usbtmc' and self._usbtmc is not None:
-            for key, value in self._vertical_cmds_dict:
-                print(key, value)
-                key = self._usbtmc.ask(value.replace('{x}', channel))
+            for key, value in self._vertical_cmds_dict.items():
+                print(key, value, " key, value")
+                key_val = self._usbtmc.ask(value.replace('{x}', channel))
+                setattr(self, key, key_val)
         elif self._active == 'rs232' and self._rs232 is not None:
-            for key, value in self._vertical_cmds_dict:
+            for key, value in self._vertical_cmds_dict.items():
                 print(key, value)
                 print('NOT IMPLEMENTED YET!')
         else:
@@ -100,16 +109,18 @@ class LOsc(QtWidgets.QMainWindow):
         pass
 
     def get_horizontal_data(self):
+        self.trigger_expressions()
         if self._active == 'lxi' and self._lxi is not None:
-            for key, value in self._horizontal_cmds_dict:
+            for key, value in self._horizontal_cmds_dict.items():
                 print(key, value)
                 key = self._lxi.ask(value)
-        elif self._active == 'usbtmc' and self._lxi is not None:
-            for key, value in self._horizontal_cmds_dict:
-                print(key, value)
-                key = self._usbtmc.ask(value)
-        elif self._active == 'rs232' and self._lxi is not None:
-            for key, value in self._horizontal_cmds_dict:
+        elif self._active == 'usbtmc' and self._usbtmc is not None:
+            for key, value in self._horizontal_cmds_dict.items():
+                print(key, value, " key, value")
+                key_val = self._usbtmc.ask(value)
+                setattr(self, key, key_val)
+        elif self._active == 'rs232' and self._usbtmc is not None:
+            for key, value in self._horizontal_cmds_dict.items():
                 print(key, value)
                 print('NOT IMPLEMENTED YET!')
         else:
@@ -137,10 +148,9 @@ class LOsc(QtWidgets.QMainWindow):
             for i in cmds:
                 var, cmd = i.split(entry_splitter)
                 self._vertical_cmds_dict[var]=cmd
-                setattr(self, var, 5)
+                setattr(self, var, None)
                 pass
-        if len(self.ui.vertical_expression.text()) > 5:
-            self._y_expr = self.ui.vertical_expression.text()
+
         pass
 
     def get_h_cmds_fn(self):
@@ -159,8 +169,7 @@ class LOsc(QtWidgets.QMainWindow):
                 self._horizontal_cmds_dict[var] = cmd
                 setattr(self, var, None)
                 pass
-        if len(self.ui.horizontal_expression.text()) > 5:
-            self._y_expr = self.ui.horizontal_expression.text()
+
 
     def collect_update_info(self):
         channels_string = self.ui.channels_names_box.text()
