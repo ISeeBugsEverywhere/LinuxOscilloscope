@@ -6,6 +6,7 @@ from HWaccess.USBTMC import USBTMC
 from PyQt5.QtCore import QIODevice
 import numpy as np
 import math
+import  traceback
 
 class LOsc(QtWidgets.QMainWindow):
     def __init__(self):
@@ -344,6 +345,7 @@ class LOsc(QtWidgets.QMainWindow):
                 print('Active is USBTMC')
             pass
         except Exception as ex:
+            traceback.print_exc()
             self.append_html_paragraph(str(ex), -1, True)
             pass
 
