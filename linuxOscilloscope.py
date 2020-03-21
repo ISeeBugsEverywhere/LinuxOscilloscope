@@ -209,17 +209,21 @@ class LOsc(QtWidgets.QMainWindow):
         pass
 
     def checked_fn1(self):
-        if not self.ui.ch1_btn.isChecked():
-            ch = self._channels[1]
-            self._active_channels.remove(ch)
-            pass
-            # print('ch1')
-            # self._channels.remove('ch1')
-        elif self.ui.ch1_btn.isChecked():
-            ch = self._channels[1]
-            self._active_channels.append(ch)
-            # self._channels.append('ch1')
-            # print('ch1 ...')
+        try:
+            if not self.ui.ch1_btn.isChecked():
+                ch = self._channels[1]
+                self._active_channels.remove(ch)
+                pass
+                # print('ch1')
+                # self._channels.remove('ch1')
+            elif self.ui.ch1_btn.isChecked():
+                ch = self._channels[1]
+                self._active_channels.append(ch)
+                # self._channels.append('ch1')
+                # print('ch1 ...')
+                pass
+        except Exception as ex:
+            print(str(ex))
             pass
 
     def checked_fn2(self):
@@ -265,7 +269,7 @@ class LOsc(QtWidgets.QMainWindow):
     def rescan_ports_fn(self, ports):
         self.ui.rs232Combo.clear()
         self.ui.rs232Combo.insertItems(0, [str(x.portName()) for x in ports])
-        self.get_usbtmc_devices()
+        self.get_usbtmc_devices_fn()
         pass
 
     def get_usbtmc_devices_fn(self):
