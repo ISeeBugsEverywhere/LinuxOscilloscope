@@ -13,21 +13,7 @@ class LOsc(QtWidgets.QMainWindow):
         super(LOsc, self).__init__()
         self.ui = Ui_oscillWindow()
         self.ui.setupUi(self)
-        # radio signals:
-        self.ui.lxiRadio.toggled.connect(self.lxi_state_fn)
-        self.ui.rs232Radio.toggled.connect(self.rs232_state_fn)
-        self.ui.usbtmcRadio.toggled.connect(self.usbtmc_state_fn)
-        # quit actions:
-        self.ui.quitButton.clicked.connect(self.quit_fn)
-        self.ui.actionQuit_Ctrl_Q.triggered.connect(self.quit_fn)
-        self.quitShortcut = QtWidgets.QShortcut(QtGui.QKeySequence('Ctrl+Q'), self)
-        self.quitShortcut.activated.connect(self.quit_fn)
-        #
         self.setup_gui_fn()
-        #
-        self.ui.rs232Widget.returnPorts.connect(self.rescan_ports_fn)
-        self.ui.rs232Combo.currentIndexChanged.connect(self.idx_fn)
-        self.ui.rs232Widget.ui.comPortBox.currentIndexChanged.connect(self.idxfn)
         # devices
         self._rs232 = None
         self._lxi = None
@@ -40,6 +26,26 @@ class LOsc(QtWidgets.QMainWindow):
         #threads:
         self._worker = None
         self._thread = QtCore.QThread()
+        self._channels = {1:None, 2:None, 3:None, 4:None} #dictionry for channels
+        self.collect_update_info()
+        self._y_expr = None
+        self._h_expr = None
+        self._signals_()
+        pass
+
+    def _signals_(self):
+        # radio signals:
+        self.ui.lxiRadio.toggled.connect(self.lxi_state_fn)
+        self.ui.rs232Radio.toggled.connect(self.rs232_state_fn)
+        self.ui.usbtmcRadio.toggled.connect(self.usbtmc_state_fn)
+        # quit actions:
+        self.ui.quitButton.clicked.connect(self.quit_fn)
+        self.ui.actionQuit_Ctrl_Q.triggered.connect(self.quit_fn)
+        self.quitShortcut = QtWidgets.QShortcut(QtGui.QKeySequence('Ctrl+Q'), self)
+        self.quitShortcut.activated.connect(self.quit_fn)
+        self.ui.rs232Widget.returnPorts.connect(self.rescan_ports_fn)
+        self.ui.rs232Combo.currentIndexChanged.connect(self.idx_fn)
+        self.ui.rs232Widget.ui.comPortBox.currentIndexChanged.connect(self.idxfn)
         # buttons:
         self.ui.connectButton.clicked.connect(self.connect_device_fn)
         self.ui.ch1_btn.clicked.connect(self.checked_fn1)
@@ -47,12 +53,8 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.ch3_btn.clicked.connect(self.checked_fn3)
         self.ui.ch4_btn.clicked.connect(self.checked_fn4)
         self.ui.execute_scpi_btn.clicked.connect(self.exec_scpi_fn)
-        self._channels = {1:None, 2:None, 3:None, 4:None} #dictionry for channels
         self.ui.get_vertical_cmds_btn.clicked.connect(self.get_v_cmds_fn)
         self.ui.get_h_cmds_btn.clicked.connect(self.get_h_cmds_fn)
-        self.collect_update_info()
-        self._y_expr = None
-        self._h_expr = None
         self.ui.test_fn_btn.clicked.connect(self._test_eval_fn)
         self.ui.get_data_btn.clicked.connect(self.get_data_fn)
         pass
