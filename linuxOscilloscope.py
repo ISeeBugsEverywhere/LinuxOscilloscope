@@ -229,34 +229,46 @@ class LOsc(QtWidgets.QMainWindow):
             pass
 
     def checked_fn2(self):
-        if not self.ui.ch2_btn.isChecked():
-            ch = self._channels[2]
-            self._active_channels.remove(ch)
-            print('ch2')
-        elif self.ui.ch2_btn.isChecked():
-            ch = self._channels[2]
-            self._active_channels.append(ch)
-            print('ch2 ...')
+        try:
+            if not self.ui.ch2_btn.isChecked():
+                ch = self._channels[2]
+                self._active_channels.remove(ch)
+                print('ch2')
+            elif self.ui.ch2_btn.isChecked():
+                ch = self._channels[2]
+                self._active_channels.append(ch)
+                print('ch2 ...')
+        except Exception as ex:
+            print(str(ex))
+            pass
 
     def checked_fn3(self):
-        if not self.ui.ch3_btn.isChecked():
-            ch = self._channels[3]
-            self._active_channels.remove(ch)
-            print('ch3')
-        elif self.ui.ch3_btn.isChecked():
-            ch = self._channels[3]
-            self._active_channels.append(ch)
-            print('ch3 ...')
+        try:
+            if not self.ui.ch3_btn.isChecked():
+                ch = self._channels[3]
+                self._active_channels.remove(ch)
+                print('ch3')
+            elif self.ui.ch3_btn.isChecked():
+                ch = self._channels[3]
+                self._active_channels.append(ch)
+                print('ch3 ...')
+        except Exception as ex:
+            print(str(ex))
+            pass
 
     def checked_fn4(self):
-        if not self.ui.ch4_btn.isChecked():
-            ch = self._channels[4]
-            self._active_channels.remove(ch)
-            print('ch4')
-        elif self.ui.ch4_btn.isChecked():
-            ch = self._channels[4]
-            self._active_channels.append(ch)
-            print('ch4 ...')
+        try:
+            if not self.ui.ch4_btn.isChecked():
+                ch = self._channels[4]
+                self._active_channels.remove(ch)
+                print('ch4')
+            elif self.ui.ch4_btn.isChecked():
+                ch = self._channels[4]
+                self._active_channels.append(ch)
+                print('ch4 ...')
+        except Exception as ex:
+            print(str(ex))
+            pass
 
     def setup_gui_fn(self):
         self.update_ports_fn()
