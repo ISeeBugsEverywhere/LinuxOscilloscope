@@ -167,16 +167,22 @@ class LOsc(QtWidgets.QMainWindow):
         pass
 
     def exec_scpi_fn(self):
-        print('execute scpi cmd ...')
-        scpi_cmd = self.ui.scpi_cmd_box.currentText()
-        if '?' in scpi_cmd:
-            ret, _ = self.Device.ask(scpi_cmd)
-            if _ == 0:
-                self.append_html_paragraph(str(ret, encoding=self.Device.locale),1, True)
-            elif _ == -1:
-                self.append_html_paragraph(str(ret), -1, True)
-        else:
-            self.Device.write(scpi_cmd)
+        """
+        executes one scpi command at a time:
+        It's possible to specify a few commands at a time, separated by ';'
+        :return:
+        """
+        scpi_cmd = self.ui.scpi_cmd_box.currentText().split(';')
+        for i in scpi_cmd:
+            self.append_html_paragraph(i, 0)
+            if '?' in i:
+                ret, _ = self.Device.ask(i)
+                if _ == 0:
+                    self.append_html_paragraph(str(ret, encoding=self.Device.locale),1, True)
+                elif _ == -1:
+                    self.append_html_paragraph(str(ret), -1, True)
+            else:
+                self.Device.write(i)
 
 
     def checked_fn1(self):
