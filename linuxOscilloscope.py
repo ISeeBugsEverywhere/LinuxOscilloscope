@@ -31,6 +31,7 @@ class LOsc(QtWidgets.QMainWindow):
         self.collect_update_info()
         self._y_expr = None
         self._h_expr = None
+        self._gui_()
         self._signals_()
         pass
 
@@ -58,6 +59,10 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.get_h_cmds_btn.clicked.connect(self.get_h_cmds_fn)
         self.ui.test_fn_btn.clicked.connect(self._test_eval_fn)
         self.ui.get_data_btn.clicked.connect(self.get_data_fn)
+        pass
+
+    def _gui_(self):
+        self.setWindowIcon(QtGui.QIcon('GUI/usb.png'))
         pass
 
     def get_data_fn(self):

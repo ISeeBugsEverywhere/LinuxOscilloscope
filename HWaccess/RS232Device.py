@@ -9,6 +9,10 @@ class RS232Device():
         self.serial.setPort(port)
         pass
 
+    def _setup_port(self, params:dict):
+        self.serial.applySettingsDict(params)
+        pass
+
     def ask(self, cmd:str):
         pass
 
