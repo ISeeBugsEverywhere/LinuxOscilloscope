@@ -33,7 +33,12 @@ class USBTMC:
         pass
 
     def write(self, command):
-        os.write(self.FILE, str.encode(command))
+        try:
+            os.write(self.FILE, str.encode(command))
+            return None, 0
+        except Exception as ex:
+            return str(ex), -1
+            pass
 
     def read(self, length=4000):
         '''
@@ -44,8 +49,12 @@ class USBTMC:
         return os.read(self.FILE, length)
 
     def getName(self):
+        """
+        *idn? - idn of device,
+        :return: string containing the idn
+        """
         self.write("*IDN?")
-        return self.read(300)
+        return str(self.read(300))
 
     def sendReset(self):
         self.write("*RST")
@@ -56,31 +65,36 @@ class USBTMC:
     def ask_string(self, cmd, delay=1, length=9000):
         string = None
         print(cmd, ' will be executed on ask_string statement')
+        status = -1
         try:
             self.write(cmd)
             time.sleep(delay)
             print('Answer')
             ret = self.read(length)
             string = str(ret, encoding=self._encoding, errors=self._errors)
+            status = 0
         except Exception as ex:
             string = 'USBTMC failed!'
             print('USBTMC failed:')
             print(str(ex))
-        return string
+        return string, status
 
     def ask(self, cmd, delay=1, length=4000):
         ret = None
+        status = -1
         print(cmd, 'will be executed on ask statement')
         try:
             self.write(cmd)
             time.sleep(delay)
             ret = self.read(length)
+            status = 0
             #string = str(ret, encoding=self._encoding, errors=self._errors)
         except Exception as ex:
             ret = 'USBTMC failed!'
             print('USBTMC failed:')
             print(str(ex))
-        return ret
+            status = -1
+        return ret, status
 
     def ask_values(self, cmd, delay=1, length=9000):
         array = None

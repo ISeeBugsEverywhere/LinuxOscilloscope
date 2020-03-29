@@ -12,14 +12,10 @@ import  traceback
 class LOsc(QtWidgets.QMainWindow):
     def __init__(self):
         super(LOsc, self).__init__()
-        self.Device = Device()
+        self.Device = Device() #the only one device for all possible connections
         self.ui = Ui_oscillWindow()
         self.ui.setupUi(self)
         self.setup_gui_fn()
-        # devices
-        self._rs232 = None
-        self._lxi = None
-        self._usbtmc = None
         self._active = None # 0 - lxi, 1 - rs232, 2 - usbtmc, or strings lxi, rs232, usbtmc
         self._new_line = os.linesep
         self._active_channels = []
@@ -352,29 +348,23 @@ class LOsc(QtWidgets.QMainWindow):
             self.collect_update_info()
             if self.ui.lxiRadio.isChecked():
                 ip = self.ui.lxiCombo.currentText()
-                self._lxi = vxi11.Instrument(ip)
-                self._lxi.open()
-                idn = self._lxi.ask('*idn?')
-                self.ui.idnLabel.setText(str(idn))
-                self._active = 'lxi'
-                pass
-            elif self.ui.rs232Radio.isChecked():
-                self._rs232 = self.ui.rs232Widget.getSerialPort()
-                status = self._rs232.open(QIODevice.ReadWrite)
-                if status:
-                    self._rs232.write(bytes('*idn?', encoding='ascii'))
-                    idn = self._rs232.read(300)
+                idn, status = self.Device.init_device(0, ip)
+                if status == 0:
                     self.ui.idnLabel.setText(str(idn))
                 else:
-                    self.append_html_paragraph('RS232 was opened: '+str(status), -1, True)
+                    print(idn)
+                pass
+            elif self.ui.rs232Radio.isChecked():
+                pass
             elif self.ui.usbtmcRadio.isChecked():
-                self._usbtmc = USBTMC(self.ui.usbtmcCombo.currentText())
-                self._usbtmc.set_encoding(self.ui.usbtmc_encoding_box.currentText())
-                self._usbtmc.set_errors_behavior(self.ui.usbtmc_errors_box.currentText())
-                idn = self._usbtmc.ask_string('*idn?')
-                self.ui.idnLabel.setText(str(idn))
-                self._active = 'usbtmc'
-                print('Active is USBTMC')
+                idn, status = self.Device.init_device(2, self.ui.usbtmcCombo.currentText())
+                if status == 0:
+                    self.Device.device.set_encoding(self.ui.usbtmc_encoding_box.currentText())
+                    self.Device.device.set_errors_behavior(self.ui.usbtmc_errors_box.currentText())
+                    self.ui.idnLabel.setText(str(idn))
+                    print('Active is USBTMC')
+                else:
+                    print(idn)
             pass
         except Exception as ex:
             traceback.print_exc()

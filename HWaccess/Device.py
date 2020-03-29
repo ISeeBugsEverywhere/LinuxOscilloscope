@@ -34,6 +34,15 @@ class Device:
             status = -1
         return idn, status
 
+    def ask(self, cmd:str):
+        answer, status = self.device.ask(cmd)
+        return answer, status
+        pass
+
+    def write(self, cmd:str):
+        answer, status = self.device.write(cmd)
+        return answer, status
+
 
 class lxi:
     def __init__(self, ip: str):
