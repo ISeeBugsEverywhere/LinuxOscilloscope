@@ -91,48 +91,10 @@ class LOsc(QtWidgets.QMainWindow):
 
     def get_vertical_data(self, channel:str):
         self.trigger_expressions()
-        print(self._vertical_cmds_dict, ' :: dict')
-        if self._active == 'lxi' and self._lxi is not None:
-            for key, value in self._vertical_cmds_dict.items():
-                print(key, value)
-                key_val = self._lxi.ask(value.replace('{x}', channel))
-                setattr(self, key, key_val)
-        elif self._active == 'usbtmc' and self._usbtmc is not None:
-            for key, value in self._vertical_cmds_dict.items():
-                print(key, value, " key, value")
-                key_val = self._usbtmc.ask(value.replace('{x}', channel))
-                setattr(self, key, key_val)
-        elif self._active == 'rs232' and self._rs232 is not None:
-            for key, value in self._vertical_cmds_dict.items():
-                print(key, value)
-                print('NOT IMPLEMENTED YET!')
-        else:
-            print('-30 mark - no recognisable device!')
-            sys.exit(-30)
-        y_data = eval(self._y_expr)
-        return y_data
         pass
 
     def get_horizontal_data(self):
         self.trigger_expressions()
-        if self._active == 'lxi' and self._lxi is not None:
-            for key, value in self._horizontal_cmds_dict.items():
-                print(key, value)
-                key = self._lxi.ask(value)
-        elif self._active == 'usbtmc' and self._usbtmc is not None:
-            for key, value in self._horizontal_cmds_dict.items():
-                print(key, value, " key, value")
-                key_val = self._usbtmc.ask(value)
-                setattr(self, key, key_val)
-        elif self._active == 'rs232' and self._usbtmc is not None:
-            for key, value in self._horizontal_cmds_dict.items():
-                print(key, value)
-                print('NOT IMPLEMENTED YET!')
-        else:
-            print('-30 mark - no recognisable device!')
-            sys.exit(-30)
-        x_data = eval(self._h_expr)
-        return x_data
         pass
 
     def get_v_cmds_fn(self):
@@ -207,18 +169,15 @@ class LOsc(QtWidgets.QMainWindow):
     def exec_scpi_fn(self):
         print('execute scpi cmd ...')
         scpi_cmd = self.ui.scpi_cmd_box.currentText()
-        if self._active == 'lxi':
-            pass
-        elif self._active == 'usbtmc':
-            print(' on usbtmc ...')
-            if '?' in scpi_cmd:
-                ret = self._usbtmc.ask_string(scpi_cmd)
-                self.append_html_paragraph(str(ret),0, True)
-            else:
-                self._usbtmc.write(scpi_cmd)
-        elif self._active == 'rs232':
-            pass
-        pass
+        if '?' in scpi_cmd:
+            ret, _ = self.Device.ask(scpi_cmd)
+            if _ == 0:
+                self.append_html_paragraph(str(ret, encoding=self.Device.locale),1, True)
+            elif _ == -1:
+                self.append_html_paragraph(str(ret), -1, True)
+        else:
+            self.Device.write(scpi_cmd)
+
 
     def checked_fn1(self):
         try:
@@ -304,7 +263,8 @@ class LOsc(QtWidgets.QMainWindow):
                 if f.startswith('usbtmc'):
                     self.ui.usbtmcCombo.addItem(mypath + "/" + f)
         except Exception as ex:
-            print('There aren\'t any USBTMC devices or you are running on Windows machine')
+            self.append_html_paragraph(str(ex), -1, True)
+            self.append_html_paragraph('There aren\'t any USBTMC devices or you are running on Windows machine', -1, True)
             pass
 
     def lxi_state_fn(self):
@@ -350,9 +310,9 @@ class LOsc(QtWidgets.QMainWindow):
                 ip = self.ui.lxiCombo.currentText()
                 idn, status = self.Device.init_device(0, ip)
                 if status == 0:
-                    self.ui.idnLabel.setText(str(idn))
+                    self._idnLabel(idn)
                 else:
-                    print(idn)
+                    self.append_html_paragraph(str(idn), -1, True)
                 pass
             elif self.ui.rs232Radio.isChecked():
                 pass
@@ -361,10 +321,10 @@ class LOsc(QtWidgets.QMainWindow):
                 if status == 0:
                     self.Device.device.set_encoding(self.ui.usbtmc_encoding_box.currentText())
                     self.Device.device.set_errors_behavior(self.ui.usbtmc_errors_box.currentText())
-                    self.ui.idnLabel.setText(str(idn))
-                    print('Active is USBTMC')
+                    self._idnLabel(idn)
+                    self.append_html_paragraph('Active is USBTMC', 0)
                 else:
-                    print(idn)
+                    self.append_html_paragraph(str(idn), -1, True)
             pass
         except Exception as ex:
             traceback.print_exc()
@@ -376,14 +336,14 @@ class LOsc(QtWidgets.QMainWindow):
         html_red = '<font color="red">{x}</font>'
         html_black = '<font color="black">{x}</font>'
         html_magenta = '<font color="purple">{x}</font>'
-        if status == 0:
+        if status == 0: #regular info
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
             self.ui.infoText.insertPlainText(self._new_line)
             self.ui.infoText.setAlignment(QtCore.Qt.AlignLeft)
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
             self.ui.infoText.insertHtml(html_black.replace('{x}', txt))
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
-        elif status == 1:
+        elif status == 1: #some output from device
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
             self.ui.infoText.insertPlainText(self._new_line)
             self.ui.infoText.setAlignment(QtCore.Qt.AlignRight)
@@ -391,7 +351,7 @@ class LOsc(QtWidgets.QMainWindow):
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
             self.ui.infoText.insertHtml(html_magenta.replace('{x}', txt))
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
-        elif status == -1:
+        elif status == -1: #error
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
             self.ui.infoText.insertPlainText(self._new_line)
             self.ui.infoText.setAlignment(QtCore.Qt.AlignLeft)
@@ -400,4 +360,10 @@ class LOsc(QtWidgets.QMainWindow):
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
         if show:
             self.ui.tabWidget.setCurrentIndex(3)
+        pass
+
+    def _idnLabel(self, msg=None):
+        if msg is not None:
+            _str = "<html><head/><body><p><span style=\" font-weight:600;\">MSG</span></p></body></html>"
+            self.ui.idnLabel.setText(_str.replace("MSG", str(msg)))
         pass

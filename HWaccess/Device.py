@@ -5,6 +5,7 @@ from HWaccess.USBTMC import USBTMC
 class Device:
     def __init__(self):
         self.device = None
+        self.locale = 'utf-8'
         pass
 
     def init_device(self, mode, port):

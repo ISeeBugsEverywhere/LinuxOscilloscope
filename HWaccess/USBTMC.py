@@ -9,7 +9,7 @@ class USBTMC:
     def __init__(self, device):
         self.device = device
         self.FILE = os.open(self.device, os.O_RDWR)
-        self._encoding = None
+        self._encoding = 'utf-8'
         self._errors = None
 
     def set_encoding(self, encoding:str = 'utf-8'):
@@ -54,7 +54,7 @@ class USBTMC:
         :return: string containing the idn
         """
         self.write("*IDN?")
-        return str(self.read(300))
+        return str(self.read(300), encoding=self._encoding)
 
     def sendReset(self):
         self.write("*RST")
