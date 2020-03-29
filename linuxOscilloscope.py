@@ -3,6 +3,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from GUI.LinOsc import Ui_oscillWindow
 from vxi11 import vxi11
 from HWaccess.USBTMC import USBTMC
+from HWaccess.Device import Device
 from PyQt5.QtCore import QIODevice
 import numpy as np
 import math
@@ -11,6 +12,7 @@ import  traceback
 class LOsc(QtWidgets.QMainWindow):
     def __init__(self):
         super(LOsc, self).__init__()
+        self.Device = Device()
         self.ui = Ui_oscillWindow()
         self.ui.setupUi(self)
         self.setup_gui_fn()

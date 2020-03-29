@@ -22,7 +22,7 @@ class Device:
             status = 0
         elif mode == 2:
             self.device =USBTMC(port)
-            idn = self.device.getName()
+            idn = str(self.device.getName())
             status = 0
         elif mode == 1:
             print("not implemented yet!")
@@ -65,4 +65,13 @@ class lxi:
             return None, 0
         except Exception as ex:
             return str(ex), -1
+        pass
+
+    def getName(self):
+        name = self.device.ask("*idn?")
+        return name
+        pass
+
+    def sendReset(self):
+        self.device.write("*rst")
         pass
