@@ -23,6 +23,9 @@ class LOsc(QtWidgets.QMainWindow):
         self._active_channels = []
         self._vertical_cmds_dict = {}
         self._horizontal_cmds_dict = {}
+        # will executed before real getting commands:
+        self._prep_h_cmds=[]
+        self._prep_y_cmds=[]
         #threads:
         self._worker = None
         self._thread = QtCore.QThread()
@@ -94,7 +97,8 @@ class LOsc(QtWidgets.QMainWindow):
         if self._active == 'lxi' and self._lxi is not None:
             for key, value in self._vertical_cmds_dict.items():
                 print(key, value)
-                key = self._lxi.ask(value.replace('{x}', channel))
+                key_val = self._lxi.ask(value.replace('{x}', channel))
+                setattr(self, key, key_val)
         elif self._active == 'usbtmc' and self._usbtmc is not None:
             for key, value in self._vertical_cmds_dict.items():
                 print(key, value, " key, value")
@@ -134,6 +138,10 @@ class LOsc(QtWidgets.QMainWindow):
         pass
 
     def get_v_cmds_fn(self):
+        """
+        Gets the commands for the vertical scale
+        :return:
+        """
         # food = 'bread'
         # vars(self)[food] = 'data'
         # print('vars(): ', vars(self))
@@ -157,6 +165,10 @@ class LOsc(QtWidgets.QMainWindow):
         pass
 
     def get_h_cmds_fn(self):
+        """
+        gets the commands for the horizontal scale
+        :return:
+        """
         # setattr(self, 'bread', 'easier access')
         # print(getattr(self, 'bread'))
         entry_splitter = ':='
