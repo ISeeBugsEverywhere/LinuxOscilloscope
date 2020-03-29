@@ -59,6 +59,14 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.get_h_cmds_btn.clicked.connect(self.get_h_cmds_fn)
         self.ui.test_fn_btn.clicked.connect(self._test_eval_fn)
         self.ui.get_data_btn.clicked.connect(self.get_data_fn)
+        self.ui.take_screenshot_btn.clicked.connect(self.screenshot_fn)
+        pass
+
+    def screenshot_fn(self):
+        """
+        takes a screenshot, but some oscilloscopes are missing this feature
+        :return:
+        """
         pass
 
     def _gui_(self):
