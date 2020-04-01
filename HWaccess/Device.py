@@ -30,6 +30,8 @@ class Device:
         elif mode == 1:
             self.device = RS232Device(port)
             self.device._setup_port(params)
+            params_check = self.device.serial.get_settings()
+            print(params_check)
             idn = str(self.device.getName())
             pass
         else:
