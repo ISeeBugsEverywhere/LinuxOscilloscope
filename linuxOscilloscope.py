@@ -334,7 +334,7 @@ class LOsc(QtWidgets.QMainWindow):
                     self.append_html_paragraph(str(idn), -1, True)
                 pass
             elif self.ui.rs232Radio.isChecked():
-                port = self.ui.rs232Combo.currentText()
+                port = "/dev/"+self.ui.rs232Combo.currentText()
                 param_dict = self.ui.rs232Widget.return_serial_dict()
                 self.Device.init_device(1, port, param_dict)
             elif self.ui.usbtmcRadio.isChecked():
