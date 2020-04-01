@@ -4,11 +4,20 @@
 from PyQt5 import QtWidgets, QtCore, QtGui, QtSerialPort
 from PyQt5.QtCore import QIODevice, pyqtSlot, pyqtSignal
 # from serialPlotWidget.serialPortWidgetForm import Ui_serialPortWidget
+import serial
 from GUI.serialPortWidget.serialPortWidgetForm import Ui_serialPortWidget
 
 
 class serialPortWidget(QtWidgets.QWidget):
         returnPorts = pyqtSignal(list)
+        _parity_serial = (
+                serial.PARITY_NONE,
+                serial.PARITY_EVEN,
+                serial.PARITY_MARK,
+                serial.PARITY_ODD,
+                serial.PARITY_SPACE
+        )
+
         BAUDRATES = (
                 QtSerialPort.QSerialPort().Baud1200,
                 QtSerialPort.QSerialPort().Baud2400,
@@ -116,4 +125,17 @@ class serialPortWidget(QtWidgets.QWidget):
         def update_ports_in_box(self, index):
                 if index >= 0:
                         self.ui.comPortBox.setCurrentIndex(index)
+                pass
+
+        def return_serial_dict(self):
+                """
+                Returns a dictionary filled with parameters, suitable for pySerial
+                :return:
+                """
+                params = {}
+                params['baudrate'] = int(self.ui.baudRateBox.currentText())
+                params['bytesize'] = int(self.ui.dataBitsBox.currentText())
+                p = self.ui.parityBox.currentText()
+
+                return params
                 pass

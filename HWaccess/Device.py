@@ -1,5 +1,6 @@
 from HWaccess.USBTMC import USBTMC
 from HWaccess.LXI import lxi
+from HWaccess.RS232Device import RS232Device
 
 
 class Device:
@@ -8,11 +9,12 @@ class Device:
         self.locale = 'utf-8'
         pass
 
-    def init_device(self, mode, port):
+    def init_device(self, mode, port, params={}):
         """
 
         :param mode: 0 - lxi, 1 - rs232, 2 - usbtmc
         :param port: ip, rs232 or usbtmc ports
+        :param params - rs232 parameters as dictionary, for rs232 only, empty otherwise
         :return:
         """
         idn = None
@@ -26,9 +28,9 @@ class Device:
             idn = str(self.device.getName())
             status = 0
         elif mode == 1:
-            print("not implemented yet!")
-            idn = None
-            status = -1
+            self.device = RS232Device(port)
+            self.device._setup_port(params)
+            idn = str(self.device.getName())
             pass
         else:
             idn = None
