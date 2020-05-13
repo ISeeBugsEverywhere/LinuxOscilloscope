@@ -48,5 +48,11 @@ class Device:
         answer, status = self.device.write(cmd)
         return answer, status
 
+    def get_horizontal_data(self):
+        pass
+
+    def get_vertical_data(self):
+        pass
+
 
 
