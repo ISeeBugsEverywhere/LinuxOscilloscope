@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'LinOsc.ui'
 #
-# Created by: PyQt5 UI code generator 5.12
+# Created by: PyQt5 UI code generator 5.14.1
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -432,7 +433,5 @@ class Ui_oscillWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.screeshotTab), _translate("oscillWindow", "Screenshot"))
         self.menuFile.setTitle(_translate("oscillWindow", "Fi&le"))
         self.actionQuit_Ctrl_Q.setText(_translate("oscillWindow", "&Quit(Ctrl+Q)"))
-
-
 from GUI.serialPortWidget.serialPortWidget import serialPortWidget
 from pyqtgraph import PlotWidget
