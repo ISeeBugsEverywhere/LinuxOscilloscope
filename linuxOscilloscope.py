@@ -8,6 +8,7 @@ from PyQt5.QtCore import QIODevice
 import numpy as np
 import math
 import  traceback
+from GUI.DevDlg import Dialog
 
 class LOsc(QtWidgets.QMainWindow):
     def __init__(self):
@@ -325,28 +326,11 @@ class LOsc(QtWidgets.QMainWindow):
     def connect_device_fn(self):
         try:
             self.collect_update_info()
-            if self.ui.lxiRadio.isChecked():
-                ip = self.ui.lxiCombo.currentText()
-                idn, status = self.Device.init_device(0, ip)
-                if status == 0:
-                    self._idnLabel(idn)
-                else:
-                    self.append_html_paragraph(str(idn), -1, True)
-                pass
-            elif self.ui.rs232Radio.isChecked():
-                port = "/dev/"+self.ui.rs232Combo.currentText()
-                param_dict = self.ui.rs232Widget.return_serial_dict()
-                self.Device.init_device(1, port, param_dict)
-            elif self.ui.usbtmcRadio.isChecked():
-                idn, status = self.Device.init_device(2, self.ui.usbtmcCombo.currentText())
-                if status == 0:
-                    self.Device.device.set_encoding(self.ui.usbtmc_encoding_box.currentText())
-                    self.Device.device.set_errors_behavior(self.ui.usbtmc_errors_box.currentText())
-                    self._idnLabel(idn)
-                    self.append_html_paragraph('Active is USBTMC', 0)
-                else:
-                    self.append_html_paragraph(str(idn), -1, True)
-            pass
+            #dialog for the correct device:
+            dialog = Dialog()
+            if dialog.exec_():
+                #answer = dialog.get_device()
+                print("labas")
         except Exception as ex:
             traceback.print_exc()
             self.append_html_paragraph(str(ex), -1, True)

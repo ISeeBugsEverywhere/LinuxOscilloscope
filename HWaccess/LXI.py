@@ -32,12 +32,3 @@ class lxi:
         except Exception as ex:
             return str(ex), -1
         pass
-
-    def getName(self):
-        name = self.device.ask("*idn?")
-        return name
-        pass
-
-    def sendReset(self):
-        self.device.write("*rst")
-        pass

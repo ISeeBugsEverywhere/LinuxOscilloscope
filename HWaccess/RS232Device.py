@@ -17,27 +17,13 @@ class RS232Device():
         self.serial.open()
         pass
 
-    def _bytes_to_array(self, bts):
-        """
-        Specific functionality to obtain useful information from the rs232 device
-        :param bts:
-        :return:
-        """
-        pass
-
-    def ask(self, cmd:str):
+    def read(self, size:1000):
         try:
-            if self.serial.is_open():
-                bint = self.serial.write(cmd.encode('utf-8'))
-                time.sleep(1.0)
-                if bint > 0:
-                    answ = self.serial.read_until(terminator=self._endline)
-                    return answ, 0
-                else:
-                    return "Bytes written - 0", -1
+            rbytes = self.serial.read_until(self._endline, size)
+            return rbytes,  0
         except Exception as ex:
             return str(ex), -1
-        pass
+
 
     def write(self, cmd:str):
         try:
@@ -51,7 +37,3 @@ class RS232Device():
         except Exception as ex:
             return str(ex), -1
 
-
-    def getName(self):
-        name = self.ask("*idn?")
-        return name
