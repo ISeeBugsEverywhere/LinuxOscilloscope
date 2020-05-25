@@ -9,6 +9,7 @@ import numpy as np
 import math
 import  traceback
 from GUI.DevDlg import Dialog
+import importlib.util
 
 class LOsc(QtWidgets.QMainWindow):
     def __init__(self):
@@ -329,8 +330,12 @@ class LOsc(QtWidgets.QMainWindow):
             #dialog for the correct device:
             dialog = Dialog()
             if dialog.exec_():
-                #answer = dialog.get_device()
-                print("labas")
+                dvc = dialog.get_device()
+                print(dvc)
+                sys.path.append(os.getcwd()+"/HWaccess/Devices/")
+                _m_dvc = __import__(dvc)
+                _device = _m_dvc.Oscilloscope()
+                print(_device.t_name)
         except Exception as ex:
             traceback.print_exc()
             self.append_html_paragraph(str(ex), -1, True)

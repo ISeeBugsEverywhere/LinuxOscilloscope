@@ -1,23 +1,30 @@
 from PyQt5 import QtWidgets, QtGui
-import sys
+import sys, os
 from GUI.Device_Dialog import Ui_Dialog
+
+import glob
 
 class Dialog(QtWidgets.QDialog):
     def __init__(self):
         super(Dialog, self).__init__()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
+        self._setup_()
 
     def _setup_(self):
+        """
+        Get all device classes:
+        :return:
+        """
+        files = glob.glob("HWaccess/Devices/*.py")
+        print(files)
+        for i in files:
+            device = i.split("/")[-1][:-3]
+            self.ui.deviceBox.addItem(device)
+            print(device)
         pass
 
-    def exit_fn(self):
-        sys.exit(0)
+    def get_device(self):
+        return self.ui.deviceBox.currentText()
+        pass
 
-    def connect_fn(self):
-        return "DeVICE"
-
-
-    def signals(self):
-        self.ui.cancelButton.clicked.connect(self.exit_fn)
-        self.ui.connectButton.clicked.connect(self.connect_fn)

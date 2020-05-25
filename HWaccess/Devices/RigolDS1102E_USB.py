@@ -5,9 +5,10 @@ from HWaccess.LXI import lxi
 from HWaccess.RS232Device import RS232Device
 
 
-class RigolDS1102E:
+class Oscilloscope:
     def __init__(self):
         self.device = None
+        self.t_name="RIGOL TEST NAME for class loading"
         pass
 
     def init_device(self, mode, port, params={}):
