@@ -3,7 +3,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from GUI.LinOsc import Ui_oscillWindow
 from vxi11 import vxi11
 from HWaccess.USBTMC import USBTMC
-from HWaccess.Device import Device
 from PyQt5.QtCore import QIODevice
 import numpy as np
 import math
@@ -73,6 +72,7 @@ class LOsc(QtWidgets.QMainWindow):
 
     def _gui_(self):
         self.setWindowIcon(QtGui.QIcon('GUI/usb.png'))
+        sys.path.append(os.getcwd() + "/HWaccess/Devices/") # stupid location for that entry
         pass
 
     def get_data_fn(self):
@@ -332,7 +332,6 @@ class LOsc(QtWidgets.QMainWindow):
             if dialog.exec_():
                 dvc = dialog.get_device()
                 print(dvc)
-                sys.path.append(os.getcwd()+"/HWaccess/Devices/")
                 _m_dvc = __import__(dvc)
                 _device = _m_dvc.Oscilloscope()
                 print(_device.t_name)
