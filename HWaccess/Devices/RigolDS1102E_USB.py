@@ -1,42 +1,60 @@
 import os
 import sys
+import numpy as np
 from HWaccess.USBTMC import USBTMC
-from HWaccess.LXI import lxi
-from HWaccess.RS232Device import RS232Device
+
 
 
 class Oscilloscope:
+    """
+    USBTMC based device!
+    """
     def __init__(self):
         self.device = None
         self.t_name="RIGOL TEST NAME for class loading"
         pass
 
-    def init_device(self, mode, port, params={}):
-        """
+    def init_device(self, port:str):
+        self.device = USBTMC(port)
+        pass
 
-        :param mode: 0 - lxi, 1 - rs232, 2 - usbtmc
-        :param port: ip, rs232 or usbtmc ports
-        :param params - rs232 parameters as dictionary, for rs232 only, empty otherwise
-        :return:
-        """
-        idn = None
-        status = -1
-        if mode == 0:
-            self.device = lxi(port)
-            idn = self.device.ask("*idn?")
-            status = 0
-        elif mode == 2:
-            self.device = USBTMC(port)
-            idn = str(self.device.getName())
-            status = 0
-        elif mode == 1:
-            self.device = RS232Device(port)
-            self.device._setup_port(params)
-            params_check = self.device.serial.get_settings()
-            print(params_check)
-            idn = str(self.device.getName())
-            pass
+    def get_name(self):
+        a, _ = self.device.write("*idn?")
+        if _ != -1:
+            a_ = self.device.read(300)
+            return  str(a_.decode())
         else:
-            idn = None
-            status = -1
-        return idn, status
+            return a
+        pass
+
+    def reset(self):
+        a, _ = self.device.write("*rst")
+        if _ == -1:
+            print(a)
+        pass
+
+    def close(self):
+        self.device.close()
+
+    #oscilloscope specific entries:
+
+    def get_time_offset(self):
+        '''
+        # Get the timescale offset
+        :return:
+        '''
+        self.device.write(":TIM:OFFS?")
+        timeoffset = float(self.device.read(20))
+        return timeoffset
+
+    def get_time_scale(self):
+        '''
+        Get time scale
+        # TIME SECTION ===========================
+        # Get the timescale
+
+        :return:
+        '''
+        self.device.write(":TIM:SCAL?")
+        timescale = float(self.device.read(20))
+        return timescale

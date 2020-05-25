@@ -13,7 +13,6 @@ import importlib.util
 class LOsc(QtWidgets.QMainWindow):
     def __init__(self):
         super(LOsc, self).__init__()
-        self.Device = Device() #the only one device for all possible connections
         self.ui = Ui_oscillWindow()
         self.ui.setupUi(self)
         self.setup_gui_fn()
@@ -72,7 +71,7 @@ class LOsc(QtWidgets.QMainWindow):
 
     def _gui_(self):
         self.setWindowIcon(QtGui.QIcon('GUI/usb.png'))
-        sys.path.append(os.getcwd() + "/HWaccess/Devices/") # stupid location for that entry
+        sys.path.append(os.getcwd() + "/HWaccess/Devices/") # stupid location for this entry
         pass
 
     def get_data_fn(self):
