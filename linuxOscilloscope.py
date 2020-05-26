@@ -324,6 +324,9 @@ class LOsc(QtWidgets.QMainWindow):
         sys.exit(0)
         pass
 
+    def get_port_parameters(self):
+        return None
+
     def connect_device_fn(self):
         try:
             self.collect_update_info()
