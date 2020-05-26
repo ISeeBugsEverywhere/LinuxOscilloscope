@@ -33,6 +33,7 @@ class LOsc(QtWidgets.QMainWindow):
         self._h_expr = None
         self._gui_()
         self._signals_()
+        self.OSCILLOSCOPE = None
         pass
 
     def _signals_(self):
@@ -332,8 +333,11 @@ class LOsc(QtWidgets.QMainWindow):
                 dvc = dialog.get_device()
                 print(dvc)
                 _m_dvc = __import__(dvc)
-                _device = _m_dvc.Oscilloscope()
-                print(_device.t_name)
+                self.OSCILLOSCOPE = _m_dvc.Oscilloscope()
+                print(self.OSCILLOSCOPE.t_name)
+                self.OSCILLOSCOPE.init_device(self.ui.usbtmcCombo.currentText())
+                idn  = self.OSCILLOSCOPE.get_name()
+                print (idn)
         except Exception as ex:
             traceback.print_exc()
             self.append_html_paragraph(str(ex), -1, True)
