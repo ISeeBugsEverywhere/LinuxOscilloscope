@@ -32,3 +32,7 @@ class lxi:
         except Exception as ex:
             return str(ex), -1
         pass
+
+    def close(self):
+        self.device.close()
+        pass

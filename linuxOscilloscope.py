@@ -325,7 +325,16 @@ class LOsc(QtWidgets.QMainWindow):
         pass
 
     def get_port_parameters(self):
-        return None
+        params = self.ui.rs232Widget.return_serial_dict()
+        if self.ui.lxiRadio.isChecked():
+            port = self.ui.lxiCombo.currentText()
+            return port, 0, params
+        elif self.ui.rs232Radio.isChecked():
+            port = self.ui.rs232Combo.currentText()
+            return port, 1, params
+        elif self.ui.usbtmcRadio.isChecked():
+            port = self.ui.usbtmcCombo.currentText()
+            return port, 2, params
 
     def connect_device_fn(self):
         try:
@@ -336,9 +345,15 @@ class LOsc(QtWidgets.QMainWindow):
                 dvc = dialog.get_device()
                 print(dvc)
                 _m_dvc = __import__(dvc)
+                port, status, params = self.get_port_parameters()
                 self.OSCILLOSCOPE = _m_dvc.Oscilloscope()
                 print(self.OSCILLOSCOPE.t_name)
-                self.OSCILLOSCOPE.init_device(self.ui.usbtmcCombo.currentText())
+                if status == 0:
+                    self.OSCILLOSCOPE.init_device(port, params)
+                elif status == 1:
+                    self.OSCILLOSCOPE.init_device(port, params)
+                elif status == 2:
+                    self.OSCILLOSCOPE.init_device(port, params)
                 idn  = self.OSCILLOSCOPE.get_name()
                 print (idn)
         except Exception as ex:
