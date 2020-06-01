@@ -16,7 +16,7 @@ class Oscilloscope:
         self.mode = "NORM"
         pass
 
-    def init_device(self, port:str):
+    def init_device(self, port:str, params):
         self.device = USBTMC(port)
         pass
 
