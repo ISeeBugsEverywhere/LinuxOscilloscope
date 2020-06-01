@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(367, 115)
+        Dialog.resize(367, 120)
         self.gridLayout = QtWidgets.QGridLayout(Dialog)
         self.gridLayout.setObjectName("gridLayout")
         self.label = QtWidgets.QLabel(Dialog)
@@ -32,8 +32,6 @@ class Ui_Dialog(object):
         self.gridLayout.addWidget(self.connectButton, 2, 2, 1, 1)
 
         self.retranslateUi(Dialog)
-        self.cancelButton.clicked.connect(Dialog.reject)
-        self.connectButton.clicked.connect(Dialog.accept)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):

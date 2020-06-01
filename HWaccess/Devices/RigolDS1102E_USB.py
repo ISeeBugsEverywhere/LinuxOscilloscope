@@ -14,6 +14,9 @@ class Oscilloscope:
         self.t_name="RIGOL TEST NAME for class loading"
         self.idn = None
         self.mode = "NORM"
+        self.CH1 = "CHAN1"
+        self.CH2 = "CHAN2"
+        self.CH_SIZE = 2
         pass
 
     def init_device(self, port:str, params):
@@ -37,6 +40,9 @@ class Oscilloscope:
 
     def close(self):
         self.device.close()
+
+    def stop(self):
+        self.device.write(":STOP")
 
     #oscilloscope specific entries:
     def set_channels_mode(self, mode: str = "NORM"):
@@ -152,9 +158,11 @@ class Oscilloscope:
         self.device.write(":KEY:FORC")
         pass
 
+    def get_xy(self, chan:str):
+        #stop aquisition:
+        self.stop()
+        # set wave mode to normal:
+        self.set_channels_mode("NORM")
+        data = self.get_data_from_channel(chan)
 
-    def get_y_array(self, channel:str):
-        pass
-
-    def get_x_array(self):
         pass

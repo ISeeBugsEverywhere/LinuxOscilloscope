@@ -28,7 +28,6 @@ class LOsc(QtWidgets.QMainWindow):
         self._worker = None
         self._thread = QtCore.QThread()
         self._channels = {1:None, 2:None, 3:None, 4:None} #dictionry for channels
-        self.collect_update_info()
         self._y_expr = None
         self._h_expr = None
         self._gui_()
@@ -55,10 +54,6 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.ch2_btn.clicked.connect(self.checked_fn2)
         self.ui.ch3_btn.clicked.connect(self.checked_fn3)
         self.ui.ch4_btn.clicked.connect(self.checked_fn4)
-        self.ui.execute_scpi_btn.clicked.connect(self.exec_scpi_fn)
-        self.ui.get_vertical_cmds_btn.clicked.connect(self.get_v_cmds_fn)
-        self.ui.get_h_cmds_btn.clicked.connect(self.get_h_cmds_fn)
-        self.ui.test_fn_btn.clicked.connect(self._test_eval_fn)
         self.ui.get_data_btn.clicked.connect(self.get_data_fn)
         self.ui.take_screenshot_btn.clicked.connect(self.screenshot_fn)
         pass
@@ -76,101 +71,13 @@ class LOsc(QtWidgets.QMainWindow):
         pass
 
     def get_data_fn(self):
-        print('active ', self._active, 'usbtmc', self._usbtmc)
-        try:
-            y_data = self.get_vertical_data('chan1')
-            x_data = self.get_horizontal_data()
-            print('##########################')
-            print(y_data)
-            print('##########################')
-            print(x_data)
-            print('##########################')
-        except Exception as ex:
-            print(str(ex), 'get data fn')
         pass
 
-    def _test_eval_fn(self):
-        '''
-        It works, just we ned to use self. before any variable
-        :return:
-        '''
-        exp = eval(self.ui.vertical_expression.text())
-        print(exp)
-        pass
-
-    def trigger_expressions(self):
-        if len(self.ui.vertical_expression.text()) > 5:
-            self._y_expr = self.ui.vertical_expression.text()
-        if len(self.ui.horizontal_expression.text()) > 5:
-            self._h_expr = self.ui.horizontal_expression.text()
-
-    def get_vertical_data(self, channel:str):
-        self.trigger_expressions()
-        pass
-
-    def get_horizontal_data(self):
-        self.trigger_expressions()
-        pass
-
-    def get_v_cmds_fn(self):
-        """
-        Gets the commands for the vertical scale
-        :return:
-        """
-        # food = 'bread'
-        # vars(self)[food] = 'data'
-        # print('vars(): ', vars(self))
-        # easier access is this way:
-        # setattr(self, 'bread', 'easier access')
-        # print(getattr(self, 'bread'))
-        entry_splitter = ':='
-        fname, _ = QtWidgets.QFileDialog().getOpenFileName(self, caption='Open V-scale commands')
-        if fname:
-            print('fname', fname)
-            f = open(fname, 'r')
-            lines = f.readlines()
-            content = [x.strip() for x in lines]
-            cmds = content
-            for i in cmds:
-                var, cmd = i.split(entry_splitter)
-                self._vertical_cmds_dict[var]=cmd
-                setattr(self, var, None)
-                pass
-
-        pass
-
-    def get_h_cmds_fn(self):
-        """
-        gets the commands for the horizontal scale
-        :return:
-        """
-        # setattr(self, 'bread', 'easier access')
-        # print(getattr(self, 'bread'))
-        entry_splitter = ':='
-        fname, _ = QtWidgets.QFileDialog().getOpenFileName(self, caption='Open H-scale commands')
-        if fname:
-            print('fname', fname)
-            f = open(fname, 'r')
-            lines = f.readlines()
-            content = [x.strip() for x in lines]
-            cmds = content
-            for i in cmds:
-                var, cmd = i.split(entry_splitter)
-                self._horizontal_cmds_dict[var] = cmd
-                setattr(self, var, None)
-                pass
 
 
-    def collect_update_info(self):
-        channels_string = self.ui.channels_names_box.text()
-        if channels_string is not None and len(channels_string) >= 2:
-            splitted = channels_string.split(',')
-            l = len(splitted)
-            self.append_html_paragraph(str(l)+' : given number of channels')
-            for i in range(0, l):
-                self._channels[i+1] = splitted[i]
-            pass
-        self.fill_channels_fn()
+
+
+
 
     def fill_channels_fn(self):
         dict_len = len(self._channels)
@@ -181,23 +88,7 @@ class LOsc(QtWidgets.QMainWindow):
                 pass
         pass
 
-    def exec_scpi_fn(self):
-        """
-        executes one scpi command at a time:
-        It's possible to specify a few commands at a time, separated by ';'
-        :return:
-        """
-        scpi_cmd = self.ui.scpi_cmd_box.currentText().split(';')
-        for i in scpi_cmd:
-            self.append_html_paragraph(i, 0)
-            if '?' in i:
-                ret, _ = self.Device.ask(i)
-                if _ == 0:
-                    self.append_html_paragraph(str(ret, encoding=self.Device.locale),1, True)
-                elif _ == -1:
-                    self.append_html_paragraph(str(ret), -1, True)
-            else:
-                self.Device.write(i)
+
 
 
     def checked_fn1(self):
@@ -355,6 +246,7 @@ class LOsc(QtWidgets.QMainWindow):
                 elif status == 2:
                     self.OSCILLOSCOPE.init_device(port, params)
                 idn  = self.OSCILLOSCOPE.get_name()
+                self.ui.idnLabel.setText(idn)
                 print (idn)
         except Exception as ex:
             traceback.print_exc()
