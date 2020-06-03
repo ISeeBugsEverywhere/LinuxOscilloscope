@@ -16,6 +16,7 @@ class Oscilloscope:
         self.mode = "NORM"
         self.CH1 = "CHAN1"
         self.CH2 = "CHAN2"
+        self.CH_ARR = [self.CH1, self.CH2]
         self.CH_SIZE = 2
         pass
 
