@@ -141,7 +141,7 @@ class Ui_oscillWindow(object):
         self.gridLayout_3.setObjectName("gridLayout_3")
         self.ch1_btn = QtWidgets.QPushButton(self.channel_group_box)
         self.ch1_btn.setCheckable(True)
-        self.ch1_btn.setChecked(True)
+        self.ch1_btn.setChecked(False)
         self.ch1_btn.setObjectName("ch1_btn")
         self.gridLayout_3.addWidget(self.ch1_btn, 0, 0, 1, 1)
         self.ch2_btn = QtWidgets.QPushButton(self.channel_group_box)

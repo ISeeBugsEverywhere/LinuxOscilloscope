@@ -163,7 +163,7 @@ class Oscilloscope:
         '''
 
         :param str CH: channel
-        :return: dataCH1, time_array, time_unit
+        :return: data form a channel, time_array, time_unit
         '''
         # Stop data acquisition:
         self.stop()
