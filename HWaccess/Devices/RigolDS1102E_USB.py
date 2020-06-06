@@ -147,8 +147,8 @@ class Oscilloscope:
         :param str CHANNEL: channel
         :return:
         '''
-        self.write(":" + CHANNEL + ":OFFS?")
-        voltoffsetCH = float(self.read(20))
+        self.device.write(":" + CHANNEL + ":OFFS?")
+        voltoffsetCH = float(self.device.read(20))
         return voltoffsetCH
 
     def run(self):
@@ -159,11 +159,44 @@ class Oscilloscope:
         self.device.write(":KEY:FORC")
         pass
 
-    def get_xy(self, chan:str):
-        #stop aquisition:
+    def get_data_points_from_channel(self, CH: str):
+        '''
+
+        :param str CH: channel
+        :return: dataCH1, time_array, time_unit
+        '''
+        # Stop data acquisition:
         self.stop()
-        # set wave mode to normal:
+        # set wave data points mode to normal:
         self.set_channels_mode("NORM")
-        data = self.get_data_from_channel(chan)
-        t, tUnit, data_ = self.get_time_array(data)
+        data_array_from_channel = self.get_data_from_channel(CH, 9000)[10:]
+        # Walk through the data, and map it to actual voltages
+        # First invert the data (ya rly)
+        dataCH = data_array_from_channel * -1 + 255
+        # Voltage scale:
+        voltscaleCH = self.get_channel_scale(CH)
+        # Voltage offset
+        voltoffsetCH = self.get_channel_position(CH)
+        # Now, we know from experimentation that the scope display range is actually
+        # 30-229.  So shift by 130 - the voltage offset in counts, then scale to
+        # get the actual voltage.
+        dataCH1 = (dataCH - 130.0 - voltoffsetCH / voltscaleCH * 25) / 25 * voltscaleCH
+        # ==========================
+        # Get a time scale:
+        time_scale = self.get_time_scale()
+        # get a time offset:
+        time_offset = self.get_time_offset()
+        # get time array:
+        time_array, time_unit, dataCH2 = self.get_time_array(dataCH1)
+        self.run()
+        return dataCH2, time_array, time_unit
         pass
+
+    def get_xy(self, CH:str):
+        """
+
+        :param CH: channel
+        :return: data, time, time_unit
+        """
+        data, time, t_unit = self.get_data_points_from_channel(CH)
+        return data, time, t_unit
