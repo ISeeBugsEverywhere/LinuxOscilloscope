@@ -76,12 +76,6 @@ class LOsc(QtWidgets.QMainWindow):
     def get_data_fn(self):
         pass
 
-
-
-
-
-
-
     def fill_channels_fn(self):
         dict_len = len(self._channels)
         for key, value in self._channels.items():
