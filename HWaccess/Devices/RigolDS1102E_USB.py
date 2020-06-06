@@ -165,5 +165,5 @@ class Oscilloscope:
         # set wave mode to normal:
         self.set_channels_mode("NORM")
         data = self.get_data_from_channel(chan)
-
+        t, tUnit, data_ = self.get_time_array(data)
         pass
