@@ -11,6 +11,8 @@ from GUI.DevDlg import Dialog
 import importlib.util
 import importlib
 
+GOM = None
+
 class LOsc(QtWidgets.QMainWindow):
     def __init__(self):
         super(LOsc, self).__init__()
@@ -177,25 +179,28 @@ class LOsc(QtWidgets.QMainWindow):
             dialog = Dialog()
             if dialog.exec_():
                 dlg_stat=True
-                print("True dlg main")
                 dvc = dialog.get_device()
-                #_m_dvc = __import__(dvc)
-                _m_dvc = importlib.import_module(dvc)
-                port, status, params = self.get_port_parameters()
-                self.OSCILLOSCOPE = _m_dvc.Oscilloscope()
-                print(self.OSCILLOSCOPE.t_name)
-                if status == 0:
-                    self.OSCILLOSCOPE.init_device(port, params)
-                elif status == 1:
-                    self.OSCILLOSCOPE.init_device(port, params)
-                elif status == 2:
-                    self.OSCILLOSCOPE.init_device(port, params)
-                idn  = self.OSCILLOSCOPE.get_name()
-                self.ui.idnLabel.setText(idn)
+                global GOM
+                GOM = importlib.import_module(dvc)
+            if dlg_stat:
+                self.trigger_device()
         except Exception as ex:
             traceback.print_exc()
             self.append_html_paragraph(str(ex), -1, True)
             pass
+
+    def trigger_device(self):
+        port, status, params = self.get_port_parameters()
+        self.OSCILLOSCOPE = GOM.Oscilloscope()
+        print(self.OSCILLOSCOPE.t_name)
+        if status == 0:
+            self.OSCILLOSCOPE.init_device(port, params)
+        elif status == 1:
+            self.OSCILLOSCOPE.init_device(port, params)
+        elif status == 2:
+            self.OSCILLOSCOPE.init_device(port, params)
+        idn = self.OSCILLOSCOPE.get_name()
+        self.ui.idnLabel.setText(idn)
 
     def append_html_paragraph(self, text, status=0, show = False):
         txt = str(text)
