@@ -9,6 +9,7 @@ import math
 import  traceback
 from GUI.DevDlg import Dialog
 import importlib.util
+import importlib
 
 class LOsc(QtWidgets.QMainWindow):
     def __init__(self):
@@ -170,13 +171,16 @@ class LOsc(QtWidgets.QMainWindow):
 
     def connect_device_fn(self):
         try:
-            self.collect_update_info()
+            #self.collect_update_info()
             #dialog for the correct device:
+            dlg_stat = False
             dialog = Dialog()
             if dialog.exec_():
+                dlg_stat=True
+                print("True dlg main")
                 dvc = dialog.get_device()
-                print(dvc)
-                _m_dvc = __import__(dvc)
+                #_m_dvc = __import__(dvc)
+                _m_dvc = importlib.import_module(dvc)
                 port, status, params = self.get_port_parameters()
                 self.OSCILLOSCOPE = _m_dvc.Oscilloscope()
                 print(self.OSCILLOSCOPE.t_name)
@@ -188,7 +192,6 @@ class LOsc(QtWidgets.QMainWindow):
                     self.OSCILLOSCOPE.init_device(port, params)
                 idn  = self.OSCILLOSCOPE.get_name()
                 self.ui.idnLabel.setText(idn)
-                print (idn)
         except Exception as ex:
             traceback.print_exc()
             self.append_html_paragraph(str(ex), -1, True)
@@ -222,7 +225,7 @@ class LOsc(QtWidgets.QMainWindow):
             self.ui.infoText.insertHtml(html_red.replace('{x}', txt))
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
         if show:
-            self.ui.tabWidget.setCurrentIndex(3)
+            self.ui.tabWidget.setCurrentIndex(2)
         pass
 
     def _idnLabel(self, msg=None):

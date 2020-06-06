@@ -17,11 +17,9 @@ class Dialog(QtWidgets.QDialog):
         :return:
         """
         files = glob.glob("HWaccess/Devices/*.py")
-        print(files)
         for i in files:
             device = i.split("/")[-1][:-3]
             self.ui.deviceBox.addItem(device)
-            print(device)
         pass
 
     def get_device(self):
