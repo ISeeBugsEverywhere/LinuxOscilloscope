@@ -1,9 +1,6 @@
 import os, sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from GUI.LinOsc import Ui_oscillWindow
-from vxi11 import vxi11
-from HWaccess.USBTMC import USBTMC
-from PyQt5.QtCore import QIODevice
 import numpy as np
 import math
 import  traceback
@@ -31,7 +28,8 @@ class LOsc(QtWidgets.QMainWindow):
         self._gui_()
         self._signals_()
         self.OSCILLOSCOPE = None
-        #
+        self._buttons = {1:self.ui.ch1_btn, 2:self.ui.ch2_btn, 3:self.ui.ch3_btn, 4:self.ui.ch4_btn}
+        self._colors = [(255,255,0), (0,0,255), (0,128,0),(139,0,0)]
         pass
 
     def _signals_(self):
@@ -71,8 +69,13 @@ class LOsc(QtWidgets.QMainWindow):
 
     def get_data_fn(self):
         """Gets a data and displays it"""
-
-
+        self.clear_plotted_items(self.ui.oscillographPlot)
+        for index, btn in self._buttons.items():
+            if btn.isChecked():
+                if self._channels[index] is not None:
+                    channel = self._channels[index]
+                    y_array, x_array, t_Unit = self.OSCILLOSCOPE.get_xy(channel)
+                    self.update_graph(self.ui.oscillographPlot, x_array, y_array, str(index), self._colors[index-1])
         pass
 
     def fill_channels_fn(self):
@@ -264,6 +267,14 @@ class LOsc(QtWidgets.QMainWindow):
                 if i is not None:
                     if i.name() == y_name:
                         graph.removeItem(i)
-            graph.plot(x,y, pen=color, symbol='-', name=y_name, symbolBrush=color)
+            graph.plot(x,y, pen=color, name=y_name)
         else:
             console("Inequality", y_name, " ; ", sizex, " ; ", sizey)
+
+
+    def clear_plotted_items(self, graph:pg.PlotWidget):
+        dataItems = graph.listDataItems()
+        for i in dataItems:
+            # console(i.name(), " ", y_name)
+            if i is not None:
+                graph.removeItem(i)

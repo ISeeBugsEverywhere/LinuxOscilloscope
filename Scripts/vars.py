@@ -1,4 +1,4 @@
-def console(self, *args):
+def console(*args):
     """
     Prints an output into console(/tty)
     """
