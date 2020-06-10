@@ -197,7 +197,7 @@ class Oscilloscope:
         """
 
         :param CH: channel
-        :return: data, time, time_unit
+        :return: data, time, time_unit, data will be in volts, time in time units
         """
         data, time, t_unit = self.get_data_points_from_channel(CH)
         return data, time, t_unit
