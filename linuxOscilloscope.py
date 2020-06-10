@@ -10,6 +10,7 @@ import importlib
 from pyqtgraph import mkPen
 import pyqtgraph as pg
 from Scripts.vars import *
+from Scripts.Threads import ContinuousUpdate
 
 GOM = None
 
@@ -23,7 +24,7 @@ class LOsc(QtWidgets.QMainWindow):
         self._new_line = os.linesep
         #threads:
         self._worker = None
-        self._thread = QtCore.QThread()
+        self._thread = QtCore.QThread(self)
         self._channels = {1:None, 2:None, 3:None, 4:None} #dictionry for channels
         self._gui_()
         self._signals_()
@@ -47,12 +48,21 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.rs232Widget.ui.comPortBox.currentIndexChanged.connect(self.idxfn)
         # buttons:
         self.ui.connectButton.clicked.connect(self.connect_device_fn)
-        # self.ui.ch1_btn.clicked.connect(self.checked_fn1)
-        # self.ui.ch2_btn.clicked.connect(self.checked_fn2)
-        # self.ui.ch3_btn.clicked.connect(self.checked_fn3)
-        # self.ui.ch4_btn.clicked.connect(self.checked_fn4)
         self.ui.get_data_btn.clicked.connect(self.get_data_fn)
         self.ui.take_screenshot_btn.clicked.connect(self.screenshot_fn)
+        self.ui.live_update_box.stateChanged.connect(self.live_update_changed)
+        pass
+
+    def live_update_changed(self):
+        if self.ui.live_update_box.isChecked():
+            console("Nothing to do")
+            pass
+        else:
+            if self._worker is not None:
+                self._worker.stop(True)
+                self._worker = None
+                console("Thread stopped.")
+                self._thread.terminate()
         pass
 
     def screenshot_fn(self):
@@ -69,14 +79,27 @@ class LOsc(QtWidgets.QMainWindow):
 
     def get_data_fn(self):
         """Gets a data and displays it"""
-        self.clear_plotted_items(self.ui.oscillographPlot)
-        for index, btn in self._buttons.items():
-            if btn.isChecked():
-                if self._channels[index] is not None:
-                    channel = self._channels[index]
-                    y_array, x_array, t_Unit = self.OSCILLOSCOPE.get_xy(channel)
-                    self.update_graph(self.ui.oscillographPlot, x_array, y_array, str(index), t_Unit, color=self._colors[index-1])
-        pass
+        console("Gets a data")
+        if self.ui.live_update_box.isChecked():
+            console("Threading ...")
+            if self._worker is not None:
+                console("worker is not none")
+            if self._worker is None:
+                console("worker was NONE")
+                self._thread = QtCore.QThread(self)
+            self._worker = ContinuousUpdate()
+            self._worker.moveToThread(self._thread)
+            self._thread.started.connect(self._worker.run)
+            self._thread.start()
+        else:
+            self.clear_plotted_items(self.ui.oscillographPlot)
+            for index, btn in self._buttons.items():
+                if btn.isChecked():
+                    if self._channels[index] is not None:
+                        channel = self._channels[index]
+                        y_array, x_array, t_Unit = self.OSCILLOSCOPE.get_xy(channel)
+                        self.update_graph(self.ui.oscillographPlot, x_array, y_array, str(index), t_Unit, color=self._colors[index-1])
+            pass
 
     def fill_channels_fn(self):
         dict_len = len(self._channels)
