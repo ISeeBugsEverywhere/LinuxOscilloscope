@@ -31,6 +31,7 @@ class LOsc(QtWidgets.QMainWindow):
         self.OSCILLOSCOPE = None
         self._buttons = {1:self.ui.ch1_btn, 2:self.ui.ch2_btn, 3:self.ui.ch3_btn, 4:self.ui.ch4_btn}
         self._colors = [(255,255,0), (0,0,255), (0,128,0),(139,0,0)]
+        self._data = {}
         pass
 
     def _signals_(self):
@@ -303,3 +304,7 @@ class LOsc(QtWidgets.QMainWindow):
             # console(i.name(), " ", y_name)
             if i is not None:
                 graph.removeItem(i)
+
+
+    def update_graph_from_thread(self, x, y, ):
+        pass
