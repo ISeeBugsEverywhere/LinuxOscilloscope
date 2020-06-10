@@ -10,6 +10,9 @@ import  traceback
 from GUI.DevDlg import Dialog
 import importlib.util
 import importlib
+from pyqtgraph import mkPen
+import pyqtgraph as pg
+from Scripts.vars import *
 
 GOM = None
 
@@ -21,21 +24,14 @@ class LOsc(QtWidgets.QMainWindow):
         self.setup_gui_fn()
         self._active = None # 0 - lxi, 1 - rs232, 2 - usbtmc, or strings lxi, rs232, usbtmc
         self._new_line = os.linesep
-        self._active_channels = []
-        self._vertical_cmds_dict = {}
-        self._horizontal_cmds_dict = {}
-        # will executed before real getting commands:
-        self._prep_h_cmds=[]
-        self._prep_y_cmds=[]
         #threads:
         self._worker = None
         self._thread = QtCore.QThread()
         self._channels = {1:None, 2:None, 3:None, 4:None} #dictionry for channels
-        self._y_expr = None
-        self._h_expr = None
         self._gui_()
         self._signals_()
         self.OSCILLOSCOPE = None
+        #
         pass
 
     def _signals_(self):
@@ -74,6 +70,9 @@ class LOsc(QtWidgets.QMainWindow):
         pass
 
     def get_data_fn(self):
+        """Gets a data and displays it"""
+
+
         pass
 
     def fill_channels_fn(self):
@@ -86,7 +85,6 @@ class LOsc(QtWidgets.QMainWindow):
         pass
 
     def check_channel_btn(self):
-
         pass
 
     def setup_gui_fn(self):
@@ -184,17 +182,31 @@ class LOsc(QtWidgets.QMainWindow):
             pass
 
     def trigger_device(self):
-        port, status, params = self.get_port_parameters()
-        self.OSCILLOSCOPE = GOM.Oscilloscope()
-        print(self.OSCILLOSCOPE.t_name)
-        if status == 0:
-            self.OSCILLOSCOPE.init_device(port, params)
-        elif status == 1:
-            self.OSCILLOSCOPE.init_device(port, params)
-        elif status == 2:
-            self.OSCILLOSCOPE.init_device(port, params)
-        idn = self.OSCILLOSCOPE.get_name()
-        self.ui.idnLabel.setText(idn)
+        try:
+            port, status, params = self.get_port_parameters()
+            self.OSCILLOSCOPE = GOM.Oscilloscope()
+            print(self.OSCILLOSCOPE.t_name)
+            if status == 0:
+                self.OSCILLOSCOPE.init_device(port, params)
+            elif status == 1:
+                self.OSCILLOSCOPE.init_device(port, params)
+            elif status == 2:
+                self.OSCILLOSCOPE.init_device(port, params)
+            idn = self.OSCILLOSCOPE.get_name()
+            self._idnLabel(idn)
+            # continue with channel mapping:
+            channels = self.OSCILLOSCOPE.CH_ARR
+            count = self.OSCILLOSCOPE.CH_SIZE
+            for i in range(1, count+1):
+                self._channels[i] = channels[i-1]
+                pass
+            print(self._channels, "CHANNELS")
+        except Exception as ex:
+            traceback.print_exc()
+            self.append_html_paragraph(str(ex), -1, True)
+            pass
+
+
 
     def append_html_paragraph(self, text, status=0, show = False):
         txt = str(text)
@@ -232,3 +244,26 @@ class LOsc(QtWidgets.QMainWindow):
             _str = "<html><head/><body><p><span style=\" font-weight:600;\">MSG</span></p></body></html>"
             self.ui.idnLabel.setText(_str.replace("MSG", str(msg)))
         pass
+
+    def update_graph(self, graph:pg.PlotWidget, x, y, y_name, color=(255, 255, 102)):
+        """
+        Updates a graph
+        :param graph: plotWidget
+        :param x: x dataset
+        :param y: y dataset
+        :param y_name: name (MUST)
+        :param color: default: 255, 255, 102
+        :return:
+        """
+        sizex = len(x)
+        sizey=len(y)
+        if sizex == sizey:
+            dataItems =  graph.listDataItems()
+            for i in dataItems:
+                # console(i.name(), " ", y_name)
+                if i is not None:
+                    if i.name() == y_name:
+                        graph.removeItem(i)
+            graph.plot(x,y, pen=color, symbol='-', name=y_name, symbolBrush=color)
+        else:
+            console("Inequality", y_name, " ; ", sizex, " ; ", sizey)

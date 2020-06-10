@@ -200,31 +200,7 @@
              <string>Observation</string>
             </property>
             <layout class="QGridLayout" name="gridLayout_5">
-             <item row="0" column="0" colspan="3">
-              <widget class="QPushButton" name="get_data_btn">
-               <property name="text">
-                <string>Get data from active channel</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0" colspan="3">
-              <widget class="QCheckBox" name="same_curve_box">
-               <property name="text">
-                <string>Use the same curve?</string>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0" colspan="3">
-              <widget class="QCheckBox" name="live_update_box">
-               <property name="text">
-                <string>Live update (On the same curve)</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="0">
+             <item row="2" column="0">
               <spacer name="horizontalSpacer_5">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
@@ -237,14 +213,14 @@
                </property>
               </spacer>
              </item>
-             <item row="3" column="1">
-              <widget class="QPushButton" name="channel_open_btn">
+             <item row="1" column="0" colspan="2">
+              <widget class="QCheckBox" name="live_update_box">
                <property name="text">
-                <string>Channel On/Off</string>
+                <string>Live update</string>
                </property>
               </widget>
              </item>
-             <item row="3" column="2">
+             <item row="2" column="1">
               <spacer name="horizontalSpacer_6">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
@@ -256,6 +232,13 @@
                 </size>
                </property>
               </spacer>
+             </item>
+             <item row="0" column="0" colspan="2">
+              <widget class="QPushButton" name="get_data_btn">
+               <property name="text">
+                <string>Get data from active channel(s)</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -642,7 +625,7 @@
      <x>0</x>
      <y>0</y>
      <width>989</width>
-     <height>28</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
