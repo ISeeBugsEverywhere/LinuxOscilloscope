@@ -189,6 +189,7 @@ class Oscilloscope:
         # get time array:
         time_array, time_unit, dataCH2 = self.get_time_array(dataCH1)
         self.run()
+        self.unlock_key()
         return dataCH2, time_array, time_unit
         pass
 
