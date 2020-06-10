@@ -75,7 +75,7 @@ class LOsc(QtWidgets.QMainWindow):
                 if self._channels[index] is not None:
                     channel = self._channels[index]
                     y_array, x_array, t_Unit = self.OSCILLOSCOPE.get_xy(channel)
-                    self.update_graph(self.ui.oscillographPlot, x_array, y_array, str(index), self._colors[index-1])
+                    self.update_graph(self.ui.oscillographPlot, x_array, y_array, str(index), t_Unit, color=self._colors[index-1])
         pass
 
     def fill_channels_fn(self):
@@ -248,7 +248,7 @@ class LOsc(QtWidgets.QMainWindow):
             self.ui.idnLabel.setText(_str.replace("MSG", str(msg)))
         pass
 
-    def update_graph(self, graph:pg.PlotWidget, x, y, y_name, color=(255, 255, 102)):
+    def update_graph(self, graph:pg.PlotWidget, x, y, y_name, x_Unit, y_Unit='V', color=(255, 255, 102) ):
         """
         Updates a graph
         :param graph: plotWidget
@@ -268,6 +268,8 @@ class LOsc(QtWidgets.QMainWindow):
                     if i.name() == y_name:
                         graph.removeItem(i)
             graph.plot(x,y, pen=color, name=y_name)
+            graph.setLabel('bottom', "Time scale", units=str(x_Unit))
+            graph.setLabel('left', "CH scale", units=str(y_Unit))
         else:
             console("Inequality", y_name, " ; ", sizex, " ; ", sizey)
 
