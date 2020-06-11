@@ -63,7 +63,8 @@ class LOsc(QtWidgets.QMainWindow):
                 self._worker.stop(True)
                 self._worker = None
                 console("Thread stopped.")
-                self._thread.terminate() # wrong approach here, need to fix it
+                self._thread.exit(-27) # how about this?
+                # self._thread.terminate() # wrong approach here, need to fix it
         pass
 
     def screenshot_fn(self):
