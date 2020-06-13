@@ -121,15 +121,6 @@ class LOsc(QtWidgets.QMainWindow):
                         self.update_graph(self.ui.oscillographPlot, x_array, y_array, str(index), t_Unit, color=self._colors[index-1])
             pass
 
-    def fill_channels_fn(self):
-        dict_len = len(self._channels)
-        for key, value in self._channels.items():
-            print(key, value)
-            if value is not None:
-                self._active_channels.append(value)
-                pass
-        pass
-
     def worker_xy(self, y, x, x_unit, channel):
         index = list(self._channels.values()).index(channel)+1
         self.update_graph(self.ui.oscillographPlot, x, y, str(index), x_unit, color=self._colors[index - 1])
