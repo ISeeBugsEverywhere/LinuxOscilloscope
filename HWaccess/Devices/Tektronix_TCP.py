@@ -14,33 +14,37 @@ class Oscilloscope(QObject):
     '''
     cmd_emiter = pyqtSignal(str)
 
-    def __init__(self, path: str):
+    def __init__(self):
         '''
 
         :param gen_path: path (IP) for generator
         '''
         super(Oscilloscope, self).__init__()
-        self.Instrument = vxi11.Instrument(path)
+        self.Instrument = None
+        self.t_name="Tektronix class name for class loading"
         # self.Instrument.timeout = 1
         self.CH1 = "CH1"
         self.CH2 = "CH2"
         self.CH3 = "CH3"
         self.CH4 = "CH4"
-        self._channels = {"1": self.CH1, "2": self.CH2, "3": self.CH3, "4": self.CH4}
-        self.signalChannel = None
-        self.responseChannel = None
-        self.IDN = self.Instrument.ask("*IDN?")
+        self.CH_ARR = [self.CH1, self.CH2, self.CH3, self.CH4]
+        self.CH_SIZE = 4
+        # self.IDN = self.Instrument.ask("*IDN?")
         # channel 1 - CH1, channel 2 - CH2
         pass
 
     def get_init_conf(self):
-        # try:
-        myConf = Configuration("Configs/TextronixScope.ini")
-        lines = myConf.readDefaultInitCommands("TEKTRONIX OSC INIT CONFIG", "InitTektronixOsc")
-        return lines
-        # except Exception as ex:
-        #         print(str(ex))
-        #         pass
+        # # try:
+        # myConf = Configuration("Configs/TextronixScope.ini")
+        # lines = myConf.readDefaultInitCommands("TEKTRONIX OSC INIT CONFIG", "InitTektronixOsc")
+        # return lines
+        # # except Exception as ex:
+        # #         print(str(ex))
+        # #         pass
+        pass
+
+    def init_device(self, port:str, params):
+        self.device = vxi11.Instrument(port)
         pass
 
     def write(self, command):
@@ -210,6 +214,15 @@ class Oscilloscope(QObject):
             pass
         # return np.asarray(dataCH2), time_array, "S"  # hardcoded time unit for Tektronix
         pass
+
+    def get_xy(self, CH:str):
+        """
+
+        :param CH: channel
+        :return: data, time, time_unit, data will be in volts, time in time units, everything will be in lists
+        """
+        data, time, t_unit = self.get_data_points_from_channel(CH)
+        return data.tolist(), time.tolist(), t_unit
 
     def run(self):
         self.Instrument.write("ACQUIRE:STATE RUN")
