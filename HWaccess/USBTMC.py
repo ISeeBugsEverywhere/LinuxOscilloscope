@@ -29,3 +29,17 @@ class USBTMC:
     def close(self):
         os.close(self.FILE)
 
+    def ask(self, cmd, sleep=1, length=4000):
+        """
+        Imitates vxi11 ask command, therefore returns a string
+        :param cmd:
+        :return:
+        """
+        self.write(cmd)
+        time.sleep(sleep)
+        a = self.read_ask(length)
+        return str(a.decode('utf-8'))
+
+    def read_ask(self, length=4000):
+        return os.read(self.FILE, length).splitlines()[0]
+

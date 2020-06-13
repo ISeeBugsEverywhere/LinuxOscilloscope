@@ -6,6 +6,7 @@ import numpy as np
 # from Units.UnitCheck import *
 import traceback
 # from ConfigParser import *
+from HWaccess.USBTMC import USBTMC
 
 
 class Oscilloscope(QObject):
@@ -27,8 +28,8 @@ class Oscilloscope(QObject):
         self.CH2 = "CH2"
         self.CH3 = "CH3"
         self.CH4 = "CH4"
-        self.CH_ARR = [self.CH1, self.CH2, self.CH3, self.CH4]
-        self.CH_SIZE = 4
+        self.CH_ARR = [self.CH1, self.CH2] # self.CH3, self.CH4]
+        self.CH_SIZE = 2
         # self.IDN = self.Instrument.ask("*IDN?")
         # channel 1 - CH1, channel 2 - CH2
         pass
@@ -44,7 +45,7 @@ class Oscilloscope(QObject):
         pass
 
     def init_device(self, port:str, params):
-        self.device = vxi11.Instrument(port)
+        self.Instrument = USBTMC(port)
         pass
 
     def write(self, command):
@@ -193,12 +194,21 @@ class Oscilloscope(QObject):
             nrp = float(self.Instrument.ask("WFMO:NR_P?"))
             xin = float(self.Instrument.ask("WFMO:XIN?"))
             xze = float(self.Instrument.ask("WFMO:XZE?"))
-
+            print("nrp, xin, xze")
+            print(nrp, xin, xze)
+            print("=============")
             # get all the data:
-            Y_array = self.Instrument.ask("CURVE?")
+            Y_array = self.Instrument.ask("CURVE?", length=60000)
+            print(Y_array)
+            print(len(Y_array), "Ilgis nuskaityto Y_array")
+            print("=============")
             Y = Y_array.split(",")
+            print(Y)
+            print(len(Y), "Ilgis konvertuoto Y")
             # (double('wave')-yof).*ymu+yze
             dataCH2 = [(float(x) - yof) * ymu + yze for x in Y]
+            print(dataCH2)
+            print(len(dataCH2), "Ilgis konvertuoto dataCH2")
             # time array: scaled_time = linspace(xze,xze+(xin*nrp),nrp);
             time_array = np.linspace(xze, xze + (xin * nrp), nrp)
             scale = self.get_time_scale()
@@ -210,6 +220,8 @@ class Oscilloscope(QObject):
             # print("length of time", len(time_array))
             return np.asarray(dataCH2), time_array, "S"  # hardcoded time unit for Tektronix
         except Exception as ex:
+            print(ex)
+            traceback.print_exc()
             return 9999, 9999, "S"
             pass
         # return np.asarray(dataCH2), time_array, "S"  # hardcoded time unit for Tektronix
@@ -222,6 +234,11 @@ class Oscilloscope(QObject):
         :return: data, time, time_unit, data will be in volts, time in time units, everything will be in lists
         """
         data, time, t_unit = self.get_data_points_from_channel(CH)
+        print("DEBUG")
+        print(time)
+        print("==========")
+        print("data")
+        print(data)
         return data.tolist(), time.tolist(), t_unit
 
     def run(self):
