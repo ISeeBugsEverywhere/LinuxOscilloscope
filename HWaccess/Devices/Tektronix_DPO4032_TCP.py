@@ -33,15 +33,6 @@ class Oscilloscope(QObject):
         # channel 1 - CH1, channel 2 - CH2
         pass
 
-    def get_init_conf(self):
-        # # try:
-        # myConf = Configuration("Configs/TextronixScope.ini")
-        # lines = myConf.readDefaultInitCommands("TEKTRONIX OSC INIT CONFIG", "InitTektronixOsc")
-        # return lines
-        # # except Exception as ex:
-        # #         print(str(ex))
-        # #         pass
-        pass
 
     def init_device(self, port:str, params):
         self.Instrument = vxi11.Instrument(port)
