@@ -70,6 +70,8 @@ class LOsc(QtWidgets.QMainWindow):
         f_path = self.ui.dir_label.text()
         full_path = os.path.join(f_path, f_name)
         print(full_path)
+        # there goes everything:
+        #
         pass
 
     def live_update_changed(self):
@@ -97,6 +99,7 @@ class LOsc(QtWidgets.QMainWindow):
     def get_data_fn(self):
         """Gets a data and displays it"""
         console("Gets a data")
+        self._data = {} # clears a dictionary
         if self.ui.live_update_box.isChecked():
             console("Threading ...")
             if self._worker is not None and self._worker.ID == 1:
@@ -119,6 +122,7 @@ class LOsc(QtWidgets.QMainWindow):
                     if self._channels[index] is not None:
                         channel = self._channels[index]
                         y_array, x_array, t_Unit = self.OSCILLOSCOPE.get_xy(channel)
+                        self._data[channel]=[x_array, y_array, t_Unit]
                         self.update_graph(self.ui.oscillographPlot, x_array, y_array, str(index), t_Unit, color=self._colors[index-1])
             pass
 
