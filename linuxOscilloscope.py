@@ -72,14 +72,11 @@ class LOsc(QtWidgets.QMainWindow):
         pass
 
     def live_update_changed(self):
-        if self.ui.live_update_box.isChecked():
-            console("Nothing to do")
-            pass
-        else:
+        if not self.ui.live_update_box.isChecked():
             if self._worker is not None and self._worker.ID == 1:
                 self._worker.stop(True)
                 self._worker = None
-                console("Thread stopped.")
+                # console("Thread stopped.")
                 self._thread.exit(-27) # how about this? wrong again, leave it as is for a while
                 # self._thread.terminate() # wrong approach here, need to fix it
         pass
