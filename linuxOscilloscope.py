@@ -99,7 +99,7 @@ class LOsc(QtWidgets.QMainWindow):
         console("Gets a data")
         if self.ui.live_update_box.isChecked():
             console("Threading ...")
-            if self._worker is not None:
+            if self._worker is not None and self._worker.ID == 1:
                 console("worker is not none")
             if self._worker is None:
                 console("worker was NONE")
