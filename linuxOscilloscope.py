@@ -52,6 +52,23 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.get_data_btn.clicked.connect(self.get_data_fn)
         self.ui.take_screenshot_btn.clicked.connect(self.screenshot_fn)
         self.ui.live_update_box.stateChanged.connect(self.live_update_changed)
+        self.ui.dir_btn.clicked.connect(self.select_dir)
+        self.ui.save_btn.clicked.connect(self.save_oscillogramme)
+        pass
+
+    def select_dir(self):
+        dlg = str(QtWidgets.QFileDialog.getExistingDirectory(self, "Choose a directory", directory=os.getcwd()))
+        if dlg is not None and dlg:
+            self.ui.dir_label.setText(dlg)
+            pass
+
+    def save_oscillogramme(self):
+        f_name= self.ui.file_name_entry.text()
+        if 'csv' not in f_name:
+            f_name = f_name+'.csv'
+        f_path = self.ui.dir_label.text()
+        full_path = os.path.join(f_path, f_name)
+        print(full_path)
         pass
 
     def live_update_changed(self):
@@ -322,7 +339,3 @@ class LOsc(QtWidgets.QMainWindow):
             # console(i.name(), " ", y_name)
             if i is not None:
                 graph.removeItem(i)
-
-
-    def update_graph_from_thread(self, x, y, ):
-        pass
