@@ -93,8 +93,6 @@ class Oscilloscope(QObject):
         return "NORM"
         pass
 
-    def get_data_from_channel(self, channel, length=9000):
-        pass
 
     def get_channel_scale(self, CH: str):
         '''
@@ -107,9 +105,6 @@ class Oscilloscope(QObject):
         return scale
         pass
 
-    def get_channel_CHAN2_scale(self):
-        pass
-
     def get_time_scale(self):
         # HORIZONTAL: SCALE?
         h_scale = float(self.Instrument.ask("HORIZONTAL:SCALE?"))
@@ -117,11 +112,6 @@ class Oscilloscope(QObject):
         return h_scale
         pass
 
-    def get_time_offset(self):
-        pass
-
-    def get_time_array(self, dataCHANNEL):
-        pass
 
     def get_channel_offset(self, CHANNEL):
         '''
@@ -209,7 +199,7 @@ class Oscilloscope(QObject):
             time_array = np.linspace(xze, xze + (xin * nrp), nrp)
             scale = self.get_time_scale()
             print("Scale : ", scale)
-            value, time_unit = getNumberSIprefix(scale)
+            # value, time_unit = getNumberSIprefix(scale)
             # print("time value and time unit:", value, time_unit)
             # time_unit = "OMS!"
             # print("length of Y", len(Y))
@@ -253,23 +243,6 @@ class Oscilloscope(QObject):
         self.Instrument.write(cmd)
         pass
 
-    def set_closest_voltage_scale(self, chan, scale):
-        scale_str = "1"
-        if 10 > scale >= 2:
-            scale_str = str("{0:.1f}".format(scale))
-            print(chan + " signalo skalė: " + str(scale_str))
-        elif 1 > scale >= 0.1:
-            scale_str = str("{0:.2f}".format(scale))
-            print(chan + "signalo skalė: " + str(scale_str))
-        elif 0.1 > scale >= 0.02:
-            scale_str = str("{0:.3f}".format(scale))
-            print(chan + "signalo skalė: " + str(scale_str))
-        elif 0.02 > scale >= 0.002:
-            scale_str = str("{0:.4f}".format(scale))
-            print(chan + "signalo skalė: " + str(scale_str))
-
-        self.set_y_scale(chan, scale_str)
-        pass
 
     def set_time_scale(self, time_scale: str):
         cmd = "HOR:SCA " + str(time_scale)
@@ -277,49 +250,7 @@ class Oscilloscope(QObject):
         self.Instrument.write(cmd)
         pass
 
-    def set_closest_time_scale(self, time_scale, time_unit):
-        '''
 
-        :param time_scale:
-        :param time_unit:
-        :return:
-        '''
-
-        print("TEKTRONIX OSC||DEBUG: t scale, t unit", time_scale, time_unit)
-
-        array = [400, 200, 100, 40, 20, 10, 4, 2, 1]  # can not be ns?
-        time_value = None
-        time_power = None
-        for i in array:
-            if (math.isclose(time_scale, i, rel_tol=0.45)):
-                time_value = i
-                print("DEBUG: SELCTED TEKTRONIX TIME VALUE ", str(time_value))
-                break
-                pass
-            pass
-        if ("uS" == time_unit) or ("µS" == time_unit):
-            time_power = 10 ** (-6)
-            req_time_scale = time_value * time_power
-            self.set_time_scale(str("{0:.8f}".format(req_time_scale)))
-            pass
-        elif "mS" == time_unit:
-            time_power = 1e-3
-            req_time_scale = time_value * time_power
-            self.set_time_scale(str("{0:.8f}".format(req_time_scale)))
-            pass
-        elif "S" == time_unit:
-            time_power = 1e0
-            req_time_scale = time_value * time_power
-            self.set_time_scale(str("{0:.8f}".format(req_time_scale)))
-            pass
-        else:
-            print("We can not be here - check a code!")
-            pass
-
-        pass
-
-        # self.set_time_scale(time_scale)
-        pass
 
     def set_time_offset(self, time_offset: str, sleep_time=0.5):
         cmd = "HOR:POS " + "90"
