@@ -63,7 +63,7 @@ class LOsc(QtWidgets.QMainWindow):
                 self._worker.stop(True)
                 self._worker = None
                 console("Thread stopped.")
-                self._thread.exit(-27) # how about this?
+                self._thread.exit(-27) # how about this? wrong again, leave it as is for a while
                 # self._thread.terminate() # wrong approach here, need to fix it
         pass
 
@@ -89,7 +89,11 @@ class LOsc(QtWidgets.QMainWindow):
             if self._worker is None:
                 console("worker was NONE")
                 self._thread = QtCore.QThread(self)
-            self._worker = ContinuousUpdate()
+            self._worker = ContinuousUpdate(self.OSCILLOSCOPE)
+            channel = self.get_channels_array()
+            sleep_t = self.ui.sleep_time_box.value()
+            self._worker.init_params(channels=channel, sleep_time=sleep_t)
+            self._worker.xy.connect(self.worker_xy)
             self._worker.moveToThread(self._thread)
             self._thread.started.connect(self._worker.run)
             self._thread.start()
@@ -111,6 +115,19 @@ class LOsc(QtWidgets.QMainWindow):
                 self._active_channels.append(value)
                 pass
         pass
+
+    def worker_xy(self, y, x, x_unit, channel):
+        index = list(self._channels.values()).index(channel)+1
+        self.update_graph(self.ui.oscillographPlot, x, y, str(index), x_unit, color=self._colors[index - 1])
+        pass
+
+    def get_channels_array(self):
+        channel = []
+        for index, btn in self._buttons.items():
+            if btn.isChecked():
+                if self._channels[index] is not None:
+                    channel.append(self._channels[index])
+        return channel
 
     def check_channel_btn(self):
         pass
