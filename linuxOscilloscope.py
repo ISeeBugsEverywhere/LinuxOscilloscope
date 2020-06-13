@@ -11,6 +11,7 @@ from pyqtgraph import mkPen
 import pyqtgraph as pg
 from Scripts.vars import *
 from Scripts.Threads import ContinuousUpdate
+from Scripts.output_formatter import *
 
 GOM = None
 

@@ -185,25 +185,25 @@ class Oscilloscope(QObject):
             nrp = float(self.Instrument.ask("WFMO:NR_P?"))
             xin = float(self.Instrument.ask("WFMO:XIN?"))
             xze = float(self.Instrument.ask("WFMO:XZE?"))
-            print("nrp, xin, xze")
-            print(nrp, xin, xze)
-            print("=============")
+            # print("nrp, xin, xze")
+            # print(nrp, xin, xze)
+            # print("=============")
             # get all the data:
             Y_array = self.Instrument.ask("CURVE?", length=60000)
-            print(Y_array)
-            print(len(Y_array), "Ilgis nuskaityto Y_array")
-            print("=============")
+            # print(Y_array)
+            # print(len(Y_array), "Ilgis nuskaityto Y_array")
+            # print("=============")
             Y = Y_array.split(",")
-            print(Y)
-            print(len(Y), "Ilgis konvertuoto Y")
+            # print(Y)
+            # print(len(Y), "Ilgis konvertuoto Y")
             # (double('wave')-yof).*ymu+yze
             dataCH2 = [(float(x) - yof) * ymu + yze for x in Y]
-            print(dataCH2)
-            print(len(dataCH2), "Ilgis konvertuoto dataCH2")
+            # print(dataCH2)
+            # print(len(dataCH2), "Ilgis konvertuoto dataCH2")
             # time array: scaled_time = linspace(xze,xze+(xin*nrp),nrp);
             time_array = np.linspace(xze, xze + (xin * nrp), nrp)
             scale = self.get_time_scale()
-            print("Scale : ", scale)
+            # print("Scale : ", scale)
             # value, time_unit = getNumberSIprefix(scale)
             # print("time value and time unit:", value, time_unit)
             # time_unit = "OMS!"
@@ -213,7 +213,7 @@ class Oscilloscope(QObject):
         except Exception as ex:
             print(ex)
             traceback.print_exc()
-            return 9999, 9999, "S"
+            return -9999, 9999, "S"
             pass
         # return np.asarray(dataCH2), time_array, "S"  # hardcoded time unit for Tektronix
         pass
@@ -225,11 +225,11 @@ class Oscilloscope(QObject):
         :return: data, time, time_unit, data will be in volts, time in time units, everything will be in lists
         """
         data, time, t_unit = self.get_data_points_from_channel(CH)
-        print("DEBUG")
-        print(time)
-        print("==========")
-        print("data")
-        print(data)
+        # print("DEBUG")
+        # print(time)
+        # print("==========")
+        # print("data")
+        # print(data)
         return data.tolist(), time.tolist(), t_unit
 
     def run(self):
