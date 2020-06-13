@@ -5,6 +5,7 @@ class ContinuousUpdate(QObject):
     def __init__(self):
         super(ContinuousUpdate, self).__init__()
         self.require_stop=False
+        self.ID = 1
         pass
 
     @pyqtSlot()

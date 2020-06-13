@@ -59,7 +59,7 @@ class LOsc(QtWidgets.QMainWindow):
             console("Nothing to do")
             pass
         else:
-            if self._worker is not None:
+            if self._worker is not None and self._worker.ID == 1:
                 self._worker.stop(True)
                 self._worker = None
                 console("Thread stopped.")
