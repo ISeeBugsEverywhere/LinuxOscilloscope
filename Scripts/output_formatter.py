@@ -35,4 +35,25 @@ def get_oo_dict(_dict:dict):
     pass
 
 def get_oo_jj(_array:list):
-    pass
+    """
+    TODO: not finished
+    :param _array:
+    :return:
+    """
+    _l = len(_array) # how many arrays inside?
+    _l_array = []
+    _oo = []
+    for i in range(0, _l):
+        _l_array.append(len(i))
+    mx = max(_l_array)
+    for i in range(0, mx):
+        _string = ""
+        for m in range(0, _l):
+            _string = _string + str((_array[m][i]))
+        _oo.append(_string)
+    return _oo
+
+def get_o_d(_d:dict):
+    _a = get_oo_dict(_d)
+    _o = get_oo_jj(_a)
+    return _o

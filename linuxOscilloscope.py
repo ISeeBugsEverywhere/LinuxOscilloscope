@@ -71,7 +71,10 @@ class LOsc(QtWidgets.QMainWindow):
         full_path = os.path.join(f_path, f_name)
         print(full_path)
         # there goes everything:
-        #
+        _o = get_o_d(self._data)
+        _lo = len(_o)
+        for i in _o:
+            self.append_html_paragraph(str(i), 0, False)
         pass
 
     def live_update_changed(self):
