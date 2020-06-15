@@ -22,7 +22,7 @@ class Oscilloscope(QObject):
         '''
         super(Oscilloscope, self).__init__()
         self.Instrument = None
-        self.t_name="Tektronix class name for class loading"
+        self.t_name="DPO 4032 (USB)"
         # self.Instrument.timeout = 1
         self.CH1 = "CH1"
         self.CH2 = "CH2"

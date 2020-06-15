@@ -55,7 +55,13 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.live_update_box.stateChanged.connect(self.live_update_changed)
         self.ui.dir_btn.clicked.connect(self.select_dir)
         self.ui.save_btn.clicked.connect(self.save_oscillogramme)
+        self.ui.clear_btn.clicked.connect(self.clear_output)
         pass
+
+    def clear_output(self):
+        self.ui.infoText.clear()
+        pass
+
 
     def select_dir(self):
         dlg = str(QtWidgets.QFileDialog.getExistingDirectory(self, "Choose a directory", directory=os.getcwd()))
@@ -63,18 +69,26 @@ class LOsc(QtWidgets.QMainWindow):
             self.ui.dir_label.setText(dlg)
             pass
 
+    def fill_info_with_data(self):
+        self.clear_output()
+        # there goes everything:
+        _o = get_o_d(self._data)
+        _lo = len(_o)
+        for i in _o:
+            self.append_html_paragraph(str(i), 0, False)
+        pass
+
     def save_oscillogramme(self):
         f_name= self.ui.file_name_entry.text()
         if 'csv' not in f_name:
             f_name = f_name+'.csv'
         f_path = self.ui.dir_label.text()
         full_path = os.path.join(f_path, f_name)
-        print(full_path)
-        # there goes everything:
-        _o = get_o_d(self._data)
-        _lo = len(_o)
-        for i in _o:
-            self.append_html_paragraph(str(i), 0, False)
+        all_data = self.ui.infoText.toPlainText() # gets all data into one string
+        # writer it into a file:
+        with open(full_path, 'w') as wrt:
+            wrt.write(all_data)
+            pass
         pass
 
     def live_update_changed(self):
@@ -108,13 +122,14 @@ class LOsc(QtWidgets.QMainWindow):
             if self._worker is not None and self._worker.ID == 1:
                 console("worker is not none")
             if self._worker is None:
-                console("worker was NONE")
+                # console("worker was NONE")
                 self._thread = QtCore.QThread(self)
             self._worker = ContinuousUpdate(self.OSCILLOSCOPE)
             channel = self.get_channels_array()
             sleep_t = self.ui.sleep_time_box.value()
             self._worker.init_params(channels=channel, sleep_time=sleep_t)
             self._worker.xy.connect(self.worker_xy)
+            self._worker.progress.connect(self.worker_p)
             self._worker.moveToThread(self._thread)
             self._thread.started.connect(self._worker.run)
             self._thread.start()
@@ -127,12 +142,20 @@ class LOsc(QtWidgets.QMainWindow):
                         y_array, x_array, t_Unit = self.OSCILLOSCOPE.get_xy(channel)
                         self._data[channel]=[x_array, y_array, t_Unit]
                         self.update_graph(self.ui.oscillographPlot, x_array, y_array, str(index), t_Unit, color=self._colors[index-1])
+            self.fill_info_with_data()
             pass
 
     def worker_xy(self, y, x, x_unit, channel):
         index = list(self._channels.values()).index(channel)+1
         self.update_graph(self.ui.oscillographPlot, x, y, str(index), x_unit, color=self._colors[index - 1])
+        self._data[channel] = [x, y, x_unit]
+        self.fill_info_with_data()
         pass
+
+    def worker_p(self, p):
+        if p:
+            self._data = {}
+            pass
 
     def get_channels_array(self):
         channel = []
@@ -243,7 +266,7 @@ class LOsc(QtWidgets.QMainWindow):
         try:
             port, status, params = self.get_port_parameters()
             self.OSCILLOSCOPE = GOM.Oscilloscope()
-            print(self.OSCILLOSCOPE.t_name)
+            # print(self.OSCILLOSCOPE.t_name)
             if status == 0:
                 self.OSCILLOSCOPE.init_device(port, params)
             elif status == 1:
@@ -252,6 +275,7 @@ class LOsc(QtWidgets.QMainWindow):
                 self.OSCILLOSCOPE.init_device(port, params)
             idn = self.OSCILLOSCOPE.get_name()
             self._idnLabel(idn)
+            self.setWindowTitle(self.OSCILLOSCOPE.t_name+" : Oscilloscope")
             # continue with channel mapping:
             channels = self.OSCILLOSCOPE.CH_ARR
             count = self.OSCILLOSCOPE.CH_SIZE

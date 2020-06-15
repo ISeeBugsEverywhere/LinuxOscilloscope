@@ -3,6 +3,7 @@ import time, os, sys
 
 class ContinuousUpdate(QObject):
     xy = pyqtSignal(list, list, str, str) # y, x, t_unit, channel number/name
+    progress = pyqtSignal(bool)
     def __init__(self, oscilloscope):
         super(ContinuousUpdate, self).__init__()
         self.require_stop=False
@@ -24,6 +25,7 @@ class ContinuousUpdate(QObject):
             for i in self.channels:
                 y, x, x_unit = self.OSCILLOSCOPE.get_xy(i)
                 self.xy.emit(y, x, x_unit, i)
+            self.progress.emit(True)
             time.sleep(self.sleep_time)
         print("Exiting the current thread")
         # sys.exit(0)
