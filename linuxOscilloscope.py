@@ -107,6 +107,7 @@ class LOsc(QtWidgets.QMainWindow):
                 # console("Thread stopped.")
                 self._thread.exit(-27) # how about this? wrong again, leave it as is for a while
                 # self._thread.terminate() # wrong approach here, need to fix it
+                self.ui.get_data_btn.setText(START)
         pass
 
     def screenshot_fn(self):
