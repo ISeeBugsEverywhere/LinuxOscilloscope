@@ -40,6 +40,7 @@ class Oscilloscope:
         pass
 
     def close(self):
+        self.unlock_key()
         self.device.close()
 
     def stop(self):

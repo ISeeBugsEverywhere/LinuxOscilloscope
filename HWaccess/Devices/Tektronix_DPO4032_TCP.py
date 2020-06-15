@@ -64,6 +64,7 @@ class Oscilloscope(QObject):
         self.Instrument.write("*RST")
 
     def close(self):
+        self.unlock_key()
         self.Instrument.close()
 
     def stop(self):

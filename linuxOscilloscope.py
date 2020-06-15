@@ -2,7 +2,7 @@ import os, sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from GUI.LinOsc import Ui_oscillWindow
 import numpy as np
-import math
+import math, time
 import  traceback
 from GUI.DevDlg import Dialog
 import importlib.util
@@ -247,7 +247,20 @@ class LOsc(QtWidgets.QMainWindow):
         pass
 
     def quit_fn(self):
-        sys.exit(0)
+        if self._worker is not None and self._worker.ID == 1:
+            self._worker.stop(True)
+            self._worker = None
+            console("Thread stopped.")
+            # self._thread.exit(-27)  # how about this? wrong again, leave it as is for a while
+            self._thread.terminate() # wrong approach here, need to fix it
+        if self.OSCILLOSCOPE is not None:
+            self.OSCILLOSCOPE.close()
+        if self._thread.isRunning():
+            self._thread.terminate()
+        while self._thread.isRunning():
+            time.sleep(0.1)
+        if not self._thread.isRunning():
+            sys.exit(0)
         pass
 
     def get_port_parameters(self):

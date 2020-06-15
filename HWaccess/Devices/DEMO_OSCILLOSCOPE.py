@@ -30,6 +30,9 @@ class Oscilloscope:
     def get_name(self):
         return "DEMO IDN :: 42 (the Answer)"
 
+    def close(self):
+        pass
+
     def get_data_points_from_channel(self, CH):
         time = np.arange(0, 1000)
         var = np.random.randint(50)
