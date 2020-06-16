@@ -277,17 +277,25 @@ class LOsc(QtWidgets.QMainWindow):
 
     def connect_device_fn(self):
         try:
-            #self.collect_update_info()
-            #dialog for the correct device:
-            dlg_stat = False
-            dialog = Dialog()
-            if dialog.exec_():
-                dlg_stat=True
-                dvc = dialog.get_device()
-                global GOM
-                GOM = importlib.import_module(dvc)
-            if dlg_stat:
-                self.trigger_device()
+            if self.ui.connectButton.text() == "Connect":
+                #self.collect_update_info()
+                #dialog for the correct device:
+                dlg_stat = False
+                dialog = Dialog()
+                if dialog.exec_():
+                    dlg_stat=True
+                    dvc = dialog.get_device()
+                    global GOM
+                    GOM = importlib.import_module(dvc)
+                if dlg_stat:
+                    self.trigger_device()
+                    self.ui.connectButton.setText("Disconnect")
+                    pass
+            elif self.ui.connectButton.text() == "Disconnect":
+                self.OSCILLOSCOPE = None
+                self.ui.connectButton.setText("Connect")
+                self._idnLabel("Not connected")
+                self.setWindowTitle("Oscilloscope")
         except Exception as ex:
             traceback.print_exc()
             self.append_html_paragraph(str(ex), -1, True)
