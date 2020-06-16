@@ -377,7 +377,8 @@ class LOsc(QtWidgets.QMainWindow):
                 if i is not None:
                     if i.name() == y_name:
                         graph.removeItem(i)
-            graph.plot(x,y, pen=color, name=y_name)
+            cpen = mkPen(color=color, width=3)
+            graph.plot(x,y, pen=cpen, name=y_name)
             graph.setLabel('bottom', "Time scale", units=str(x_Unit))
             graph.setLabel('left', "CH scale", units=str(y_Unit))
         else:
