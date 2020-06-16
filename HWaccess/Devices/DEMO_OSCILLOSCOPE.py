@@ -35,7 +35,7 @@ class Oscilloscope:
 
     def get_data_points_from_channel(self, CH):
         time = np.arange(0, 1000)
-        var = np.random.randint(50)
+        var = np.random.randint(50)/10.0
         y = []
         if CH == self.CH1:
             a = np.random.randn(1,1000)[0]
