@@ -391,6 +391,7 @@ class LOsc(QtWidgets.QMainWindow):
             graph.setLabel('left', "CH scale", units=str(y_Unit))
         else:
             console("Inequality", y_name, " ; ", sizex, " ; ", sizey)
+            self.append_html_paragraph("Inequality: "+ str(y_name)+ " ; "+ str(sizex)+ " ; "+ str(sizey), -1, True)
 
 
     def clear_plotted_items(self, graph:pg.PlotWidget):
