@@ -125,7 +125,7 @@ class LOsc(QtWidgets.QMainWindow):
     def get_data_fn(self):
 
         """Gets a data and displays it"""
-        console("Gets a data")
+        # console("Gets a data")
         self._data = {}  # clears a dictionary
         if self.ui.get_data_btn.text() == R_THRAED:
             if self._worker is not None and self._worker.ID == 1:
@@ -250,7 +250,7 @@ class LOsc(QtWidgets.QMainWindow):
         if self._worker is not None and self._worker.ID == 1:
             self._worker.stop(True)
             self._worker = None
-            console("Thread stopped.")
+            # console("Thread stopped.")
             # self._thread.exit(-27)  # how about this? wrong again, leave it as is for a while
             self._thread.terminate() # wrong approach here, need to fix it
         if self.OSCILLOSCOPE is not None:
@@ -321,7 +321,7 @@ class LOsc(QtWidgets.QMainWindow):
             for i in range(1, count+1):
                 self._channels[i] = channels[i-1]
                 pass
-            print(self._channels, "CHANNELS")
+            # print(self._channels, "CHANNELS")
         except Exception as ex:
             traceback.print_exc()
             self.append_html_paragraph(str(ex), -1, True)
