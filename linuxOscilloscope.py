@@ -60,7 +60,34 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.dir_btn.clicked.connect(self.select_dir)
         self.ui.save_btn.clicked.connect(self.save_oscillogramme)
         self.ui.clear_btn.clicked.connect(self.clear_output)
+        # stylesheets:
+        self.ui.ch1_btn.clicked.connect(self.chfn)
+        self.ui.ch2_btn.clicked.connect(self.chfn)
+        self.ui.ch3_btn.clicked.connect(self.chfn)
+        self.ui.ch4_btn.clicked.connect(self.chfn)
         pass
+
+    def chfn(self):
+        if self.ui.ch1_btn.isChecked():
+            self.ui.ch1_btn.setStyleSheet("background-color: yellow")
+        else:
+            self.ui.ch1_btn.setStyleSheet("background-color: light grey")
+        if self.ui.ch2_btn.isChecked():
+            self.ui.ch2_btn.setStyleSheet("background-color: blue")
+        else:
+            self.ui.ch2_btn.setStyleSheet("background-color: light grey")
+        if self.ui.ch3_btn.isChecked():
+            self.ui.ch3_btn.setStyleSheet("background-color: green")
+        else:
+            self.ui.ch3_btn.setStyleSheet("background-color: light grey")
+        if self.ui.ch4_btn.isChecked():
+            self.ui.ch4_btn.setStyleSheet("background-color: darkred")
+        else:
+            self.ui.ch4_btn.setStyleSheet("background-color: light grey")
+
+
+
+
 
     def clear_output(self):
         self.ui.infoText.clear()
