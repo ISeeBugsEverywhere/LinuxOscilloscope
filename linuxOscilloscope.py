@@ -12,6 +12,7 @@ import pyqtgraph as pg
 from Scripts.vars import *
 from Scripts.Threads import ContinuousUpdate
 from Scripts.output_formatter import *
+from Scripts.configparser import *
 
 GOM = None
 
@@ -84,8 +85,8 @@ class LOsc(QtWidgets.QMainWindow):
             self.ui.ch4_btn.setStyleSheet("background-color: darkred")
         else:
             self.ui.ch4_btn.setStyleSheet("background-color: light grey")
-
-
+            pass
+        pass
 
 
 
@@ -98,6 +99,7 @@ class LOsc(QtWidgets.QMainWindow):
         dlg = str(QtWidgets.QFileDialog.getExistingDirectory(self, "Choose a directory", directory=os.getcwd()))
         if dlg is not None and dlg:
             self.ui.dir_label.setText(dlg)
+            save_last_path(dlg)
             pass
 
     def fill_info_with_data(self):
@@ -147,6 +149,7 @@ class LOsc(QtWidgets.QMainWindow):
     def _gui_(self):
         self.setWindowIcon(QtGui.QIcon('GUI/usb.png'))
         sys.path.append(os.getcwd() + "/HWaccess/Devices/") # stupid location for this entry
+        self.ui.dir_label.setText(get_last_path())
         pass
 
     def get_data_fn(self):
