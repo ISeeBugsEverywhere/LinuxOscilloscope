@@ -38,7 +38,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        Dialog.setWindowTitle(_translate("Dialog", "Select a device to wotk with:"))
         self.label.setText(_translate("Dialog", "Select a device to work with:"))
         self.cancelButton.setText(_translate("Dialog", "Cancel"))
         self.connectButton.setText(_translate("Dialog", "Connect"))

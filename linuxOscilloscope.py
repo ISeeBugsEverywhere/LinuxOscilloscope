@@ -292,10 +292,17 @@ class LOsc(QtWidgets.QMainWindow):
                     self.ui.connectButton.setText("Disconnect")
                     pass
             elif self.ui.connectButton.text() == "Disconnect":
+                if self._worker is not None and self._worker.ID == 1:
+                    self._worker.stop(True)
+                    self._worker = None
+                    # console("Thread stopped.")
+                    # self._thread.exit(-27)  # how about this? wrong again, leave it as is for a while
+                    self._thread.terminate()  # wrong approach here, need to fix it
                 self.OSCILLOSCOPE = None
                 self.ui.connectButton.setText("Connect")
                 self._idnLabel("Not connected")
                 self.setWindowTitle("Oscilloscope")
+                self.ui.get_data_btn.setText(START)
         except Exception as ex:
             traceback.print_exc()
             self.append_html_paragraph(str(ex), -1, True)
