@@ -259,7 +259,7 @@ class LOsc(QtWidgets.QMainWindow):
             pass
         try:
             if "windows" in platform.system().lower():
-                devices = USBTMC.get_devices()
+                devices = USBTMC().get_devices()
                 for i in devices:
                     self.ui.usbtmcCombo.addItem(str(devices))
         except Exception as ex:
