@@ -17,9 +17,14 @@ class Dialog(QtWidgets.QDialog):
         :return:
         """
         files = glob.glob("HWaccess/Devices/*.py")
+        dvces = []
         for i in files:
             device = i.split("/")[-1][:-3]
-            self.ui.deviceBox.addItem(device)
+            dvces.append(device)
+            pass
+        dvces.sort() # in-place sorted
+        for a in dvces:
+            self.ui.deviceBox.addItem(a)
         pass
 
     def get_device(self):
