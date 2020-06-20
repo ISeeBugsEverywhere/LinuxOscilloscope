@@ -1,4 +1,6 @@
 import os, sys
+import platform
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from GUI.LinOsc import Ui_oscillWindow
 import numpy as np
@@ -15,6 +17,8 @@ from Scripts.output_formatter import *
 from Scripts.configparser import *
 
 _new_line = os.linesep
+
+from HWaccess.USBTMC_mod import USBTMC
 
 GOM = None
 
@@ -250,6 +254,17 @@ class LOsc(QtWidgets.QMainWindow):
         except Exception as ex:
             self.append_html_paragraph(str(ex), -1, True)
             self.append_html_paragraph('There aren\'t any USBTMC devices or you are running on Windows machine', -1, True)
+            pass
+        try:
+            if "windows" in platform.system().lower():
+                devices = USBTMC.get_devices()
+                for i in devices:
+                    self.ui.usbtmcCombo.addItem(str(devices))
+
+        except Exception as ex:
+            self.append_html_paragraph(str(ex), -1, True)
+            self.append_html_paragraph('Problems with USBTMC (python-usbtmc)', -1,
+                                       True)
             pass
 
     def lxi_state_fn(self):
