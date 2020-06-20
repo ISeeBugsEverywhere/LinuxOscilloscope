@@ -17,8 +17,10 @@ from Scripts.output_formatter import *
 from Scripts.configparser import *
 
 _new_line = os.linesep
-
-from HWaccess.USBTMC_mod import USBTMC
+try:
+    from HWaccess.USBTMC_mod import USBTMC
+except:
+    USBTMC = None
 
 GOM = None
 
@@ -260,7 +262,6 @@ class LOsc(QtWidgets.QMainWindow):
                 devices = USBTMC.get_devices()
                 for i in devices:
                     self.ui.usbtmcCombo.addItem(str(devices))
-
         except Exception as ex:
             self.append_html_paragraph(str(ex), -1, True)
             self.append_html_paragraph('Problems with USBTMC (python-usbtmc)', -1,

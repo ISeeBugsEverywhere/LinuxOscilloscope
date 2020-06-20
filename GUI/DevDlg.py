@@ -1,3 +1,5 @@
+import platform
+
 from PyQt5 import QtWidgets, QtGui
 import sys, os
 from GUI.Device_Dialog import Ui_Dialog
@@ -16,16 +18,28 @@ class Dialog(QtWidgets.QDialog):
         Get all device classes:
         :return:
         """
-        files = glob.glob("HWaccess/Devices/*.py")
-        dvces = []
-        for i in files:
-            device = i.split("/")[-1][:-3]
-            dvces.append(device)
+        if "windows" in platform.system().lower():
+            files = glob.glob("HWaccess\Devices\*.py")
+            dvces = []
+            for i in files:
+                device = i.split("/")[-1][:-3]
+                dvces.append(device)
+                pass
+            dvces.sort() # in-place sorted
+            for a in dvces:
+                self.ui.deviceBox.addItem(a)
             pass
-        dvces.sort() # in-place sorted
-        for a in dvces:
-            self.ui.deviceBox.addItem(a)
-        pass
+        else:
+            files = glob.glob("HWaccess/Devices/*.py")
+            dvces = []
+            for i in files:
+                device = i.split("/")[-1][:-3]
+                dvces.append(device)
+                pass
+            dvces.sort()  # in-place sorted
+            for a in dvces:
+                self.ui.deviceBox.addItem(a)
+            pass
 
     def get_device(self):
         return self.ui.deviceBox.currentText()
