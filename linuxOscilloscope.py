@@ -263,9 +263,9 @@ class LOsc(QtWidgets.QMainWindow):
                 for i in devices:
                     self.ui.usbtmcCombo.addItem(str(devices))
         except Exception as ex:
+            traceback.print_exc()
             self.append_html_paragraph(str(ex), -1, True)
-            self.append_html_paragraph('Problems with USBTMC (python-usbtmc)', -1,
-                                       True)
+            self.append_html_paragraph('Problems with USBTMC (python-usbtmc)', -1, True)
             pass
 
     def lxi_state_fn(self):
