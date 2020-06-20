@@ -22,7 +22,7 @@ class Dialog(QtWidgets.QDialog):
             files = glob.glob("HWaccess\Devices\*.py")
             dvces = []
             for i in files:
-                device = i.split("/")[-1][:-3]
+                device = i.split("\\")[-1][:-3]
                 dvces.append(device)
                 pass
             dvces.sort() # in-place sorted
