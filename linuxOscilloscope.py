@@ -150,6 +150,11 @@ class LOsc(QtWidgets.QMainWindow):
         self.setWindowIcon(QtGui.QIcon('GUI/usb.png'))
         sys.path.append(os.getcwd() + "/HWaccess/Devices/") # stupid location for this entry
         self.ui.dir_label.setText(get_last_path())
+        ips = get_last_ips()
+        console(ips)
+        for i in ips:
+            if str(i) != '':
+                self.ui.lxiCombo.addItem(str(i))
         pass
 
     def get_data_fn(self):
@@ -344,7 +349,18 @@ class LOsc(QtWidgets.QMainWindow):
             self.OSCILLOSCOPE = GOM.Oscilloscope()
             # print(self.OSCILLOSCOPE.t_name)
             if status == 0:
+                txt = self.ui.lxiCombo.currentText()
+                idx = self.ui.lxiCombo.findText(txt)
+                if idx == -1:
+                    self.ui.lxiCombo.addItem(str(txt))
+                # iterate over items, get them and write all of them into config file
+                l = self.ui.lxiCombo.count()
+                ips = ""
+                for i in range(0, l):
+                    ips = ips + self.ui.lxiCombo.itemText(i) + ","
+                set_last_ips(ips)
                 self.OSCILLOSCOPE.init_device(port, params)
+                pass
             elif status == 1:
                 self.OSCILLOSCOPE.init_device(port, params)
             elif status == 2:
