@@ -25,11 +25,12 @@ START = "Get data from selected channel(s)"
 class LOsc(QtWidgets.QMainWindow):
     def __init__(self):
         super(LOsc, self).__init__()
+        self._new_line = _new_line
         self.ui = Ui_oscillWindow()
         self.ui.setupUi(self)
         self.setup_gui_fn()
         self._active = None # 0 - lxi, 1 - rs232, 2 - usbtmc, or strings lxi, rs232, usbtmc
-        self._new_line = _new_line
+
         #threads:
         self._worker = None
         self._thread = QtCore.QThread(self)
