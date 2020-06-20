@@ -14,6 +14,8 @@ from Scripts.Threads import ContinuousUpdate
 from Scripts.output_formatter import *
 from Scripts.configparser import *
 
+_new_line = os.linesep
+
 GOM = None
 
 R_THRAED = "Stop continuous data acquisition"
@@ -27,7 +29,7 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         self.setup_gui_fn()
         self._active = None # 0 - lxi, 1 - rs232, 2 - usbtmc, or strings lxi, rs232, usbtmc
-        self._new_line = os.linesep
+        self._new_line = _new_line
         #threads:
         self._worker = None
         self._thread = QtCore.QThread(self)
