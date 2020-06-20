@@ -1,12 +1,12 @@
 import usbtmc
 class USBTMC:
-    def __init__(self):
-        self.device = None
+    def __init__(self, device):
+        self.device = usbtmc.Instrument(device)
         # usbtmc.Instrument(device)
         pass
 
     @staticmethod
-    def get_devices(self):
+    def get_devices():
         """
         returns alist with usbtmc devices
         (Windows only version)
