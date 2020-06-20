@@ -1,7 +1,8 @@
 import usbtmc
 class USBTMC:
-    def __init__(self, device):
-        self.device = usbtmc.Instrument(device)
+    def __init__(self):
+        self.device = None
+        # usbtmc.Instrument(device)
         pass
 
     @staticmethod
@@ -13,6 +14,10 @@ class USBTMC:
         :return:
         """
         return usbtmc.list_devices()
+
+
+    def init(self, device):
+        self.device = usbtmc.Instrument(device)
 
     def write(self, command):
         try:
