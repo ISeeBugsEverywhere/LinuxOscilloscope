@@ -1,7 +1,11 @@
 import os
 import sys
 import numpy as np
-from HWaccess.USBTMC import USBTMC
+import platform
+if "windows" in platform.system().lower():
+    from HWaccess.USBTMC_mod import USBTMC
+elif "linux" in platform.system().lower():
+    from HWaccess.USBTMC import USBTMC
 
 
 

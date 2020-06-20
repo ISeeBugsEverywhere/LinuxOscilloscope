@@ -5,8 +5,11 @@ from PyQt5.QtCore import QObject, pyqtSignal
 import numpy as np
 # from Units.UnitCheck import *
 import traceback
-# from ConfigParser import *
-from HWaccess.USBTMC import USBTMC
+import platform
+if "windows" in platform.system().lower():
+    from HWaccess.USBTMC_mod import USBTMC
+elif "linux" in platform.system().lower():
+    from HWaccess.USBTMC import USBTMC
 
 
 class Oscilloscope(QObject):
