@@ -47,6 +47,7 @@ class LOsc(QtWidgets.QMainWindow):
         self._buttons = {1:self.ui.ch1_btn, 2:self.ui.ch2_btn, 3:self.ui.ch3_btn, 4:self.ui.ch4_btn}
         self._colors = [(255,255,0), (0,0,255), (0,128,0),(139,0,0)]
         self._data = {}
+        self._loaded_cmds = []
         pass
 
     def _signals_(self):
@@ -75,7 +76,19 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.ch2_btn.clicked.connect(self.chfn)
         self.ui.ch3_btn.clicked.connect(self.chfn)
         self.ui.ch4_btn.clicked.connect(self.chfn)
+        # signals in the parameters tab:
+        self.ui.idnButton.clicked.connect(self.get_idn)
+        self.ui.rstButton.clicked.connect()
+        self.ui.unlockButton.clicked.connect()
+        self.ui.executeButton.clicked.connect()
+        self.ui.executeAllButton.clicked.connect()
+        self.ui.cmdsButton.clicked.connect()
+        self.ui.clearButton.clicked.connect()
         pass
+
+    def get_idn(self):
+        name = self.OSCILLOSCOPE.get_name()
+        self.ui.outputBox.appendPlainText(name+self._new_line)
 
     def chfn(self):
         if self.ui.ch1_btn.isChecked():
