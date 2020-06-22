@@ -335,3 +335,7 @@ class Oscilloscope(QObject):
     def get_channel_input_terminator(self, CH):
         terminator = self.Instrument.ask(CH + ":TER?")
         return terminator
+
+
+    def ask(self, cmd:str):
+        return self.Instrument.ask(cmd)

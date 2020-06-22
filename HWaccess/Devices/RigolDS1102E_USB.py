@@ -206,3 +206,6 @@ class Oscilloscope:
         """
         data, time, t_unit = self.get_data_points_from_channel(CH)
         return data.tolist(), time.tolist(), t_unit
+
+    def ask(self, cmd:str):
+        return self.device.ask(cmd)
