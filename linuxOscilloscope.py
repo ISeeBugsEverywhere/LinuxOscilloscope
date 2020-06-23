@@ -122,7 +122,7 @@ class LOsc(QtWidgets.QMainWindow):
                 lines = d.readlines()
                 for i in lines:
                     self._loaded_cmds.append(i)
-                self.ui.statusbar.showMessage('Loaded '+str(len(self._loaded_cmds))+'commands')
+                self.ui.statusbar.showMessage('Loaded '+str(len(self._loaded_cmds))+' commands')
             pass
         pass
 
