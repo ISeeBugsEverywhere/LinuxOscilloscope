@@ -100,7 +100,9 @@ class LOsc(QtWidgets.QMainWindow):
             self.ui.outputBox.appendPlainText(str(ret))
         else:
             self.OSCILLOSCOPE.write(cmd)
-        pass
+        idx = self.ui.cmdsBox.findText(cmd)
+        if idx == -1:
+            self.ui.cmdsBox.addItem(cmd)
 
     def execute_all_fn(self):
         for i in self._loaded_cmds:
@@ -109,6 +111,8 @@ class LOsc(QtWidgets.QMainWindow):
                 self.ui.outputBox.appendPlainText(str(ret))
             else:
                 self.OSCILLOSCOPE.write(i)
+                pass
+            time.sleep(self.ui.sleep_time_box.value())
         pass
 
     def clear_fn(self):
