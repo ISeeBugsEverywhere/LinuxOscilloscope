@@ -29,7 +29,7 @@ class USBTMC:
     def close(self):
         os.close(self.FILE)
 
-    def ask(self, cmd, sleep=0, length=4000):
+    def ask(self, cmd, sleep=1, length=4000):
         """
         Imitates vxi11 ask command, therefore returns a string
         :param cmd:
@@ -42,4 +42,17 @@ class USBTMC:
 
     def read_ask(self, length=4000):
         return os.read(self.FILE, length).splitlines()[0]
+
+    def ask_(self, cmd, delay=1, length=4000):
+        string = None
+        try:
+            self.write(cmd)
+            time.sleep(delay)
+            ret = self.read(length)
+            string = str(ret, encoding='utf-8', errors='ignore')
+        except Exception as ex:
+            string = 'USBTMC failed!'
+            print('USBTMC failed:')
+            print(str(ex))
+        return string
 
