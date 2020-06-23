@@ -62,3 +62,6 @@ class Oscilloscope:
 
     def ask(self, cmd:str):
         return "demo ask: "+cmd
+
+    def write(self, cmd:str):
+        pass

@@ -78,13 +78,57 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.ch4_btn.clicked.connect(self.chfn)
         # signals in the parameters tab:
         self.ui.idnButton.clicked.connect(self.get_idn)
-        self.ui.rstButton.clicked.connect()
-        self.ui.unlockButton.clicked.connect()
-        self.ui.executeButton.clicked.connect()
-        self.ui.executeAllButton.clicked.connect()
-        self.ui.cmdsButton.clicked.connect()
-        self.ui.clearButton.clicked.connect()
+        self.ui.rstButton.clicked.connect(self.rst_fn)
+        self.ui.unlockButton.clicked.connect(self.unlock_fn)
+        self.ui.executeButton.clicked.connect(self.execute_fn)
+        self.ui.executeAllButton.clicked.connect(self.execute_all_fn)
+        self.ui.cmdsButton.clicked.connect(self.get_cmds_fn)
+        self.ui.clearButton.clicked.connect(self.clear_fn)
         pass
+
+    def rst_fn(self):
+        self.OSCILLOSCOPE.reset()
+        pass
+
+    def unlock_fn(self):
+        self.OSCILLOSCOPE.unlock_key()
+
+    def execute_fn(self):
+        cmd = self.ui.cmdsBox.currentText()
+        if '?' in cmd:
+            ret = self.OSCILLOSCOPE.ask(cmd)
+            self.ui.outputBox.appendPlainText(str(ret))
+        else:
+            self.OSCILLOSCOPE.write(cmd)
+        pass
+
+    def execute_all_fn(self):
+        for i in self._loaded_cmds:
+            if '?' in i:
+                ret = self.OSCILLOSCOPE.ask(i)
+                self.ui.outputBox.appendPlainText(str(ret))
+            else:
+                self.OSCILLOSCOPE.write(i)
+        pass
+
+    def clear_fn(self):
+        self.ui.outputBox.clear()
+        pass
+
+    def get_cmds_fn(self):
+        dlg, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Select a file containing the commands')
+        if dlg is not None and dlg:
+            with open(dlg, 'r') as d:
+                lines = d.readlines()
+                for i in lines:
+                    self._loaded_cmds.append(i)
+                self.ui.statusbar.showMessage('Loaded '+str(len(self._loaded_cmds))+'commands')
+            pass
+        pass
+
+
+
+
 
     def get_idn(self):
         name = self.OSCILLOSCOPE.get_name()

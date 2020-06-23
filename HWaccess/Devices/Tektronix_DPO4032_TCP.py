@@ -40,7 +40,7 @@ class Oscilloscope(QObject):
 
     def write(self, command):
         """Send an arbitrary command directly to the scope"""
-        self.cmd_emiter.emit(str(command))
+        # self.cmd_emiter.emit(str(command))
         self.Instrument.write(command)
         pass
 

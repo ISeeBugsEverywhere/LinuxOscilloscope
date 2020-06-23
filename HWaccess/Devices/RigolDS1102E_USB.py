@@ -209,3 +209,6 @@ class Oscilloscope:
 
     def ask(self, cmd:str):
         return self.device.ask(cmd)
+
+    def write(self, cmd:str):
+        self.device.write(cmd)
