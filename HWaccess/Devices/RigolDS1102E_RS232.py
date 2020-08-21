@@ -35,7 +35,7 @@ class Oscilloscope:
             print('read idn:')
             a_ = self.device.read(300)
             print(a_, ' a_')
-            return  str(a_.decode())
+            return  str(a_[0].decode())
         else:
             return a
         pass

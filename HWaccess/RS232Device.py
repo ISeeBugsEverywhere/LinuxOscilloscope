@@ -17,6 +17,9 @@ class RS232Device():
         self.serial.timeout = 2
         self._endline = endline
         self.serial.open()
+        if self.serial.isOpen():
+            print('OPENED')
+            self.serial.write(str.encode("*RST"))
         pass
 
     def read(self, size:1000):
