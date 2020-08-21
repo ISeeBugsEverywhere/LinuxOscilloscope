@@ -385,7 +385,11 @@ class LOsc(QtWidgets.QMainWindow):
             return port, 0, params
         elif self.ui.rs232Radio.isChecked():
             port = self.ui.rs232Combo.currentText()
-            return port, 1, params
+            pre = ''
+            if 'linux' in platform.system().lower():
+                pre='/dev/'
+                print('linux')
+            return pre+port, 1, params
         elif self.ui.usbtmcRadio.isChecked():
             port = self.ui.usbtmcCombo.currentText()
             return port, 2, params
@@ -443,6 +447,8 @@ class LOsc(QtWidgets.QMainWindow):
                 pass
             elif status == 1:
                 self.OSCILLOSCOPE.init_device(port, params)
+
+                pass
             elif status == 2:
                 self.OSCILLOSCOPE.init_device(port, params)
             idn = self.OSCILLOSCOPE.get_name()
