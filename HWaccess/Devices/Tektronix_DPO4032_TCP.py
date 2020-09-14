@@ -316,3 +316,6 @@ class Oscilloscope(QObject):
 
     def ask(self, cmd:str):
         return self.Instrument.ask(cmd)
+
+    def screenshot(self):
+        pass

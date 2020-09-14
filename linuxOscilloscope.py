@@ -213,7 +213,9 @@ class LOsc(QtWidgets.QMainWindow):
         """
         takes a screenshot, but some oscilloscopes are missing this feature
         :return:
+
         """
+        self.OSCILLOSCOPE.schreenshot()
         pass
 
     def _gui_(self):
