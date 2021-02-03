@@ -141,20 +141,28 @@ class LOsc(QtWidgets.QMainWindow):
     def chfn(self):
         if self.ui.ch1_btn.isChecked():
             self.ui.ch1_btn.setStyleSheet("background-color: yellow")
+            self.ui.ch1_comment.setEnabled(True)
         else:
             self.ui.ch1_btn.setStyleSheet("background-color: light grey")
+            self.ui.ch1_comment.setEnabled(False)
         if self.ui.ch2_btn.isChecked():
             self.ui.ch2_btn.setStyleSheet("background-color: blue")
+            self.ui.ch2_comment.setEnabled(True)
         else:
             self.ui.ch2_btn.setStyleSheet("background-color: light grey")
+            self.ui.ch2_comment.setEnabled(False)
         if self.ui.ch3_btn.isChecked():
             self.ui.ch3_btn.setStyleSheet("background-color: green")
+            self.ui.ch3_comment.setEnabled(True)
         else:
             self.ui.ch3_btn.setStyleSheet("background-color: light grey")
+            self.ui.ch3_comment.setEnabled(False)
         if self.ui.ch4_btn.isChecked():
             self.ui.ch4_btn.setStyleSheet("background-color: darkred")
+            self.ui.ch4_comment.setEnabled(True)
         else:
             self.ui.ch4_btn.setStyleSheet("background-color: light grey")
+            self.ui.ch4_comment.setEnabled(False)
             pass
         pass
 
@@ -183,14 +191,29 @@ class LOsc(QtWidgets.QMainWindow):
 
     def save_oscillogramme(self):
         f_name= self.ui.file_name_entry.text()
-        if 'csv' not in f_name:
-            f_name = f_name+'.csv'
+        if 'dat' not in f_name:
+            f_name = f_name+'.dat'
         f_path = self.ui.dir_label.text()
         full_path = os.path.join(f_path, f_name)
         all_data = self.ui.infoText.toPlainText() # gets all data into one string
+        all_data = all_data.replace(",", ";")
+        w_data = ""
+        if self.ui.ch1_comment.isEnabled():
+            txt = self.ui.ch1_comment.text()
+            all_data = all_data.replace("%COM"+str(self.OSCILLOSCOPE.CH1)+"%", txt)
+        if self.ui.ch2_comment.isEnabled():
+            txt = self.ui.ch2_comment.text()
+            all_data = all_data.replace("%COM"+str(self.OSCILLOSCOPE.CH2)+"%", txt)
+        if self.ui.ch3_comment.isEnabled():
+            txt = self.ui.ch3_comment.text()
+            all_data = all_data.replace("%COM"+str(self.OSCILLOSCOPE.CH3)+"%", txt)
+        if self.ui.ch4_comment.isEnabled():
+            txt = self.ui.ch4_comment.text()
+            all_data = all_data.replace("%COM"+str(self.OSCILLOSCOPE.CH4)+"%", txt)
+        w_data = all_data.replace("%TIME%", "S?")
         # writer it into a file:
         with open(full_path, 'w') as wrt:
-            wrt.write(all_data)
+            wrt.write(w_data)
             pass
         pass
 

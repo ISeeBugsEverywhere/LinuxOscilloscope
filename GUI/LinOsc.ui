@@ -265,13 +265,6 @@
              <string>Save Box</string>
             </property>
             <layout class="QGridLayout" name="gridLayout_4">
-             <item row="0" column="0" colspan="3">
-              <widget class="QLineEdit" name="file_name_entry">
-               <property name="placeholderText">
-                <string>File name?</string>
-               </property>
-              </widget>
-             </item>
              <item row="1" column="0">
               <widget class="QPushButton" name="save_btn">
                <property name="text">
@@ -292,10 +285,17 @@
                </property>
               </spacer>
              </item>
-             <item row="1" column="2">
-              <widget class="QPushButton" name="dir_btn">
+             <item row="0" column="0" colspan="3">
+              <widget class="QLineEdit" name="file_name_entry">
+               <property name="placeholderText">
+                <string>File name?</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_2">
                <property name="text">
-                <string>Directory?</string>
+                <string>CH1 comment</string>
                </property>
               </widget>
              </item>
@@ -303,6 +303,62 @@
               <widget class="QLabel" name="dir_label">
                <property name="text">
                 <string>Directory?</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>CH2 comment</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="2">
+              <widget class="QPushButton" name="dir_btn">
+               <property name="text">
+                <string>Directory?</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <widget class="QLabel" name="label_8">
+               <property name="text">
+                <string>CH3 comment</string>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="0">
+              <widget class="QLabel" name="label_9">
+               <property name="text">
+                <string>CH4 comment</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1" colspan="2">
+              <widget class="QLineEdit" name="ch1_comment">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1" colspan="2">
+              <widget class="QLineEdit" name="ch2_comment">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="1" colspan="2">
+              <widget class="QLineEdit" name="ch3_comment">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="1" colspan="2">
+              <widget class="QLineEdit" name="ch4_comment">
+               <property name="enabled">
+                <bool>false</bool>
                </property>
               </widget>
              </item>
@@ -723,7 +779,7 @@
      <x>0</x>
      <y>0</y>
      <width>1009</width>
-     <height>30</height>
+     <height>28</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
