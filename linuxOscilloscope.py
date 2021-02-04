@@ -256,7 +256,7 @@ class LOsc(QtWidgets.QMainWindow):
         :return:
 
         """
-        self.OSCILLOSCOPE.schreenshot()
+        self.OSCILLOSCOPE.screenshot()
         pass
 
     def _gui_(self):

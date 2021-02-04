@@ -737,7 +737,7 @@
       </widget>
       <widget class="QWidget" name="screeshotTab">
        <attribute name="title">
-        <string>Screenshot</string>
+        <string>Screenshots/Internal memory</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_9">
         <item row="0" column="0">
@@ -789,7 +789,7 @@
      <x>0</x>
      <y>0</y>
      <width>1009</width>
-     <height>28</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
