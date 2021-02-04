@@ -265,6 +265,7 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.dir_label.setText(get_last_path())
         ips = get_last_ips()
         console(ips)
+        self.ui.oscillographPlot.plotItem.showGrid(True, True, 1.0)
         for i in ips:
             if str(i) != '':
                 self.ui.lxiCombo.addItem(str(i))
