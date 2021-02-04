@@ -130,7 +130,13 @@ class LOsc(QtWidgets.QMainWindow):
             pass
         pass
 
-
+    def _check_btns(self):
+        counter = 0
+        for key, value in self._buttons.items():
+            if value.isChecked():
+                counter = counter + 1
+        if counter == 0:
+            self.ui.get_data_btn.setEnabled(False)
 
 
 
@@ -176,7 +182,7 @@ class LOsc(QtWidgets.QMainWindow):
             self.ui.ch4_comment.setEnabled(False)
             self.ui.ch4_comment.clear()
             pass
-        pass
+        self._check_btns()
 
 
 
