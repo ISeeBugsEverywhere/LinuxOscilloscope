@@ -142,6 +142,8 @@ class LOsc(QtWidgets.QMainWindow):
         if self.ui.ch1_btn.isChecked():
             self.ui.ch1_btn.setStyleSheet("background-color: yellow")
             self.ui.ch1_comment.setEnabled(True)
+            if not self.ui.get_data_btn.isEnabled():
+                self.ui.get_data_btn.setEnabled(True)
         else:
             self.ui.ch1_btn.setStyleSheet("background-color: light grey")
             self.ui.ch1_comment.setEnabled(False)
@@ -149,6 +151,8 @@ class LOsc(QtWidgets.QMainWindow):
         if self.ui.ch2_btn.isChecked():
             self.ui.ch2_btn.setStyleSheet("background-color: blue")
             self.ui.ch2_comment.setEnabled(True)
+            if not self.ui.get_data_btn.isEnabled():
+                self.ui.get_data_btn.setEnabled(True)
         else:
             self.ui.ch2_btn.setStyleSheet("background-color: light grey")
             self.ui.ch2_comment.setEnabled(False)
@@ -156,6 +160,8 @@ class LOsc(QtWidgets.QMainWindow):
         if self.ui.ch3_btn.isChecked():
             self.ui.ch3_btn.setStyleSheet("background-color: green")
             self.ui.ch3_comment.setEnabled(True)
+            if not self.ui.get_data_btn.isEnabled():
+                self.ui.get_data_btn.setEnabled(True)
         else:
             self.ui.ch3_btn.setStyleSheet("background-color: light grey")
             self.ui.ch3_comment.setEnabled(False)
@@ -163,6 +169,8 @@ class LOsc(QtWidgets.QMainWindow):
         if self.ui.ch4_btn.isChecked():
             self.ui.ch4_btn.setStyleSheet("background-color: darkred")
             self.ui.ch4_comment.setEnabled(True)
+            if not self.ui.get_data_btn.isEnabled():
+                self.ui.get_data_btn.setEnabled(True)
         else:
             self.ui.ch4_btn.setStyleSheet("background-color: light grey")
             self.ui.ch4_comment.setEnabled(False)

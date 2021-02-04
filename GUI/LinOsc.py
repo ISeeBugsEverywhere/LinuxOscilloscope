@@ -96,6 +96,7 @@ class Ui_oscillWindow(object):
         spacerItem6 = QtWidgets.QSpacerItem(50, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.gridLayout_5.addItem(spacerItem6, 2, 1, 1, 1)
         self.get_data_btn = QtWidgets.QPushButton(self.groupBox_2)
+        self.get_data_btn.setEnabled(False)
         self.get_data_btn.setObjectName("get_data_btn")
         self.gridLayout_5.addWidget(self.get_data_btn, 0, 0, 1, 2)
         self.live_update_box = QtWidgets.QCheckBox(self.groupBox_2)
