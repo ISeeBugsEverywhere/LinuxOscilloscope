@@ -221,3 +221,6 @@ class Oscilloscope:
         """
         self.device.write(":HARDcopy")
         pass
+
+    def save_all(self, fname=None, path=None):
+        pass

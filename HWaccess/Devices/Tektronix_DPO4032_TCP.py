@@ -318,4 +318,8 @@ class Oscilloscope(QObject):
         return self.Instrument.ask(cmd)
 
     def screenshot(self):
+
+        pass
+
+    def save_all(self, fname=None, path=None):
         pass

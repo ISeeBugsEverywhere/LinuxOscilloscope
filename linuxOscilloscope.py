@@ -15,6 +15,7 @@ from Scripts.vars import *
 from Scripts.Threads import ContinuousUpdate
 from Scripts.output_formatter import *
 from Scripts.configparser import *
+from PyQt5.QtWebKit import *
 
 _new_line = os.linesep
 try:
@@ -84,6 +85,14 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.executeAllButton.clicked.connect(self.execute_all_fn)
         self.ui.cmdsButton.clicked.connect(self.get_cmds_fn)
         self.ui.clearButton.clicked.connect(self.clear_fn)
+        self.ui.help_button.clicked.connect(self.show_help)
+        pass
+
+    def show_help(self):
+        file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "HelpFiles/lt.html"))
+        local_url = QtCore.QUrl.fromLocalFile(file_path)
+        self.ui.webView.load(local_url)
+        self.ui.webView.show()
         pass
 
     def rst_fn(self):
@@ -269,7 +278,7 @@ class LOsc(QtWidgets.QMainWindow):
         for i in ips:
             if str(i) != '':
                 self.ui.lxiCombo.addItem(str(i))
-        pass
+        self.show_help()
 
     def get_data_fn(self):
 
