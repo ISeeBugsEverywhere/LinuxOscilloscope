@@ -321,3 +321,8 @@ class Oscilloscope(QObject):
         self.Instrument.write("SAV:IMAG:FILEF PNG")
         self.Instrument.write("SAV:IMAG \""+path+"/"+fname+".png\"")
         pass
+
+    def save_all(self, fname="None", path="E:"):
+        self.Instrument.write("SAV:WAVE:FILEF SPREADS")
+        self.Instrument.write("SAVE:WAVEFORM ALL,\""+path+"/"+fname+".csv\"")
+        pass
