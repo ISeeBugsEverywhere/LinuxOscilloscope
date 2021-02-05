@@ -86,6 +86,13 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.cmdsButton.clicked.connect(self.get_cmds_fn)
         self.ui.clearButton.clicked.connect(self.clear_fn)
         self.ui.help_button.clicked.connect(self.show_help)
+        self.ui.save_all_button.clicked.connect(self.save_all_fn)
+        pass
+
+    def save_all_fn(self):
+        fname = self.ui.name_all_box.text()
+        path = self.ui.memory_box.currentText()
+        self.OSCILLOSCOPE.save_all(fname, path)
         pass
 
     def show_help(self):

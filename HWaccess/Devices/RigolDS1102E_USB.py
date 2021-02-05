@@ -214,7 +214,7 @@ class Oscilloscope:
         self.device.write(cmd)
         pass
 
-    def screenshot(self):
+    def screenshot(self, fname="None", path="E:"):
         """
         writes a screenshot (*.BMP) into U:\ disk
         :return:
@@ -222,5 +222,6 @@ class Oscilloscope:
         self.device.write(":HARDcopy")
         pass
 
-    def save_all(self, fname=None, path=None):
+    def save_all(self, fname="None", path="E:"):
+        self.device.write(":key:storage")
         pass

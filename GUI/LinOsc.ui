@@ -748,7 +748,7 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QPushButton" name="save_screenshot_btn">
+         <widget class="QPushButton" name="save_all_button">
           <property name="text">
            <string>Save (ALL, *.csv)</string>
           </property>
@@ -762,7 +762,28 @@
          </widget>
         </item>
         <item row="0" column="3">
-         <widget class="QComboBox" name="memory_box"/>
+         <widget class="QComboBox" name="memory_box">
+          <item>
+           <property name="text">
+            <string>E:</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>F:</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>G:</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>H:</string>
+           </property>
+          </item>
+         </widget>
         </item>
         <item row="0" column="4">
          <widget class="QPushButton" name="help_button">
@@ -833,7 +854,7 @@
      <x>0</x>
      <y>0</y>
      <width>1009</width>
-     <height>28</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
