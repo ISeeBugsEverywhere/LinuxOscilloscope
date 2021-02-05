@@ -225,8 +225,8 @@ class LOsc(QtWidgets.QMainWindow):
 
     def save_oscillogramme(self):
         f_name= self.ui.file_name_entry.text()
-        if 'dat' not in f_name:
-            f_name = f_name+'.dat'
+        if 'csv' not in f_name:
+            f_name = f_name+'.csv'
         f_path = self.ui.dir_label.text()
         full_path = os.path.join(f_path, f_name)
         all_data = self.ui.infoText.toPlainText() # gets all data into one string
@@ -249,7 +249,7 @@ class LOsc(QtWidgets.QMainWindow):
         with open(full_path, 'w') as wrt:
             wrt.write(w_data)
             pass
-        pass
+        self.ui.saved_state_label.setText("SAVED: "+f_name)
 
     def live_update_changed(self):
         """
@@ -330,6 +330,7 @@ class LOsc(QtWidgets.QMainWindow):
                             self._data[channel]=[x_array, y_array, t_Unit]
                             self.update_graph(self.ui.oscillographPlot, x_array, y_array, str(index), t_Unit, color=self._colors[index-1])
                 self.fill_info_with_data()
+                self.ui.saved_state_label.setText("NOT SAVED.")
                 pass
 
     def worker_xy(self, y, x, x_unit, channel):

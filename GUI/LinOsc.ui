@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1009</width>
-    <height>816</height>
+    <height>837</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -295,6 +295,13 @@
                </property>
               </spacer>
              </item>
+             <item row="5" column="0">
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>CH2 comment</string>
+               </property>
+              </widget>
+             </item>
              <item row="0" column="0" colspan="3">
               <widget class="QLineEdit" name="file_name_entry">
                <property name="placeholderText">
@@ -302,17 +309,24 @@
                </property>
               </widget>
              </item>
-             <item row="3" column="0">
+             <item row="4" column="1" colspan="2">
+              <widget class="QLineEdit" name="ch1_comment">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
               <widget class="QLabel" name="label_2">
                <property name="text">
                 <string>CH1 comment</string>
                </property>
               </widget>
              </item>
-             <item row="4" column="0">
-              <widget class="QLabel" name="label_3">
-               <property name="text">
-                <string>CH2 comment</string>
+             <item row="6" column="1" colspan="2">
+              <widget class="QLineEdit" name="ch3_comment">
+               <property name="enabled">
+                <bool>false</bool>
                </property>
               </widget>
              </item>
@@ -323,45 +337,44 @@
                </property>
               </widget>
              </item>
-             <item row="5" column="0">
-              <widget class="QLabel" name="label_8">
-               <property name="text">
-                <string>CH3 comment</string>
-               </property>
-              </widget>
-             </item>
-             <item row="6" column="0">
+             <item row="7" column="0">
               <widget class="QLabel" name="label_9">
                <property name="text">
                 <string>CH4 comment</string>
                </property>
               </widget>
              </item>
-             <item row="3" column="1" colspan="2">
-              <widget class="QLineEdit" name="ch1_comment">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="1" colspan="2">
+             <item row="5" column="1" colspan="2">
               <widget class="QLineEdit" name="ch2_comment">
                <property name="enabled">
                 <bool>false</bool>
                </property>
               </widget>
              </item>
-             <item row="5" column="1" colspan="2">
-              <widget class="QLineEdit" name="ch3_comment">
+             <item row="7" column="1" colspan="2">
+              <widget class="QLineEdit" name="ch4_comment">
                <property name="enabled">
                 <bool>false</bool>
                </property>
               </widget>
              </item>
-             <item row="6" column="1" colspan="2">
-              <widget class="QLineEdit" name="ch4_comment">
-               <property name="enabled">
-                <bool>false</bool>
+             <item row="6" column="0">
+              <widget class="QLabel" name="label_8">
+               <property name="text">
+                <string>CH3 comment</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0" colspan="3">
+              <widget class="QLabel" name="saved_state_label">
+               <property name="font">
+                <font>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>(UNSAVED)</string>
                </property>
               </widget>
              </item>
