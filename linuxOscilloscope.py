@@ -136,7 +136,8 @@ class LOsc(QtWidgets.QMainWindow):
         pass
 
     def get_cmds_fn(self):
-        dlg, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Select a file containing the commands')
+        dir_ = os.path.join(os.getcwd(), "CmdSets")
+        dlg, _ = QtWidgets.QFileDialog.getOpenFileName(self, caption='Select a file containing the commands', directory=dir_)
         if dlg is not None and dlg:
             with open(dlg, 'r') as d:
                 lines = d.readlines()
