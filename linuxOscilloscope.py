@@ -272,7 +272,9 @@ class LOsc(QtWidgets.QMainWindow):
         :return:
 
         """
-        self.OSCILLOSCOPE.screenshot()
+        fname = self.ui.name_all_box.text()
+        path = self.ui.memory_box.currentText()
+        self.OSCILLOSCOPE.screenshot(fname, path)
         pass
 
     def _gui_(self):
