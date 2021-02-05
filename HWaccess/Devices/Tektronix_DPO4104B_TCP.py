@@ -319,5 +319,5 @@ class Oscilloscope(QObject):
 
     def screenshot(self, fname="None", path="E:"):
         self.Instrument.write("SAV:IMAG:FILEF PNG")
-        self.Instrument.write("SAV:IMAG "+path+"/"+fname+".png")
+        self.Instrument.write("SAV:IMAG \""+path+"/"+fname+".png\"")
         pass
