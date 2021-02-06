@@ -224,6 +224,16 @@ class Oscilloscope:
         self.device.write(":HARDcopy")
         pass
 
+    def _get_index_(self, letter):
+        _letters_ = "abcdefghijklmnopqrstuvwxzy0123456789_<>"
+        return _letters_.index(letter)
+
     def save_all(self, fname="None", path="E:"):
         self.device.write(":key:storage")
+        self.device.write(":key:f1")
+        i = 0
+        for k in range(0, 5):
+            self.device.write(":key:-func")
+        self.device.write(":key:+func")
+        self.device.write(":key:func")
         pass

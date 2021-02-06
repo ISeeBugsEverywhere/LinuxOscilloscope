@@ -1,5 +1,7 @@
 import os
 import sys
+import time
+
 import numpy as np
 import platform
 if "windows" in platform.system().lower():
@@ -222,6 +224,48 @@ class Oscilloscope:
         self.device.write(":HARDcopy")
         pass
 
+    def _get_index_(self, letter):
+        _letters_ = "abcdefghijklmnopqrstuvwxzy0123456789_<>"
+        return _letters_.index(letter)
+
+    def _get_diff_(self, a, b):
+        return abs(a-b)
+
     def save_all(self, fname="None", path="E:"):
+        f_name = fname[0:8]
+        # self.device.write(":KEY:MNU")
         self.device.write(":key:storage")
+        time.sleep(0.1)
+        self.device.write(":key:f1")
+        time.sleep(0.1)
+        i = 0
+        for k in range(0, 4):
+            self.device.write(":key:-func")
+            time.sleep(0.1)
+        time.sleep(0.1)
+        self.device.write(":key:+func")
+        time.sleep(0.1)
+        self.device.write(":key:func")
+        time.sleep(0.1)
+        self.device.write(":key:f4")
+        time.sleep(0.1)
+        self.device.write(":key:f2")
+        time.sleep(0.1)
+        for i in range(0,8):
+            self.device.write(":key:f3")
+            time.sleep(0.1)
+        curr_idx = 0
+        next_idx = 0
+        for i in f_name:
+            next_idx = self._get_index_(i)
+            step = self._get_diff_(next_idx, curr_idx)
+            if step == 0:
+                self.device.write(":key:func")
+            else:
+                for k in range(0, step):
+                    self.device.write(":key:+func")
+                    time.sleep(0.05)
+                self.device.write(":key:func")
+                curr_idx = next_idx
+            pass
         pass
