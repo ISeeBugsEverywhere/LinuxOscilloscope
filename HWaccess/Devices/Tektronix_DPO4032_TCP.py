@@ -318,11 +318,15 @@ class Oscilloscope(QObject):
         return self.Instrument.ask(cmd)
 
     def screenshot(self, fname="None", path="E:"):
+        if len(fname) == 0:
+            fname= "file"
         self.Instrument.write("SAV:IMAG:FILEF PNG")
         self.Instrument.write("SAV:IMAG \"" + path + "/" + fname + ".png\"")
         pass
 
     def save_all(self, fname="None", path="E:"):
+        if len(fname) == 0:
+            fname= "file"
         self.Instrument.write("SAV:WAVE:FILEF SPREADS")
         self.Instrument.write("SAVE:WAVEFORM ALL,\""+path+"/"+fname+".csv\"")
         pass

@@ -238,6 +238,12 @@ class Oscilloscope:
         return abs(a-b), sign
 
     def save_all(self, fname="None", path="E:"):
+        if len(fname) == 0:
+            fname= "file"
+        _letters_ = "abcdefghijklmnopqrstuvwxzy0123456789_"
+        for i in fname:
+            if i not in _letters_:
+                fname = fname.replace(i, "")
         f_name = fname[0:8]
         # self.device.write(":KEY:MNU")
         self.device.write(":key:storage")
