@@ -110,21 +110,26 @@ class LOsc(QtWidgets.QMainWindow):
         self.OSCILLOSCOPE.unlock_key()
 
     def execute_fn(self):
-        cmd = self.ui.cmdsBox.currentText()
-        if '?' in cmd:
-            ret = self.OSCILLOSCOPE.ask(cmd)
-            self.ui.outputBox.appendPlainText(str(ret))
-        else:
-            self.OSCILLOSCOPE.write(cmd)
-        idx = self.ui.cmdsBox.findText(cmd)
-        if idx == -1:
-            self.ui.cmdsBox.addItem(cmd)
+        try:
+            cmd = self.ui.cmdsBox.currentText()
+            if '?' in cmd:
+                ret = self.OSCILLOSCOPE.ask(cmd)
+                # self.ui.outputBox.appendPlainText(str(ret))
+                self.append_output_paragraph(str(ret), 1)
+            else:
+                self.OSCILLOSCOPE.write(cmd)
+            idx = self.ui.cmdsBox.findText(cmd)
+            if idx == -1:
+                self.ui.cmdsBox.addItem(cmd)
+        except Exception as ex:
+            self.append_output_paragraph(str(ex)+"\nGreičiausiai neteisinga komanda arba prietaisas atsijungė.", -1)
 
     def execute_all_fn(self):
         for i in self._loaded_cmds:
             if '?' in i:
                 ret = self.OSCILLOSCOPE.ask(i)
-                self.ui.outputBox.appendPlainText(str(ret))
+                # self.ui.outputBox.appendPlainText(str(ret))
+                self.append_output_paragraph(ret, 1)
             else:
                 self.OSCILLOSCOPE.write(i)
                 pass
@@ -159,7 +164,8 @@ class LOsc(QtWidgets.QMainWindow):
 
     def get_idn(self):
         name = self.OSCILLOSCOPE.get_name()
-        self.ui.outputBox.appendPlainText(name+self._new_line)
+        # self.ui.outputBox.appendPlainText(name+self._new_line)
+        self.append_output_paragraph(name, 1)
 
     def chfn(self):
         if self.ui.ch1_btn.isChecked():
@@ -561,6 +567,35 @@ class LOsc(QtWidgets.QMainWindow):
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
         if show:
             self.ui.tabWidget.setCurrentIndex(2)
+        pass
+
+    def append_output_paragraph(self, text, status=0):
+        txt = str(text)
+        html_red = '<font color="red">{x}</font>'
+        html_black = '<font color="black">{x}</font>'
+        html_magenta = '<font color="purple">{x}</font>'
+        if status == 0: #regular info
+            self.ui.outputBox.moveCursor(QtGui.QTextCursor.End)
+            self.ui.outputBox.insertPlainText(self._new_line)
+            self.ui.outputBox.setAlignment(QtCore.Qt.AlignLeft)
+            self.ui.outputBox.moveCursor(QtGui.QTextCursor.End)
+            self.ui.outputBox.insertHtml(html_black.replace('{x}', txt))
+            self.ui.outputBox.moveCursor(QtGui.QTextCursor.End)
+        elif status == 1: #some output from device
+            self.ui.outputBox.moveCursor(QtGui.QTextCursor.End)
+            self.ui.outputBox.insertPlainText(self._new_line)
+            self.ui.outputBox.setAlignment(QtCore.Qt.AlignRight)
+            # self.uinfoTextox.setFontWeight(QtGui.QFont.Bold)
+            self.ui.outputBox.moveCursor(QtGui.QTextCursor.End)
+            self.ui.outputBox.insertHtml(html_magenta.replace('{x}', txt))
+            self.ui.outputBox.moveCursor(QtGui.QTextCursor.End)
+        elif status == -1: #error
+            self.ui.outputBox.moveCursor(QtGui.QTextCursor.End)
+            self.ui.outputBox.insertPlainText(self._new_line)
+            self.ui.outputBox.setAlignment(QtCore.Qt.AlignLeft)
+            self.ui.outputBox.moveCursor(QtGui.QTextCursor.End)
+            self.ui.outputBox.insertHtml(html_red.replace('{x}', txt))
+            self.ui.outputBox.moveCursor(QtGui.QTextCursor.End)
         pass
 
     def _idnLabel(self, msg=None):
