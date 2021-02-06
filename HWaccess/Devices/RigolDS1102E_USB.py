@@ -229,7 +229,13 @@ class Oscilloscope:
         return _letters_.index(letter)
 
     def _get_diff_(self, a, b):
-        return abs(a-b)
+        sign = "+"
+        d = a - b
+        if d < 0:
+            sign = "-"
+        if d > 0:
+            sign = "+"
+        return abs(a-b), sign
 
     def save_all(self, fname="None", path="E:"):
         f_name = fname[0:8]
@@ -258,14 +264,26 @@ class Oscilloscope:
         next_idx = 0
         for i in f_name:
             next_idx = self._get_index_(i)
-            step = self._get_diff_(next_idx, curr_idx)
+            step, sign = self._get_diff_(next_idx, curr_idx)
             if step == 0:
                 self.device.write(":key:func")
             else:
-                for k in range(0, step):
-                    self.device.write(":key:+func")
-                    time.sleep(0.05)
-                self.device.write(":key:func")
-                curr_idx = next_idx
+                if sign == "+":
+                    for k in range(0, step):
+                        self.device.write(":key:+func")
+                        time.sleep(0.05)
+                    self.device.write(":key:func")
+                    curr_idx = next_idx
+                elif sign == "-":
+                    for k in range(0, step):
+                        self.device.write(":key:-func")
+                        time.sleep(0.05)
+                    self.device.write(":key:func")
+                    curr_idx = next_idx
             pass
+        self.device.write(":key:f4")
+        time.sleep(0.05)
+        self.device.write(":key:mnu")
+        time.sleep(0.05)
+        self.device.write(":key:run")
         pass
