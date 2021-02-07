@@ -85,7 +85,7 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.executeAllButton.clicked.connect(self.execute_all_fn)
         self.ui.cmdsButton.clicked.connect(self.get_cmds_fn)
         self.ui.clearButton.clicked.connect(self.clear_fn)
-        self.ui.help_button.clicked.connect(self.show_help)
+        self.ui.help_button.clicked.connect(lambda : self.show_help(True))
         self.ui.save_all_button.clicked.connect(self.save_all_fn)
         pass
 
@@ -95,11 +95,13 @@ class LOsc(QtWidgets.QMainWindow):
         self.OSCILLOSCOPE.save_all(fname, path)
         pass
 
-    def show_help(self):
+    def show_help(self, swith=False):
         file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "HelpFiles/lt.html"))
         local_url = QtCore.QUrl.fromLocalFile(file_path)
         self.ui.webView.load(local_url)
         self.ui.webView.show()
+        if swith:
+            self.ui.tabWidget.setCurrentIndex(3)
         pass
 
     def rst_fn(self):
