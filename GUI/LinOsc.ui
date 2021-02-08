@@ -246,6 +246,12 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="maximumSize">
+             <size>
+              <width>220</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="title">
              <string>Observation</string>
             </property>
@@ -281,15 +287,23 @@
                <property name="enabled">
                 <bool>false</bool>
                </property>
+               <property name="maximumSize">
+                <size>
+                 <width>220</width>
+                 <height>16777215</height>
+                </size>
+               </property>
                <property name="text">
-                <string>Get data from active channel(s)</string>
+                <string>Get data from
+active channel(s)</string>
                </property>
               </widget>
              </item>
              <item row="1" column="0">
               <widget class="QCheckBox" name="live_update_box">
                <property name="text">
-                <string>Live update, every [s]:</string>
+                <string>Live update,
+every [s]:</string>
                </property>
               </widget>
              </item>
@@ -313,6 +327,12 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>220</width>
+              <height>16777215</height>
+             </size>
             </property>
             <property name="title">
              <string>Save Box</string>
@@ -341,7 +361,7 @@
              <item row="5" column="0">
               <widget class="QLabel" name="label_3">
                <property name="text">
-                <string>CH2 comment</string>
+                <string>CH2 comm.</string>
                </property>
               </widget>
              </item>
@@ -362,7 +382,7 @@
              <item row="4" column="0">
               <widget class="QLabel" name="label_2">
                <property name="text">
-                <string>CH1 comment</string>
+                <string>CH1 comm.</string>
                </property>
               </widget>
              </item>
@@ -383,7 +403,7 @@
              <item row="7" column="0">
               <widget class="QLabel" name="label_9">
                <property name="text">
-                <string>CH4 comment</string>
+                <string>CH4 comm.</string>
                </property>
               </widget>
              </item>
@@ -404,7 +424,7 @@
              <item row="6" column="0">
               <widget class="QLabel" name="label_8">
                <property name="text">
-                <string>CH3 comment</string>
+                <string>CH3 comm.</string>
                </property>
               </widget>
              </item>
@@ -432,12 +452,24 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="maximumSize">
+             <size>
+              <width>220</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="title">
              <string>Active channel</string>
             </property>
             <layout class="QGridLayout" name="gridLayout_3">
              <item row="0" column="0">
               <widget class="QPushButton" name="ch1_btn">
+               <property name="maximumSize">
+                <size>
+                 <width>60</width>
+                 <height>16777215</height>
+                </size>
+               </property>
                <property name="text">
                 <string>CH1</string>
                </property>
@@ -451,6 +483,12 @@
              </item>
              <item row="0" column="1">
               <widget class="QPushButton" name="ch2_btn">
+               <property name="maximumSize">
+                <size>
+                 <width>60</width>
+                 <height>16777215</height>
+                </size>
+               </property>
                <property name="text">
                 <string>CH2</string>
                </property>
@@ -461,6 +499,12 @@
              </item>
              <item row="1" column="0">
               <widget class="QPushButton" name="ch3_btn">
+               <property name="maximumSize">
+                <size>
+                 <width>60</width>
+                 <height>16777215</height>
+                </size>
+               </property>
                <property name="text">
                 <string>CH3</string>
                </property>
@@ -471,6 +515,12 @@
              </item>
              <item row="1" column="1">
               <widget class="QPushButton" name="ch4_btn">
+               <property name="maximumSize">
+                <size>
+                 <width>60</width>
+                 <height>16777215</height>
+                </size>
+               </property>
                <property name="text">
                 <string>CH4</string>
                </property>
