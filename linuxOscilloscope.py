@@ -87,6 +87,7 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.clearButton.clicked.connect(self.clear_fn)
         self.ui.help_button.clicked.connect(lambda : self.show_help(True))
         self.ui.save_all_button.clicked.connect(self.save_all_fn)
+        self.ui.rescan_ports_button.clicked.connect(self._get_ports_)
         pass
 
     def save_all_fn(self):
@@ -378,6 +379,12 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.rs232Combo.insertItems(0, [str(x.portName()) for x in ports])
         self.get_usbtmc_devices_fn()
         pass
+
+    def _get_ports_(self):
+        self.ui.rs232Combo.clear()
+        ports = self.ui.rs232Widget.get_port_names()
+        self.ui.rs232Combo.insertItems(0, [str(x.portName()) for x in ports])
+        self.get_usbtmc_devices_fn()
 
     def get_usbtmc_devices_fn(self):
         try:
