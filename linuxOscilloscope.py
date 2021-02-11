@@ -88,12 +88,20 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.help_button.clicked.connect(lambda : self.show_help(True))
         self.ui.save_all_button.clicked.connect(self.save_all_fn)
         self.ui.rescan_ports_button.clicked.connect(self._get_ports_)
+        self.ui.save_csv_button.clicked.connect(self.save_all_csv_fn)
+        pass
+
+    def save_all_csv_fn(self):
+        fname = self.ui.name_all_box.text()
+        path = self.ui.memory_box.currentText()
+        self.OSCILLOSCOPE.save_all(fname, path)
         pass
 
     def save_all_fn(self):
         fname = self.ui.name_all_box.text()
         path = self.ui.memory_box.currentText()
         self.OSCILLOSCOPE.save_all(fname, path)
+        self.screenshot_fn()
         pass
 
     def show_help(self, swith=False):

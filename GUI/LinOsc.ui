@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1141</width>
-    <height>851</height>
+    <width>965</width>
+    <height>907</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -220,24 +220,11 @@
         <string>Oscilloscope</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_7">
-        <item row="1" column="0">
-         <spacer name="verticalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>13</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="2" rowspan="2">
-         <widget class="PlotWidget" name="oscillographPlot"/>
-        </item>
-        <item row="0" column="0">
+        <item row="0" column="0" rowspan="2">
          <layout class="QGridLayout" name="gridLayout_6">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetFixedSize</enum>
+          </property>
           <item row="0" column="0" colspan="2">
            <widget class="QGroupBox" name="groupBox_2">
             <property name="sizePolicy">
@@ -256,32 +243,6 @@
              <string>Observation</string>
             </property>
             <layout class="QGridLayout" name="gridLayout_5">
-             <item row="2" column="0">
-              <spacer name="horizontalSpacer_5">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>50</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="2" column="1">
-              <spacer name="horizontalSpacer_6">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>50</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
              <item row="0" column="0" colspan="2">
               <widget class="QPushButton" name="get_data_btn">
                <property name="enabled">
@@ -299,14 +260,6 @@ active channel(s)</string>
                </property>
               </widget>
              </item>
-             <item row="1" column="0">
-              <widget class="QCheckBox" name="live_update_box">
-               <property name="text">
-                <string>Live update,
-every [s]:</string>
-               </property>
-              </widget>
-             </item>
              <item row="1" column="1">
               <widget class="QDoubleSpinBox" name="sleep_time_box">
                <property name="minimum">
@@ -314,6 +267,14 @@ every [s]:</string>
                </property>
                <property name="value">
                 <double>1.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QCheckBox" name="live_update_box">
+               <property name="text">
+                <string>Live update,
+every [s]:</string>
                </property>
               </widget>
              </item>
@@ -338,6 +299,41 @@ every [s]:</string>
              <string>Save Box</string>
             </property>
             <layout class="QGridLayout" name="gridLayout_4">
+             <item row="6" column="1" colspan="2">
+              <widget class="QLineEdit" name="ch3_comment">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1" colspan="2">
+              <widget class="QLineEdit" name="ch1_comment">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="1" colspan="2">
+              <widget class="QLineEdit" name="ch2_comment">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0" colspan="3">
+              <widget class="QLineEdit" name="file_name_entry">
+               <property name="placeholderText">
+                <string>File name?</string>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="0">
+              <widget class="QLabel" name="label_8">
+               <property name="text">
+                <string>CH3 comm.</string>
+               </property>
+              </widget>
+             </item>
              <item row="1" column="0">
               <widget class="QPushButton" name="save_btn">
                <property name="text">
@@ -358,22 +354,15 @@ every [s]:</string>
                </property>
               </spacer>
              </item>
-             <item row="5" column="0">
-              <widget class="QLabel" name="label_3">
+             <item row="7" column="0">
+              <widget class="QLabel" name="label_9">
                <property name="text">
-                <string>CH2 comm.</string>
+                <string>CH4 comm.</string>
                </property>
               </widget>
              </item>
-             <item row="0" column="0" colspan="3">
-              <widget class="QLineEdit" name="file_name_entry">
-               <property name="placeholderText">
-                <string>File name?</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="1" colspan="2">
-              <widget class="QLineEdit" name="ch1_comment">
+             <item row="7" column="1" colspan="2">
+              <widget class="QLineEdit" name="ch4_comment">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -386,10 +375,10 @@ every [s]:</string>
                </property>
               </widget>
              </item>
-             <item row="6" column="1" colspan="2">
-              <widget class="QLineEdit" name="ch3_comment">
-               <property name="enabled">
-                <bool>false</bool>
+             <item row="5" column="0">
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>CH2 comm.</string>
                </property>
               </widget>
              </item>
@@ -397,34 +386,6 @@ every [s]:</string>
               <widget class="QPushButton" name="dir_btn">
                <property name="text">
                 <string>Directory?</string>
-               </property>
-              </widget>
-             </item>
-             <item row="7" column="0">
-              <widget class="QLabel" name="label_9">
-               <property name="text">
-                <string>CH4 comm.</string>
-               </property>
-              </widget>
-             </item>
-             <item row="5" column="1" colspan="2">
-              <widget class="QLineEdit" name="ch2_comment">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="7" column="1" colspan="2">
-              <widget class="QLineEdit" name="ch4_comment">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="6" column="0">
-              <widget class="QLabel" name="label_8">
-               <property name="text">
-                <string>CH3 comm.</string>
                </property>
               </widget>
              </item>
@@ -440,6 +401,19 @@ every [s]:</string>
                 <string>(UNSAVED)</string>
                </property>
               </widget>
+             </item>
+             <item row="8" column="1">
+              <spacer name="verticalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
              </item>
             </layout>
            </widget>
@@ -550,36 +524,26 @@ every [s]:</string>
           </property>
          </spacer>
         </item>
-        <item row="0" column="3">
+        <item row="0" column="2">
+         <widget class="PlotWidget" name="oscillographPlot"/>
+        </item>
+        <item row="1" column="1" colspan="2">
          <widget class="QGroupBox" name="groupBox_7">
           <property name="maximumSize">
            <size>
-            <width>220</width>
-            <height>16777215</height>
+            <width>16777215</width>
+            <height>140</height>
            </size>
           </property>
           <property name="title">
-           <string>Screens/Memory</string>
+           <string>Screenshots/Internal Memory</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_12">
-           <item row="0" column="0" colspan="2">
-            <widget class="QPushButton" name="take_screenshot_btn">
-             <property name="maximumSize">
-              <size>
-               <width>220</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Screenshot?</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0" colspan="2">
+           <item row="0" column="0" colspan="5">
             <widget class="QLineEdit" name="name_all_box">
              <property name="maximumSize">
               <size>
-               <width>220</width>
+               <width>16777215</width>
                <height>16777215</height>
               </size>
              </property>
@@ -588,24 +552,11 @@ every [s]:</string>
              </property>
             </widget>
            </item>
-           <item row="2" column="0" colspan="2">
-            <widget class="QPushButton" name="save_all_button">
-             <property name="maximumSize">
-              <size>
-               <width>220</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Save all</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
+           <item row="0" column="5">
             <widget class="QComboBox" name="memory_box">
              <property name="maximumSize">
               <size>
-               <width>120</width>
+               <width>16777215</width>
                <height>16777215</height>
               </size>
              </property>
@@ -631,12 +582,12 @@ every [s]:</string>
              </item>
             </widget>
            </item>
-           <item row="3" column="1">
+           <item row="0" column="6">
             <widget class="QPushButton" name="help_button">
              <property name="minimumSize">
               <size>
-               <width>32</width>
-               <height>32</height>
+               <width>31</width>
+               <height>31</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -650,15 +601,74 @@ every [s]:</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="0">
-            <spacer name="verticalSpacer_4">
+           <item row="1" column="0" rowspan="2">
+            <widget class="QPushButton" name="take_screenshot_btn">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Screenshot?</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1" rowspan="2">
+            <spacer name="horizontalSpacer_5">
              <property name="orientation">
-              <enum>Qt::Vertical</enum>
+              <enum>Qt::Horizontal</enum>
              </property>
              <property name="sizeHint" stdset="0">
               <size>
-               <width>20</width>
-               <height>370</height>
+               <width>125</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="1" column="2" rowspan="2">
+            <widget class="QPushButton" name="save_csv_button">
+             <property name="text">
+              <string>Save *.CSV</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="3" rowspan="2">
+            <spacer name="horizontalSpacer_10">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>124</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="1" column="4" rowspan="2">
+            <widget class="QPushButton" name="save_all_button">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Save all</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="5" colspan="2">
+            <spacer name="horizontalSpacer_6">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>118</width>
+               <height>20</height>
               </size>
              </property>
             </spacer>
@@ -982,8 +992,8 @@ every [s]:</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1141</width>
-     <height>27</height>
+     <width>965</width>
+     <height>28</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
