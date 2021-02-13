@@ -277,19 +277,19 @@ class Oscilloscope:
                 if sign == "+":
                     for k in range(0, step):
                         self.device.write(":key:+func")
-                        time.sleep(0.05)
+                        time.sleep(0.1)
                     self.device.write(":key:func")
                     curr_idx = next_idx
                 elif sign == "-":
                     for k in range(0, step):
                         self.device.write(":key:-func")
-                        time.sleep(0.05)
+                        time.sleep(0.1)
                     self.device.write(":key:func")
                     curr_idx = next_idx
             pass
         self.device.write(":key:f4")
-        time.sleep(0.05)
+        time.sleep(0.1)
         self.device.write(":key:mnu")
-        time.sleep(0.05)
+        time.sleep(0.1)
         self.device.write(":key:run")
         pass
