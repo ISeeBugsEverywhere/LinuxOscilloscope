@@ -101,7 +101,7 @@ class LOsc(QtWidgets.QMainWindow):
         fname = self.ui.name_all_box.text()
         path = self.ui.memory_box.currentText()
         self.OSCILLOSCOPE.save_all(fname, path)
-        time.sleep(1.0) # in seconds
+        time.sleep(2.0) # in seconds
         self.screenshot_fn()
         pass
 
