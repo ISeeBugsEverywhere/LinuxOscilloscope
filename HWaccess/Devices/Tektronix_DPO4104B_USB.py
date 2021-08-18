@@ -169,6 +169,9 @@ class Oscilloscope(QObject):
 
         try:
             self.Instrument.write("DATA:SOURCE " + CH)
+            self.Instrument.write("DATA:START 1")
+            self.Instrument.write("DATA:STOP 10000")
+            self.Instrument.write("DATA:WIDTH 2")
 
             # ASCII encoding:
             # WFMOutpre: ENCdg
