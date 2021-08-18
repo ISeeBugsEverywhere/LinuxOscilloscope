@@ -208,7 +208,7 @@ class Oscilloscope(QObject):
             # print(dataCH2)
             # print(len(dataCH2), "Ilgis konvertuoto dataCH2")
             # time array: scaled_time = linspace(xze,xze+(xin*nrp),nrp);
-            time_array = np.linspace(xze, xze + (xin * nrp), nrp)
+            time_array = np.linspace(xze, xze + (xin * nrp), int(nrp))
             scale = self.get_time_scale()
             # print("Scale : ", scale)
             # value, time_unit = getNumberSIprefix(scale)
@@ -220,7 +220,7 @@ class Oscilloscope(QObject):
         except Exception as ex:
             print(ex)
             traceback.print_exc()
-            return -9999, 9999, "S"
+            return [9999,-9999], [9999,-9999], str(ex)
             pass
         # return np.asarray(dataCH2), time_array, "S"  # hardcoded time unit for Tektronix
         pass

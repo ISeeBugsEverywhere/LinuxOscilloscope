@@ -194,7 +194,7 @@ class Oscilloscope(QObject):
             # (double('wave')-yof).*ymu+yze
             dataCH2 = [(float(x) - yof) * ymu + yze for x in Y]
             # time array: scaled_time = linspace(xze,xze+(xin*nrp),nrp);
-            time_array = np.linspace(xze, xze + (xin * nrp), nrp)
+            time_array = np.linspace(xze, xze + (xin * nrp), int(nrp))
             scale = self.get_time_scale()
             print("Scale : ", scale)
             # value, time_unit = getNumberSIprefix(scale)
@@ -204,7 +204,7 @@ class Oscilloscope(QObject):
             # print("length of time", len(time_array))
             return np.asarray(dataCH2), time_array, "S"  # hardcoded time unit for Tektronix
         except Exception as ex:
-            return 9999, 9999, "S"
+            return [9999,-9999], [9999,-9999], str(ex)
             pass
         # return np.asarray(dataCH2), time_array, "S"  # hardcoded time unit for Tektronix
         pass
