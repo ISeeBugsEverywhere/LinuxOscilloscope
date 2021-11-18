@@ -238,9 +238,13 @@ class LOsc(QtWidgets.QMainWindow):
         # there goes everything:
         _o = get_o_d(self._data)
         _lo = len(_o)
+        large_txt = ""
         for i in _o:
-            self.append_html_paragraph(str(i), 0, False)
+            large_txt = large_txt + str(i)+self._new_line
+        self.append_html_paragraph(large_txt, 0, False)
         pass
+
+
 
     def save_oscillogramme(self):
         f_name= self.ui.file_name_entry.text()
