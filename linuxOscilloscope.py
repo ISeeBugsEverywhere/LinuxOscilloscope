@@ -49,6 +49,7 @@ class LOsc(QtWidgets.QMainWindow):
         self._colors = [(255,255,0), (0,0,255), (0,128,0),(139,0,0)]
         self._data = {}
         self._loaded_cmds = []
+        self.counter = 0
         pass
 
     def _signals_(self):
@@ -249,7 +250,10 @@ class LOsc(QtWidgets.QMainWindow):
     def save_oscillogramme(self):
         f_name= self.ui.file_name_entry.text()
         if 'csv' not in f_name:
-            f_name = f_name+'.csv'
+            f_name = f_name+f'{self.counter:04}'+'.csv'
+        else:
+            f_name = f_name[:-4]+f'{self.counter:04}'+".csv"
+        self.counter = self.counter + 1
         f_path = self.ui.dir_label.text()
         full_path = os.path.join(f_path, f_name)
         all_data = self.ui.infoText.toPlainText() # gets all data into one string
