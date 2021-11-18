@@ -25,8 +25,8 @@ except:
 
 GOM = None
 
-R_THRAED = "Stop continuous data acquisition"
-START = "Get data from selected channel(s)"
+R_THRAED = "Stop continuous\ndata acquisition"
+START = "Get data from\nselected channel(s)"
 
 
 class LOsc(QtWidgets.QMainWindow):
