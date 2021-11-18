@@ -240,7 +240,7 @@ class LOsc(QtWidgets.QMainWindow):
         _lo = len(_o)
         large_txt = ""
         for i in _o:
-            large_txt = large_txt + str(i)+"\n"
+            large_txt = large_txt + str(i)+"<br>" # for html!
         self.append_html_paragraph(large_txt, 0, False)
         pass
 
