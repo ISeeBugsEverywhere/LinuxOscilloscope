@@ -15,6 +15,13 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
+    <item row="3" column="0">
+     <widget class="QPushButton" name="quitButton">
+      <property name="text">
+       <string>Quit</string>
+      </property>
+     </widget>
+    </item>
     <item row="4" column="0">
      <widget class="QLabel" name="info_lbl">
       <property name="text">
@@ -22,18 +29,12 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="2">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+    <item row="4" column="1" colspan="2">
+     <widget class="QLabel" name="dir_label">
+      <property name="text">
+       <string>Directory?</string>
       </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>765</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
+     </widget>
     </item>
     <item row="0" column="0" colspan="3">
      <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -84,13 +85,6 @@
        </spacer>
       </item>
      </layout>
-    </item>
-    <item row="3" column="0">
-     <widget class="QPushButton" name="quitButton">
-      <property name="text">
-       <string>Quit</string>
-      </property>
-     </widget>
     </item>
     <item row="1" column="0" colspan="3">
      <layout class="QHBoxLayout" name="horizontalLayout">
@@ -209,6 +203,19 @@
        </widget>
       </item>
      </layout>
+    </item>
+    <item row="3" column="2">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>765</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
     </item>
     <item row="2" column="0" colspan="3">
      <widget class="QTabWidget" name="tabWidget">
@@ -951,38 +958,16 @@ every [s]:</string>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="helpTab">
+      <widget class="QWidget" name="helpPageTab">
        <attribute name="title">
-        <string>Help Tab</string>
+        <string>HELP</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_11">
-        <item row="0" column="0" colspan="2">
-         <widget class="QGroupBox" name="groupBox_6">
-          <property name="title">
-           <string>Help field</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_9">
-           <item row="0" column="0">
-            <widget class="QWebView" name="webView">
-             <property name="url">
-              <url>
-               <string>about:blank</string>
-              </url>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
+       <layout class="QGridLayout" name="gridLayout_15">
+        <item row="0" column="0">
+         <widget class="QWebEngineView" name="webWidget" native="true"/>
         </item>
        </layout>
       </widget>
-     </widget>
-    </item>
-    <item row="4" column="1" colspan="2">
-     <widget class="QLabel" name="dir_label">
-      <property name="text">
-       <string>Directory?</string>
-      </property>
      </widget>
     </item>
    </layout>
@@ -1013,11 +998,6 @@ every [s]:</string>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QWebView</class>
-   <extends>QWidget</extends>
-   <header location="global">QtWebKitWidgets/QWebView</header>
-  </customwidget>
-  <customwidget>
    <class>serialPortWidget</class>
    <extends>QWidget</extends>
    <header>GUI.serialPortWidget.serialPortWidget</header>
@@ -1027,6 +1007,12 @@ every [s]:</string>
    <class>PlotWidget</class>
    <extends>QGraphicsView</extends>
    <header>pyqtgraph</header>
+  </customwidget>
+  <customwidget>
+   <class>QWebEngineView</class>
+   <extends>QWidget</extends>
+   <header>PyQt5.QtWebEngineWidgets</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

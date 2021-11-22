@@ -107,13 +107,21 @@ class LOsc(QtWidgets.QMainWindow):
         pass
 
     def show_help(self, swith=False):
+        #QWebKit part:
+        # file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "HelpFiles/lt.html"))
+        # local_url = QtCore.QUrl.fromLocalFile(file_path)
+        # self.ui.webView.load(local_url)
+        # self.ui.webView.show()
+        # if swith:
+        #     self.ui.tabWidget.setCurrentIndex(3)
+        #QwebEngine part:
         file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "HelpFiles/lt.html"))
         local_url = QtCore.QUrl.fromLocalFile(file_path)
-        self.ui.webView.load(local_url)
-        self.ui.webView.show()
+        self.ui.webWidget.load(local_url)
+        self.ui.webWidget.show()
         if swith:
             self.ui.tabWidget.setCurrentIndex(3)
-        pass
+
 
     def rst_fn(self):
         self.OSCILLOSCOPE.reset()
