@@ -540,19 +540,30 @@ class LOsc(QtWidgets.QMainWindow):
     def autoconnect(self):
         try:
             port, status, params = self.get_port_parameters()
+            global GOM #switch to enable global GOM
+            files = glob.glob("HWaccess/Devices/*.py")
+            dvces = []
+            for i in files:
+                device = i.split("/")[-1][:-3]
+                dvces.append(device)
+                pass
+            dvces.sort()  # in-place sorte
             if status == 0: #lxi device
                 dummy_device = lxi(port)
                 idn = str(dummy_device.ask("*idn?"))
-                files = glob.glob("HWaccess/Devices/*.py")
-                dvces = []
-                for i in files:
-                    device = i.split("/")[-1][:-3]
-                    dvces.append(device)
-                    pass
-                dvces.sort()  # in-place sorted
                 for i in dvces:
                     if i.split('_')[1] in idn:
-                        global GOM
+                        # global GOM
+                        GOM = importlib.import_module(i)
+                        break
+                self.trigger_device()
+            elif status == 1:
+                pass
+            elif status == 2:#         usbtmc case
+                dummy_device = USBTMC(port)
+                idn = str(dummy_device.ask("*idn?"))
+                for i in dvces:
+                    if i.split('_')[1] in idn:
                         GOM = importlib.import_module(i)
                         break
                 self.trigger_device()
