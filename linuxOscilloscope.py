@@ -1,3 +1,4 @@
+import glob
 import os, sys
 import platform
 
@@ -16,6 +17,9 @@ from Scripts.Threads import ContinuousUpdate
 from Scripts.output_formatter import *
 from Scripts.configparser import *
 from PyQt5.QtWebKit import *
+
+from HWaccess.LXI import *
+from HWaccess.USBTMC import *
 
 _new_line = os.linesep
 try:
@@ -90,6 +94,8 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.save_all_button.clicked.connect(self.save_all_fn)
         self.ui.rescan_ports_button.clicked.connect(self._get_ports_)
         self.ui.save_csv_button.clicked.connect(self.save_all_csv_fn)
+        # autoconnect feature
+        self.ui.autoConnect.clicked.connect(self.autoconnect)
         pass
 
     def save_all_csv_fn(self):
@@ -531,6 +537,31 @@ class LOsc(QtWidgets.QMainWindow):
             self.append_html_paragraph(str(ex), -1, True)
             pass
 
+    def autoconnect(self):
+        try:
+            port, status, params = self.get_port_parameters()
+            if status == 0: #lxi device
+                dummy_device = lxi(port)
+                idn = str(dummy_device.ask("*idn?"))
+                files = glob.glob("HWaccess/Devices/*.py")
+                dvces = []
+                for i in files:
+                    device = i.split("/")[-1][:-3]
+                    dvces.append(device)
+                    pass
+                dvces.sort()  # in-place sorted
+                for i in dvces:
+                    if i.split('_')[1] in idn:
+                        global GOM
+                        GOM = importlib.import_module(i)
+                        break
+                self.trigger_device()
+        except Exception as ex:
+            traceback.print_exc()
+            self.append_html_paragraph(str(ex), -1, True)
+            pass
+        pass
+
     def trigger_device(self):
         try:
             port, status, params = self.get_port_parameters()
@@ -551,7 +582,6 @@ class LOsc(QtWidgets.QMainWindow):
                 pass
             elif status == 1:
                 self.OSCILLOSCOPE.init_device(port, params)
-
                 pass
             elif status == 2:
                 self.OSCILLOSCOPE.init_device(port, params)
