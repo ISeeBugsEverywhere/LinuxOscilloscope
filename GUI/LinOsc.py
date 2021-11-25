@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_oscillWindow(object):
     def setupUi(self, oscillWindow):
         oscillWindow.setObjectName("oscillWindow")
-        oscillWindow.resize(965, 907)
+        oscillWindow.resize(1078, 907)
         self.centralwidget = QtWidgets.QWidget(oscillWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.centralwidget)
@@ -125,6 +125,9 @@ class Ui_oscillWindow(object):
         self.live_update_box = QtWidgets.QCheckBox(self.groupBox_2)
         self.live_update_box.setObjectName("live_update_box")
         self.gridLayout_5.addWidget(self.live_update_box, 1, 0, 1, 1)
+        self.corZeroBox = QtWidgets.QCheckBox(self.groupBox_2)
+        self.corZeroBox.setObjectName("corZeroBox")
+        self.gridLayout_5.addWidget(self.corZeroBox, 2, 0, 1, 2)
         self.gridLayout_6.addWidget(self.groupBox_2, 0, 0, 1, 2)
         self.groupBox = QtWidgets.QGroupBox(self.oscilloscopeTab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -385,7 +388,7 @@ class Ui_oscillWindow(object):
         self.gridLayout_2.addWidget(self.tabWidget, 2, 0, 1, 3)
         oscillWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(oscillWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 965, 27))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1078, 27))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -421,6 +424,7 @@ class Ui_oscillWindow(object):
 "active channel(s)"))
         self.live_update_box.setText(_translate("oscillWindow", "Live update,\n"
 "every [s]:"))
+        self.corZeroBox.setText(_translate("oscillWindow", "Correct Zero Level?"))
         self.groupBox.setTitle(_translate("oscillWindow", "Save Box"))
         self.file_name_entry.setPlaceholderText(_translate("oscillWindow", "File name?"))
         self.label_8.setText(_translate("oscillWindow", "CH3 comm."))

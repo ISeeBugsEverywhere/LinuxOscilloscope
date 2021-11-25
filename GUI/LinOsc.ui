@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>965</width>
+    <width>1078</width>
     <height>907</height>
    </rect>
   </property>
@@ -299,6 +299,13 @@ active channel(s)</string>
                <property name="text">
                 <string>Live update,
 every [s]:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0" colspan="2">
+              <widget class="QCheckBox" name="corZeroBox">
+               <property name="text">
+                <string>Correct Zero Level?</string>
                </property>
               </widget>
              </item>
@@ -994,7 +1001,7 @@ every [s]:</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>965</width>
+     <width>1078</width>
      <height>27</height>
     </rect>
    </property>

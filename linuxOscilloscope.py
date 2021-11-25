@@ -699,7 +699,14 @@ class LOsc(QtWidgets.QMainWindow):
                     if i.name() == y_name:
                         graph.removeItem(i)
             cpen = mkPen(color=color, width=3)
-            graph.plot(x,y, pen=cpen, name=y_name)
+            if self.ui.corZeroBox.isChecked():
+                np_x = np.asarray(x)
+                np_y = np.asarray(y)
+                idxs = np_x < 0.0
+                av = np.average(np_y[idxs])
+                graph.plot(np_x, (np_y-av), pen=cpen, name=y_name)
+            else:
+                graph.plot(x,y, pen=cpen, name=y_name)
             graph.setLabel('bottom', "Time scale", units=str(x_Unit))
             graph.setLabel('left', "CH scale", units=str(y_Unit))
         else:
