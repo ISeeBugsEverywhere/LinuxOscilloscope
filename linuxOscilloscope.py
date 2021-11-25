@@ -703,7 +703,8 @@ class LOsc(QtWidgets.QMainWindow):
                 np_x = np.asarray(x)
                 np_y = np.asarray(y)
                 idxs = np_x < 0.0
-                av = np.average(np_y[idxs])
+                npay = np_y[idxs]
+                av = np.average(npay[:int(0.9*len(npay))])
                 graph.plot(np_x, (np_y-av), pen=cpen, name=y_name)
             else:
                 graph.plot(x,y, pen=cpen, name=y_name)
