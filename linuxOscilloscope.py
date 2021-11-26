@@ -530,7 +530,7 @@ class LOsc(QtWidgets.QMainWindow):
                     self._thread.terminate()  # wrong approach here, need to fix it
                 self.OSCILLOSCOPE = None
                 self.ui.connectButton.setText("Connect")
-                self.ui.autoConnect.setText("Auto[..]")
+                self.ui.autoConnect.setText("AUTO[..]")
                 self._idnLabel("Not connected")
                 self.setWindowTitle("Oscilloscope")
                 self.ui.get_data_btn.setText(START)
@@ -560,6 +560,8 @@ class LOsc(QtWidgets.QMainWindow):
                             GOM = importlib.import_module(i)
                             break
                     self.trigger_device()
+                    self.ui.connectButton.setText("Disconnect")
+                    self.ui.autoConnect.setText("Disconnect")
                 elif status == 1:
                     pass
                 elif status == 2:#         usbtmc case
@@ -581,7 +583,7 @@ class LOsc(QtWidgets.QMainWindow):
                     self._thread.terminate()  # wrong approach here, need to fix it
                 self.OSCILLOSCOPE = None
                 self.ui.connectButton.setText("Connect")
-                self.ui.autoConnect.setText("Auto[..]")
+                self.ui.autoConnect.setText("AUTO[..]")
                 self._idnLabel("Not connected")
                 self.setWindowTitle("Oscilloscope")
                 self.ui.get_data_btn.setText(START)
