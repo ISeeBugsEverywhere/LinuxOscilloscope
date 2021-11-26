@@ -539,34 +539,50 @@ class LOsc(QtWidgets.QMainWindow):
 
     def autoconnect(self):
         try:
-            port, status, params = self.get_port_parameters()
-            global GOM #switch to enable global GOM
-            files = glob.glob("HWaccess/Devices/*.py")
-            dvces = []
-            for i in files:
-                device = i.split("/")[-1][:-3]
-                dvces.append(device)
-                pass
-            dvces.sort()  # in-place sorte
-            if status == 0: #lxi device
-                dummy_device = lxi(port)
-                idn = str(dummy_device.ask("*idn?"))
-                for i in dvces:
-                    if i.split('_')[1] in idn:
-                        # global GOM
-                        GOM = importlib.import_module(i)
-                        break
-                self.trigger_device()
-            elif status == 1:
-                pass
-            elif status == 2:#         usbtmc case
-                dummy_device = USBTMC(port)
-                idn = str(dummy_device.ask("*idn?"))
-                for i in dvces:
-                    if i.split('_')[1] in idn:
-                        GOM = importlib.import_module(i)
-                        break
-                self.trigger_device()
+            if self.ui.autoConnect.text() != "Disconnect":
+                port, status, params = self.get_port_parameters()
+                global GOM #switch to enable global GOM
+                files = glob.glob("HWaccess/Devices/*.py")
+                dvces = []
+                for i in files:
+                    device = i.split("/")[-1][:-3]
+                    dvces.append(device)
+                    pass
+                dvces.sort()  # in-place sorte
+                if status == 0: #lxi device
+                    dummy_device = lxi(port)
+                    idn = str(dummy_device.ask("*idn?"))
+                    for i in dvces:
+                        if i.split('_')[1] in idn:
+                            # global GOM
+                            GOM = importlib.import_module(i)
+                            break
+                    self.trigger_device()
+                elif status == 1:
+                    pass
+                elif status == 2:#         usbtmc case
+                    dummy_device = USBTMC(port)
+                    idn = str(dummy_device.ask("*idn?"))
+                    for i in dvces:
+                        if i.split('_')[1] in idn:
+                            GOM = importlib.import_module(i)
+                            break
+                    self.trigger_device()
+                    self.ui.connectButton.setText("Disconnect")
+                    self.ui.autoConnect.setText("Disconnect")
+            else:
+                if self._worker is not None and self._worker.ID == 1:
+                    self._worker.stop(True)
+                    self._worker = None
+                    # console("Thread stopped.")
+                    # self._thread.exit(-27)  # how about this? wrong again, leave it as is for a while
+                    self._thread.terminate()  # wrong approach here, need to fix it
+                self.OSCILLOSCOPE = None
+                self.ui.connectButton.setText("Connect")
+                self.ui.autoConnect.setText("Auto[..]")
+                self._idnLabel("Not connected")
+                self.setWindowTitle("Oscilloscope")
+                self.ui.get_data_btn.setText(START)
         except Exception as ex:
             traceback.print_exc()
             self.append_html_paragraph(str(ex), -1, True)
