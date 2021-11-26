@@ -519,6 +519,7 @@ class LOsc(QtWidgets.QMainWindow):
                 if dlg_stat:
                     self.trigger_device()
                     self.ui.connectButton.setText("Disconnect")
+                    self.ui.autoConnect.setText("Disconnect")
                     pass
             elif self.ui.connectButton.text() == "Disconnect":
                 if self._worker is not None and self._worker.ID == 1:
@@ -529,6 +530,7 @@ class LOsc(QtWidgets.QMainWindow):
                     self._thread.terminate()  # wrong approach here, need to fix it
                 self.OSCILLOSCOPE = None
                 self.ui.connectButton.setText("Connect")
+                self.ui.autoConnect.setText("Auto[..]")
                 self._idnLabel("Not connected")
                 self.setWindowTitle("Oscilloscope")
                 self.ui.get_data_btn.setText(START)
