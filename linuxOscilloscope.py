@@ -131,6 +131,8 @@ class LOsc(QtWidgets.QMainWindow):
         # if self.ui.oscillographPlot.plotItem.
         # self.ui.oscillographPlot.plotItem.setLogMode(False, False)
         # self.ui.oscillographPlot.plotItem.replot()
+        if self.LOGMODE:
+            self.ui.oscillographPlot.plotItem.setLogMode(False, False)
         exporter = pyqtgraph.exporters.CSVExporter(self.ui.oscillographPlot.plotItem)
         f_name = self.ui.file_name_entry.text()
         if 'csv' not in f_name:
@@ -143,7 +145,9 @@ class LOsc(QtWidgets.QMainWindow):
         exporter.export(full_path)
         # self.ui.oscillographPlot.plotItem.setLogMode(True, False)
         # self.ui.oscillographPlot.plotItem.replot()
-        pass
+        if self.LOGMODE:
+            self.ui.oscillographPlot.plotItem.setLogMode(True, True)
+
 
     def PMBtn(self):
         if self.ui.ch1_comment.isEnabled():
