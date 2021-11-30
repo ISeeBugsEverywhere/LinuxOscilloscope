@@ -62,6 +62,7 @@ class LOsc(QtWidgets.QMainWindow):
         self.counter = 0
         self._saved_signals = []
         self.next_color = 0
+        self.LOGMODE=False
         pass
 
     def _signals_(self):
@@ -109,7 +110,17 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.plusMButton.clicked.connect(self.PMBtn)
         self.ui.minusMButton.clicked.connect(self.MMBtn)
         self.ui.clrButton.clicked.connect(self.CLRFN)
+        #log mode
+        self.ui.logMode.clicked.connect(self.log_mode_fn)
         pass
+
+    def log_mode_fn(self):
+        if not self.LOGMODE:
+            self.ui.oscillographPlot.plotItem.setLogMode(True, True)
+            self.LOGMODE = not self.LOGMODE
+        elif self.LOGMODE:
+            self.ui.oscillographPlot.plotItem.setLogMode(False, False)
+            self.LOGMODE = not self.LOGMODE
 
     def SVEAFN(self):
         """
@@ -117,6 +128,9 @@ class LOsc(QtWidgets.QMainWindow):
         :return:
         """
         # pyqtgraph csv export abilities
+        # if self.ui.oscillographPlot.plotItem.
+        # self.ui.oscillographPlot.plotItem.setLogMode(False, False)
+        # self.ui.oscillographPlot.plotItem.replot()
         exporter = pyqtgraph.exporters.CSVExporter(self.ui.oscillographPlot.plotItem)
         f_name = self.ui.file_name_entry.text()
         if 'csv' not in f_name:
@@ -127,6 +141,8 @@ class LOsc(QtWidgets.QMainWindow):
         f_path = self.ui.dir_label.text()
         full_path = os.path.join(f_path, f_name)
         exporter.export(full_path)
+        # self.ui.oscillographPlot.plotItem.setLogMode(True, False)
+        # self.ui.oscillographPlot.plotItem.replot()
         pass
 
     def PMBtn(self):
