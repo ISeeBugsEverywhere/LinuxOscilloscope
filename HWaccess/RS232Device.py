@@ -61,7 +61,7 @@ class RS232Device():
         string = ''
         try:
             if self.serial.isOpen():
-                self.serial.write(cmd)
+                self.serial.write(cmd.encode('utf-8'))
                 time.sleep(sleep)
                 a = self.serial.read_until(self._endline, length)
                 return a.decode('utf-8')

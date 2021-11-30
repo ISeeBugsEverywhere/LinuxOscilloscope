@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1078</width>
-    <height>907</height>
+    <height>976</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -160,10 +160,6 @@
         <property name="text">
          <string>AUTO[..]</string>
         </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>comport.png</normaloff>comport.png</iconset>
-        </property>
         <property name="iconSize">
          <size>
           <width>32</width>
@@ -176,10 +172,6 @@
        <widget class="QPushButton" name="connectButton">
         <property name="text">
          <string>Connect</string>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>comport.png</normaloff>comport.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -206,10 +198,6 @@
        <widget class="QPushButton" name="rescan_ports_button">
         <property name="text">
          <string>Rescan ports</string>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>reload.png</normaloff>reload.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -243,7 +231,7 @@
        <attribute name="title">
         <string>Oscilloscope</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_7">
+       <layout class="QGridLayout" name="gridLayout_9">
         <item row="0" column="0" rowspan="2">
          <layout class="QGridLayout" name="gridLayout_6">
           <property name="sizeConstraint">
@@ -267,6 +255,31 @@
              <string>Observation</string>
             </property>
             <layout class="QGridLayout" name="gridLayout_5">
+             <item row="1" column="0">
+              <widget class="QCheckBox" name="live_update_box">
+               <property name="text">
+                <string>Live update,
+every [s]:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QDoubleSpinBox" name="sleep_time_box">
+               <property name="minimum">
+                <double>0.010000000000000</double>
+               </property>
+               <property name="value">
+                <double>1.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0" colspan="2">
+              <widget class="QCheckBox" name="corZeroBox">
+               <property name="text">
+                <string>Correct Zero Level?</string>
+               </property>
+              </widget>
+             </item>
              <item row="0" column="0" colspan="2">
               <widget class="QPushButton" name="get_data_btn">
                <property name="enabled">
@@ -281,31 +294,6 @@
                <property name="text">
                 <string>Get data from
 active channel(s)</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QDoubleSpinBox" name="sleep_time_box">
-               <property name="minimum">
-                <double>0.010000000000000</double>
-               </property>
-               <property name="value">
-                <double>1.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QCheckBox" name="live_update_box">
-               <property name="text">
-                <string>Live update,
-every [s]:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0" colspan="2">
-              <widget class="QCheckBox" name="corZeroBox">
-               <property name="text">
-                <string>Correct Zero Level?</string>
                </property>
               </widget>
              </item>
@@ -540,7 +528,7 @@ every [s]:</string>
          </layout>
         </item>
         <item row="0" column="1">
-         <spacer name="horizontalSpacer_7">
+         <spacer name="horizontalSpacer_14">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -549,16 +537,128 @@ every [s]:</string>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>20</width>
+            <width>28</width>
             <height>20</height>
            </size>
           </property>
          </spacer>
         </item>
         <item row="0" column="2">
-         <widget class="PlotWidget" name="oscillographPlot"/>
+         <layout class="QGridLayout" name="gridLayout_7">
+          <item row="3" column="1">
+           <widget class="QPushButton" name="minusMButton">
+            <property name="text">
+             <string>-M</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" rowspan="6">
+           <widget class="PlotWidget" name="oscillographPlot">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>600</width>
+              <height>450</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLineEdit" name="formulaEdit">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="placeholderText">
+             <string>vars: y, np.sqrt(), /,*,-,+</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <spacer name="verticalSpacer_6">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="1">
+           <widget class="QPushButton" name="saveAllBtn">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Save All</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <spacer name="verticalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>358</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="6" column="1">
+           <spacer name="horizontalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>68</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="2" column="1">
+           <widget class="QPushButton" name="plusMButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>+M</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QPushButton" name="clrButton">
+            <property name="text">
+             <string>CLR</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
-        <item row="1" column="1" colspan="2">
+        <item row="1" column="2">
          <widget class="QGroupBox" name="groupBox_7">
           <property name="maximumSize">
            <size>

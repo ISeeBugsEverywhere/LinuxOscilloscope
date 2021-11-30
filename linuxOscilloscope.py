@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import glob
 import os, sys
 import platform
@@ -12,11 +14,13 @@ import importlib.util
 import importlib
 from pyqtgraph import mkPen
 import pyqtgraph as pg
+import pyqtgraph.exporters
 from Scripts.vars import *
 from Scripts.Threads import ContinuousUpdate
 from Scripts.output_formatter import *
 from Scripts.configparser import *
-from PyQt5.QtWebKit import *
+from Scripts.npmath import *
+from Scripts.SavedSignalsClass import *
 
 from HWaccess.LXI import *
 from HWaccess.USBTMC import *
@@ -31,6 +35,8 @@ GOM = None
 
 R_THRAED = "Stop continuous\ndata acquisition"
 START = "Get data from\nselected channel(s)"
+
+COLORS = QtGui.QColor.colorNames()
 
 
 class LOsc(QtWidgets.QMainWindow):
@@ -54,6 +60,8 @@ class LOsc(QtWidgets.QMainWindow):
         self._data = {}
         self._loaded_cmds = []
         self.counter = 0
+        self._saved_signals = []
+        self.next_color = 0
         pass
 
     def _signals_(self):
@@ -96,6 +104,94 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.save_csv_button.clicked.connect(self.save_all_csv_fn)
         # autoconnect feature
         self.ui.autoConnect.clicked.connect(self.autoconnect)
+        #-M, +M, CLR, SAVE ALL buttons:
+        self.ui.saveAllBtn.clicked.connect(self.SVEAFN)
+        self.ui.plusMButton.clicked.connect(self.PMBtn)
+        self.ui.minusMButton.clicked.connect(self.MMBtn)
+        self.ui.clrButton.clicked.connect(self.CLRFN)
+        pass
+
+    def SVEAFN(self):
+        """
+        Kol kas tik CH1?
+        :return:
+        """
+        # pyqtgraph csv export abilities
+        exporter = pyqtgraph.exporters.CSVExporter(self.ui.oscillographPlot.plotItem)
+        f_name = self.ui.file_name_entry.text()
+        if 'csv' not in f_name:
+            f_name = f_name + f'{self.counter:04}' + '.csv'
+        else:
+            f_name = f_name[:-4] + f'{self.counter:04}' + ".csv"
+        self.counter = self.counter + 1
+        f_path = self.ui.dir_label.text()
+        full_path = os.path.join(f_path, f_name)
+        exporter.export(full_path)
+        pass
+
+    def PMBtn(self):
+        if self.ui.ch1_comment.isEnabled():
+            txt1 = self.ui.ch1_comment.text()+"_CH1"
+        if self.ui.ch2_comment.isEnabled():
+            txt2 = self.ui.ch2_comment.text()+"_CH2"
+        if self.ui.ch3_comment.isEnabled():
+            txt3 = self.ui.ch3_comment.text()+"_CH3"
+        if self.ui.ch4_comment.isEnabled():
+            txt4 = self.ui.ch4_comment.text()+"_CH4"
+        dataItems = self.ui.oscillographPlot.plotItem.listDataItems()
+        for i in dataItems:
+            if i is not None:
+                if i.name() == "1":
+                    x_i, y_i = i.getData()
+                    ssig =  SavedSignal(x_i, y_i, name=txt1, color=QtGui.QColor(COLORS[self.next_color]))
+                    self._saved_signals.append(ssig)
+                    self.next_color = self.next_color + 1
+                    self.ui.oscillographPlot.plotItem.removeItem(i)
+                if i.name() == "2":
+                    x_i, y_i = i.getData()
+                    ssig = SavedSignal(x_i, y_i, name=txt2, color=QtGui.QColor(COLORS[self.next_color]))
+                    self._saved_signals.append(ssig)
+                    self.next_color = self.next_color + 1
+                    self.ui.oscillographPlot.plotItem.removeItem(i)
+                if i.name() == "3":
+                    x_i, y_i = i.getData()
+                    ssig = SavedSignal(x_i, y_i, name=txt3, color=QtGui.QColor(COLORS[self.next_color]))
+                    self._saved_signals.append(ssig)
+                    self.next_color = self.next_color + 1
+                    self.ui.oscillographPlot.plotItem.removeItem(i)
+                if i.name() == "4":
+                    x_i, y_i = i.getData()
+                    ssig = SavedSignal(x_i, y_i, name=txt4, color=QtGui.QColor(COLORS[self.next_color]))
+                    self._saved_signals.append(ssig)
+                    self.next_color = self.next_color + 1
+                    self.ui.oscillographPlot.plotItem.removeItem(i)
+        self.ui.oscillographPlot.plotItem.clear()
+        # išsaugota, pašalinta, metas atnaujinti.
+        self.replot_saved_graphs()
+
+    def replot_saved_graphs(self):
+        for i in self._saved_signals:
+            dataItems = self.ui.oscillographPlot.plotItem.listDataItems()
+            for item in dataItems:
+                if item.name() == i.name:
+                    self.ui.oscillographPlot.plotItem.removeItem(item)
+        for i in self._saved_signals:
+            cpen = mkPen(color=i.color, width=i.width)
+            self.ui.oscillographPlot.plotItem.plot(i.x, i.y, pen=cpen, name =i.name)
+
+
+    def MMBtn(self):
+        for i in self._saved_signals:
+            dataItems = self.ui.oscillographPlot.plotItem.listDataItems()
+            for item in dataItems:
+                if item.name() == i.name:
+                    self.ui.oscillographPlot.plotItem.removeItem(item)
+        self._saved_signals.pop()
+        self.replot_saved_graphs()
+
+    def CLRFN(self):
+        self.clear_plotted_items(self.ui.oscillographPlot)
+        self._saved_signals = []
         pass
 
     def save_all_csv_fn(self):
@@ -329,6 +425,17 @@ class LOsc(QtWidgets.QMainWindow):
             if str(i) != '':
                 self.ui.lxiCombo.addItem(str(i))
         self.show_help()
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("GUI/reload.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.ui.rescan_ports_button.setIcon(icon1)
+        self.ui.rescan_ports_button.setIconSize(QtCore.QSize(32, 32))
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("GUI/comport.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.ui.autoConnect.setIcon(icon)
+        self.ui.autoConnect.setIconSize(QtCore.QSize(32, 32))
+        self.ui.connectButton.setIcon(icon)
+        self.ui.connectButton.setIconSize(QtCore.QSize(32, 32))
+        self.ui.oscillographPlot.addLegend()
 
     def get_data_fn(self):
 
@@ -432,7 +539,7 @@ class LOsc(QtWidgets.QMainWindow):
             if "windows" in platform.system().lower():
                 devices = USBTMC.get_devices()
                 for i in devices:
-                    self.ui.usbtmcCombo.addItem(str(devices))
+                    self.ui.usbtmcCombo.addItem(str(i))
         except Exception as ex:
             traceback.print_exc()
             self.append_html_paragraph(str(ex), -1, True)
@@ -711,6 +818,8 @@ class LOsc(QtWidgets.QMainWindow):
         """
         sizex = len(x)
         sizey=len(y)
+        np_x = np.asarray(x)
+        np_y = np.asarray(y)
         if sizex == sizey:
             dataItems =  graph.listDataItems()
             for i in dataItems:
@@ -719,15 +828,9 @@ class LOsc(QtWidgets.QMainWindow):
                     if i.name() == y_name:
                         graph.removeItem(i)
             cpen = mkPen(color=color, width=3)
-            if self.ui.corZeroBox.isChecked():
-                np_x = np.asarray(x)
-                np_y = np.asarray(y)
-                idxs = np_x < 0.0
-                npay = np_y[idxs]
-                av = np.average(npay[:int(0.9*len(npay))])
-                graph.plot(np_x, (np_y-av), pen=cpen, name=y_name)
-            else:
-                graph.plot(x,y, pen=cpen, name=y_name)
+            npx, npy = get_mod_array(np_x, np_y, self.ui.corZeroBox.isChecked(), self.ui.formulaEdit.text())
+            graph.plot(npx, npy, pen=cpen, name=y_name)
+            self.replot_saved_graphs()
             graph.setLabel('bottom', "Time scale", units=str(x_Unit))
             graph.setLabel('left', "CH scale", units=str(y_Unit))
         else:

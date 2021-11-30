@@ -2,6 +2,7 @@ import os
 import sys
 import numpy as np
 import platform
+import time
 from HWaccess.RS232Device import RS232Device
 
 
@@ -228,12 +229,68 @@ class Oscilloscope:
         _letters_ = "abcdefghijklmnopqrstuvwxzy0123456789_<>"
         return _letters_.index(letter)
 
+    def _get_diff_(self, a, b):
+        sign = "+"
+        d = a - b
+        if d < 0:
+            sign = "-"
+        if d > 0:
+            sign = "+"
+        return abs(a-b), sign
+
     def save_all(self, fname="None", path="E:"):
+        if len(fname) == 0:
+            fname= "file"
+        _letters_ = "abcdefghijklmnopqrstuvwxzy0123456789_"
+        for i in fname:
+            if i not in _letters_:
+                fname = fname.replace(i, "")
+        f_name = fname[0:8]
+        # self.device.write(":KEY:MNU")
         self.device.write(":key:storage")
+        time.sleep(0.1)
         self.device.write(":key:f1")
+        time.sleep(0.1)
         i = 0
-        for k in range(0, 5):
+        for k in range(0, 4):
             self.device.write(":key:-func")
+            time.sleep(0.1)
+        time.sleep(0.1)
         self.device.write(":key:+func")
+        time.sleep(0.1)
         self.device.write(":key:func")
+        time.sleep(0.1)
+        self.device.write(":key:f4")
+        time.sleep(0.1)
+        self.device.write(":key:f2")
+        time.sleep(0.1)
+        for i in range(0,8):
+            self.device.write(":key:f3")
+            time.sleep(0.1)
+        curr_idx = 0
+        next_idx = 0
+        for i in f_name:
+            next_idx = self._get_index_(i)
+            step, sign = self._get_diff_(next_idx, curr_idx)
+            if step == 0:
+                self.device.write(":key:func")
+            else:
+                if sign == "+":
+                    for k in range(0, step):
+                        self.device.write(":key:+func")
+                        time.sleep(0.1)
+                    self.device.write(":key:func")
+                    curr_idx = next_idx
+                elif sign == "-":
+                    for k in range(0, step):
+                        self.device.write(":key:-func")
+                        time.sleep(0.1)
+                    self.device.write(":key:func")
+                    curr_idx = next_idx
+            pass
+        self.device.write(":key:f4")
+        time.sleep(0.1)
+        self.device.write(":key:mnu")
+        time.sleep(0.1)
+        self.device.write(":key:run")
         pass
