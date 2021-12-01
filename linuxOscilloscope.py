@@ -712,7 +712,7 @@ class LOsc(QtWidgets.QMainWindow):
                     dummy_device = lxi(port)
                     idn = str(dummy_device.ask("*idn?"))
                     for i in dvces:
-                        if i.split('_')[1] in idn:
+                        if i.split('_')[1] in idn and i.split('_')[2] == 'TCP':
                             # global GOM
                             GOM = importlib.import_module(i)
                             break
@@ -725,7 +725,7 @@ class LOsc(QtWidgets.QMainWindow):
                     dummy_device = USBTMC(port)
                     idn = str(dummy_device.ask("*idn?"))
                     for i in dvces:
-                        if i.split('_')[1] in idn:
+                        if i.split('_')[1] in idn and i.split('_')[2] == 'USB':
                             GOM = importlib.import_module(i)
                             break
                     self.trigger_device()
