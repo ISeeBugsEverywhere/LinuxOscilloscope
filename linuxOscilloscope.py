@@ -58,6 +58,7 @@ class LOsc(QtWidgets.QMainWindow):
         self._buttons = {1:self.ui.ch1_btn, 2:self.ui.ch2_btn, 3:self.ui.ch3_btn, 4:self.ui.ch4_btn}
         self._colors = [(255,255,0), (0,0,255), (0,128,0),(139,0,0)]
         self._data = {}
+        self._data_mod  = {}
         self._loaded_cmds = []
         self.counter = 0
         self._saved_signals = []
@@ -159,7 +160,7 @@ class LOsc(QtWidgets.QMainWindow):
         if self.ui.ch4_comment.isEnabled():
             txt4 = self.ui.ch4_comment.text()+"_CH4"
         dataItems = self.ui.oscillographPlot.plotItem.listDataItems()
-        for channel, (dx, dy, tunit) in self._data.items():
+        for channel, (dx, dy, tunit) in self._data_mod.items():
             print("CHAN", channel)
             if '1' in channel:
                 ssig = SavedSignal(dx, dy, txt1, color=QtGui.QColor(COLORS[self.next_color]))
@@ -480,6 +481,7 @@ class LOsc(QtWidgets.QMainWindow):
         """Gets a data and displays it"""
         # console("Gets a data")
         self._data = {}  # clears a dictionary
+        self._data_mod = {}
         if self.ui.get_data_btn.text() == R_THRAED:
             if self._worker is not None and self._worker.ID == 1:
                 self._worker.stop(True)
@@ -517,7 +519,8 @@ class LOsc(QtWidgets.QMainWindow):
                             np_y = np.asarray(y_array)
                             npx, npy = get_mod_array(np_x, np_y, self.ui.corZeroBox.isChecked(), self.ui.formulaEdit.text())
                             # graph.plot(npx, npy, pen=cpen, name=y_name)
-                            self._data[channel]=[npx, npy, t_Unit] # data saugoma tik modifikuoti!
+                            self._data[channel]=[x_array, y_array, t_Unit] # data saugoma tik modifikuoti!
+                            self._data_mod[channel]=[npx, npy, t_Unit] # data saugoma tik modifikuoti!
                             self.update_graph(self.ui.oscillographPlot, npx, npy, str(index), t_Unit, color=self._colors[index-1])
                 self.fill_info_with_data()
                 self.ui.saved_state_label.setText("NOT SAVED.")
@@ -530,6 +533,7 @@ class LOsc(QtWidgets.QMainWindow):
         npx, npy = get_mod_array(np_x, np_y, self.ui.corZeroBox.isChecked(), self.ui.formulaEdit.text())
         self.update_graph(self.ui.oscillographPlot, npx, npy, str(index), x_unit, color=self._colors[index - 1])
         self._data[channel] = [x, y, x_unit]
+        self._data_mod[channel] = [npx, npy, x_unit]
         self.fill_info_with_data()
         pass
 
