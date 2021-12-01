@@ -159,32 +159,50 @@ class LOsc(QtWidgets.QMainWindow):
         if self.ui.ch4_comment.isEnabled():
             txt4 = self.ui.ch4_comment.text()+"_CH4"
         dataItems = self.ui.oscillographPlot.plotItem.listDataItems()
-        for i in dataItems:
-            if i is not None:
-                if i.name() == "1":
-                    x_i, y_i = i.getData()
-                    ssig =  SavedSignal(x_i, y_i, name=txt1, color=QtGui.QColor(COLORS[self.next_color]))
-                    self._saved_signals.append(ssig)
-                    self.next_color = self.next_color + 1
-                    self.ui.oscillographPlot.plotItem.removeItem(i)
-                if i.name() == "2":
-                    x_i, y_i = i.getData()
-                    ssig = SavedSignal(x_i, y_i, name=txt2, color=QtGui.QColor(COLORS[self.next_color]))
-                    self._saved_signals.append(ssig)
-                    self.next_color = self.next_color + 1
-                    self.ui.oscillographPlot.plotItem.removeItem(i)
-                if i.name() == "3":
-                    x_i, y_i = i.getData()
-                    ssig = SavedSignal(x_i, y_i, name=txt3, color=QtGui.QColor(COLORS[self.next_color]))
-                    self._saved_signals.append(ssig)
-                    self.next_color = self.next_color + 1
-                    self.ui.oscillographPlot.plotItem.removeItem(i)
-                if i.name() == "4":
-                    x_i, y_i = i.getData()
-                    ssig = SavedSignal(x_i, y_i, name=txt4, color=QtGui.QColor(COLORS[self.next_color]))
-                    self._saved_signals.append(ssig)
-                    self.next_color = self.next_color + 1
-                    self.ui.oscillographPlot.plotItem.removeItem(i)
+        for channel, (dx, dy, tunit) in self._data.items():
+            print("CHAN", channel)
+            if '1' in channel:
+                ssig = SavedSignal(dx, dy, txt1, color=QtGui.QColor(COLORS[self.next_color]))
+                self._saved_signals.append(ssig)
+                self.next_color = self.next_color + 1
+            if '2' in channel:
+                ssig = SavedSignal(dx, dy, txt2, color=QtGui.QColor(COLORS[self.next_color]))
+                self._saved_signals.append(ssig)
+                self.next_color = self.next_color + 1
+            if '3' in channel:
+                ssig = SavedSignal(dx, dy, txt3, color=QtGui.QColor(COLORS[self.next_color]))
+                self._saved_signals.append(ssig)
+                self.next_color = self.next_color + 1
+            if '4' in channel:
+                ssig = SavedSignal(dx, dy, txt4, color=QtGui.QColor(COLORS[self.next_color]))
+                self._saved_signals.append(ssig)
+                self.next_color = self.next_color + 1
+        # for i in dataItems:
+        #     if i is not None:
+        #         if i.name() == "1":
+        #             x_i, y_i = i.getData()
+        #             ssig =  SavedSignal(x_i, y_i, name=txt1, color=QtGui.QColor(COLORS[self.next_color]))
+        #             self._saved_signals.append(ssig)
+        #             self.next_color = self.next_color + 1
+        #             self.ui.oscillographPlot.plotItem.removeItem(i)
+        #         if i.name() == "2":
+        #             x_i, y_i = i.getData()
+        #             ssig = SavedSignal(x_i, y_i, name=txt2, color=QtGui.QColor(COLORS[self.next_color]))
+        #             self._saved_signals.append(ssig)
+        #             self.next_color = self.next_color + 1
+        #             self.ui.oscillographPlot.plotItem.removeItem(i)
+        #         if i.name() == "3":
+        #             x_i, y_i = i.getData()
+        #             ssig = SavedSignal(x_i, y_i, name=txt3, color=QtGui.QColor(COLORS[self.next_color]))
+        #             self._saved_signals.append(ssig)
+        #             self.next_color = self.next_color + 1
+        #             self.ui.oscillographPlot.plotItem.removeItem(i)
+        #         if i.name() == "4":
+        #             x_i, y_i = i.getData()
+        #             ssig = SavedSignal(x_i, y_i, name=txt4, color=QtGui.QColor(COLORS[self.next_color]))
+        #             self._saved_signals.append(ssig)
+        #             self.next_color = self.next_color + 1
+        #             self.ui.oscillographPlot.plotItem.removeItem(i)
         self.ui.oscillographPlot.plotItem.clear()
         # išsaugota, pašalinta, metas atnaujinti.
         self.replot_saved_graphs()
