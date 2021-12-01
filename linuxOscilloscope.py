@@ -513,15 +513,22 @@ class LOsc(QtWidgets.QMainWindow):
                         if self._channels[index] is not None:
                             channel = self._channels[index]
                             y_array, x_array, t_Unit = self.OSCILLOSCOPE.get_xy(channel)
-                            self._data[channel]=[x_array, y_array, t_Unit]
-                            self.update_graph(self.ui.oscillographPlot, x_array, y_array, str(index), t_Unit, color=self._colors[index-1])
+                            np_x = np.asarray(x_array)
+                            np_y = np.asarray(y_array)
+                            npx, npy = get_mod_array(np_x, np_y, self.ui.corZeroBox.isChecked(), self.ui.formulaEdit.text())
+                            # graph.plot(npx, npy, pen=cpen, name=y_name)
+                            self._data[channel]=[npx, npy, t_Unit] # data saugoma tik modifikuoti!
+                            self.update_graph(self.ui.oscillographPlot, npx, npy, str(index), t_Unit, color=self._colors[index-1])
                 self.fill_info_with_data()
                 self.ui.saved_state_label.setText("NOT SAVED.")
                 pass
 
     def worker_xy(self, y, x, x_unit, channel):
         index = list(self._channels.values()).index(channel)+1
-        self.update_graph(self.ui.oscillographPlot, x, y, str(index), x_unit, color=self._colors[index - 1])
+        np_x = np.asarray(x)
+        np_y = np.asarray(y)
+        npx, npy = get_mod_array(np_x, np_y, self.ui.corZeroBox.isChecked(), self.ui.formulaEdit.text())
+        self.update_graph(self.ui.oscillographPlot, npx, npy, str(index), x_unit, color=self._colors[index - 1])
         self._data[channel] = [x, y, x_unit]
         self.fill_info_with_data()
         pass
@@ -866,8 +873,8 @@ class LOsc(QtWidgets.QMainWindow):
                     if i.name() == y_name:
                         graph.removeItem(i)
             cpen = mkPen(color=color, width=3)
-            npx, npy = get_mod_array(np_x, np_y, self.ui.corZeroBox.isChecked(), self.ui.formulaEdit.text())
-            graph.plot(npx, npy, pen=cpen, name=y_name)
+            # npx, npy = get_mod_array(np_x, np_y, self.ui.corZeroBox.isChecked(), self.ui.formulaEdit.text())
+            graph.plot(np_x, np_y, pen=cpen, name=y_name)
             self.replot_saved_graphs()
             graph.setLabel('bottom', "Time scale", units=str(x_Unit))
             graph.setLabel('left', "CH scale", units=str(y_Unit))
