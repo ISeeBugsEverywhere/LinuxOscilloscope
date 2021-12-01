@@ -115,12 +115,12 @@ class LOsc(QtWidgets.QMainWindow):
         pass
 
     def log_mode_fn(self):
-        if not self.LOGMODE:
-            self.ui.oscillographPlot.plotItem.setLogMode(True, True)
-            self.LOGMODE = not self.LOGMODE
-        elif self.LOGMODE:
+        if self.ui.oscillographPlot.plotItem.ctrl.logXCheck.isChecked() or self.ui.oscillographPlot.plotItem.ctrl.logYCheck.isChecked():
             self.ui.oscillographPlot.plotItem.setLogMode(False, False)
-            self.LOGMODE = not self.LOGMODE
+            self.LOGMODE = False
+        else:
+            self.ui.oscillographPlot.plotItem.setLogMode(True, True)
+            self.LOGMODE = True
 
     def SVEAFN(self):
         """
