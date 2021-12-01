@@ -27,9 +27,10 @@ from HWaccess.USBTMC import *
 
 _new_line = os.linesep
 try:
-    from HWaccess.USBTMC_mod import USBTMC
+    if 'windows' in platform.system().lower():
+        from HWaccess.USBTMC_mod import USBTMCMOD as USBTMC
 except:
-    USBTMC = None
+    pass
 
 GOM = None
 

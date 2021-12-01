@@ -1,5 +1,5 @@
 import usbtmc
-class USBTMC:
+class USBTMCMOD:
     def __init__(self, device):
         self.device = usbtmc.Instrument(device)
         # usbtmc.Instrument(device)
