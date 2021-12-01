@@ -26,11 +26,11 @@ from HWaccess.LXI import *
 from HWaccess.USBTMC import *
 
 _new_line = os.linesep
-try:
-    if 'windows' in platform.system().lower():
-        from HWaccess.USBTMC_mod import USBTMCMOD as USBTMC
-except:
-    pass
+# try:
+#     if 'windows' in platform.system().lower():
+#         from HWaccess.USBTMC_mod import USBTMCMOD as USBTMC
+# except:
+#     pass
 
 GOM = None
 

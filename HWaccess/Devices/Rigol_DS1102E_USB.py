@@ -4,10 +4,10 @@ import time
 
 import numpy as np
 import platform
-if "windows" in platform.system().lower():
-    from HWaccess.USBTMC_mod import USBTMC
-elif "linux" in platform.system().lower():
-    from HWaccess.USBTMC import USBTMC
+# if "windows" in platform.system().lower():
+#     from HWaccess.USBTMC_mod import USBTMC
+# elif "linux" in platform.system().lower():
+from HWaccess.USBTMC import USBTMC
 
 
 
