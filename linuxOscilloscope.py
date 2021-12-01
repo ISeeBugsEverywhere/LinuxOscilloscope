@@ -746,6 +746,7 @@ class LOsc(QtWidgets.QMainWindow):
         except Exception as ex:
             traceback.print_exc()
             self.append_html_paragraph(str(ex), -1, True)
+            self.append_html_paragraph(str(os.getcwd()), -1, True)
             pass
         pass
 
