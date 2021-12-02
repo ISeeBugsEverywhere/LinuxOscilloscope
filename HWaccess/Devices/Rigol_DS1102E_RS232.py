@@ -13,7 +13,7 @@ class Oscilloscope:
     """
     def __init__(self):
         self.device = None
-        self.t_name="Rigol DS1102E (USB)"
+        self.t_name="Rigol DS1102E (RS232)"
         self.idn = None
         self.mode = "NORM"
         self.CH1 = "CHAN1"

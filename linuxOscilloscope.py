@@ -700,6 +700,7 @@ class LOsc(QtWidgets.QMainWindow):
         try:
             if self.ui.autoConnect.text() != "Disconnect":
                 port, status, params = self.get_port_parameters()
+                # print("STATUS::ERR::", status)
                 global GOM #switch to enable global GOM
                 files = glob.glob("HWaccess/Devices/*.py")
                 dvces = []
@@ -722,6 +723,7 @@ class LOsc(QtWidgets.QMainWindow):
                 elif status == 1:
                     pass
                 elif status == 2:#         usbtmc case
+                    # print("THIS::CASE::2")
                     dummy_device = USBTMC(port)
                     idn = str(dummy_device.ask("*idn?"))
                     for i in dvces:
@@ -771,9 +773,11 @@ class LOsc(QtWidgets.QMainWindow):
                 pass
             elif status == 1:
                 self.OSCILLOSCOPE.init_device(port, params)
+                # print("STATUS: RS232", status)
                 pass
             elif status == 2:
                 self.OSCILLOSCOPE.init_device(port, params)
+                print("STATUS USBTMC:", status)
             idn = self.OSCILLOSCOPE.get_name()
             self._idnLabel(idn)
             self.setWindowTitle(self.OSCILLOSCOPE.t_name+" : Oscilloscope")
