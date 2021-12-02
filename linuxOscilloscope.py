@@ -407,7 +407,7 @@ class LOsc(QtWidgets.QMainWindow):
         f_path = self.ui.dir_label.text()
         full_path = os.path.join(f_path, f_name)
         all_data = self.ui.infoText.toPlainText() # gets all data into one string
-        all_data = all_data.replace(",", ";")
+        all_data = all_data.replace(",", ",")
         w_data = ""
         if self.ui.ch1_comment.isEnabled():
             txt = self.ui.ch1_comment.text()
@@ -520,8 +520,8 @@ class LOsc(QtWidgets.QMainWindow):
                             np_y = np.asarray(y_array)
                             npx, npy = get_mod_array(np_x, np_y, self.ui.corZeroBox.isChecked(), self.ui.formulaEdit.text())
                             # graph.plot(npx, npy, pen=cpen, name=y_name)
-                            self._data[channel]=[x_array, y_array, t_Unit] # data saugoma tik modifikuoti!
-                            self._data_mod[channel]=[npx, npy, t_Unit] # data saugoma tik modifikuoti!
+                            self._data[channel]=[x_array, y_array, t_Unit] # data saugoma nemodifikuoti
+                            self._data_mod[channel]=[npx, npy, t_Unit] # data_mod saugoma tik modifikuoti!
                             self.update_graph(self.ui.oscillographPlot, npx, npy, str(index), t_Unit, color=self._colors[index-1])
                 self.fill_info_with_data()
                 self.ui.saved_state_label.setText("NOT SAVED.")
