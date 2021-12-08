@@ -248,6 +248,10 @@ class LOsc(QtWidgets.QMainWindow):
         exporter.export(full_path)
         # self.ui.oscillographPlot.plotItem.setLogMode(True, False)
         # self.ui.oscillographPlot.plotItem.replot()
+        # insert a comment:
+        txt = self.ui.commentField.text()
+        if len(txt) > 0:
+            prepend_line(full_path, txt)
         if self.LOGMODE:
             self.ui.oscillographPlot.plotItem.setLogMode(True, True)
 

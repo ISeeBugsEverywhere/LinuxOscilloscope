@@ -545,7 +545,27 @@ active channel(s)</string>
         </item>
         <item row="0" column="2">
          <layout class="QGridLayout" name="gridLayout_7">
-          <item row="6" column="1">
+          <item row="3" column="1">
+           <widget class="QPushButton" name="plusMButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>+M</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="1">
+           <widget class="QPushButton" name="helpButton">
+            <property name="text">
+             <string>HELP?</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
            <spacer name="verticalSpacer_4">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
@@ -558,7 +578,20 @@ active channel(s)</string>
             </property>
            </spacer>
           </item>
-          <item row="0" column="1">
+          <item row="2" column="1">
+           <spacer name="verticalSpacer_6">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="1">
            <widget class="QPushButton" name="saveAllBtn">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -571,14 +604,21 @@ active channel(s)</string>
             </property>
            </widget>
           </item>
-          <item row="4" column="1">
-           <widget class="QPushButton" name="clrButton">
+          <item row="6" column="1">
+           <widget class="QPushButton" name="logMode">
             <property name="text">
-             <string>CLR</string>
+             <string>LOG(X,Y)</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="0" rowspan="7">
+          <item row="4" column="1">
+           <widget class="QPushButton" name="minusMButton">
+            <property name="text">
+             <string>-M</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" rowspan="7">
            <widget class="PlotWidget" name="oscillographPlot">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -594,7 +634,7 @@ active channel(s)</string>
             </property>
            </widget>
           </item>
-          <item row="7" column="0">
+          <item row="8" column="0">
            <widget class="QLineEdit" name="formulaEdit">
             <property name="minimumSize">
              <size>
@@ -607,50 +647,17 @@ active channel(s)</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="1">
-           <widget class="QPushButton" name="minusMButton">
-            <property name="text">
-             <string>-M</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <spacer name="verticalSpacer_6">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="2" column="1">
-           <widget class="QPushButton" name="plusMButton">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>+M</string>
-            </property>
-           </widget>
-          </item>
           <item row="5" column="1">
-           <widget class="QPushButton" name="logMode">
+           <widget class="QPushButton" name="clrButton">
             <property name="text">
-             <string>LOG(X,Y)</string>
+             <string>CLR</string>
             </property>
            </widget>
           </item>
-          <item row="7" column="1">
-           <widget class="QPushButton" name="helpButton">
-            <property name="text">
-             <string>HELP?</string>
+          <item row="0" column="0">
+           <widget class="QLineEdit" name="commentField">
+            <property name="placeholderText">
+             <string>Comments?</string>
             </property>
            </widget>
           </item>
