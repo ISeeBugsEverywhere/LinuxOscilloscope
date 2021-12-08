@@ -26,6 +26,8 @@ from HWaccess.LXI import *
 from HWaccess.USBTMC import *
 
 _new_line = os.linesep
+
+from datetime import datetime
 # try:
 #     if 'windows' in platform.system().lower():
 #         from HWaccess.USBTMC_mod import USBTMCMOD as USBTMC
@@ -239,9 +241,13 @@ class LOsc(QtWidgets.QMainWindow):
         exporter = pyqtgraph.exporters.CSVExporter(self.ui.oscillographPlot.plotItem)
         f_name = self.ui.file_name_entry.text()
         if 'csv' not in f_name:
-            f_name = f_name + f'{self.counter:04}' + '.csv'
+            if len(f_name) == 0:
+                now = datetime.now().strftime("%Y-%m-%d")
+                f_name = now + f_name + '_'+f'{self.counter:04}' + '.csv'
+            else:
+                f_name = f_name + '_'+f'{self.counter:04}' + '.csv'
         else:
-            f_name = f_name[:-4] + f'{self.counter:04}' + ".csv"
+            f_name = f_name[:-4] + '_'+f'{self.counter:04}' + ".csv"
         self.counter = self.counter + 1
         f_path = self.ui.dir_label.text()
         full_path = os.path.join(f_path, f_name)
