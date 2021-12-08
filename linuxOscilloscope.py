@@ -560,6 +560,10 @@ class LOsc(QtWidgets.QMainWindow):
         iconh.addPixmap(QtGui.QPixmap("GUI/help.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.ui.helpButton.setIcon(iconh)
         self.ui.helpButton.setIconSize(QtCore.QSize(32, 32))
+        iconq = QtGui.QIcon()
+        iconq.addPixmap(QtGui.QPixmap("GUI/quit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.ui.quitButton.setIcon(iconq)
+        self.ui.quitButton.setIconSize(QtCore.QSize(32, 32))
 
     def get_data_fn(self):
 

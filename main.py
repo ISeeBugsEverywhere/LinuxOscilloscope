@@ -8,7 +8,7 @@ from linuxOscilloscope import LOsc
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
-    app.setStyle('Oxygen')
+    # app.setStyle('Oxygen')
     window = LOsc()
     window.show()
     sys.exit(app.exec_())
