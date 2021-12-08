@@ -1,5 +1,5 @@
 import sys, os
-import pandas as pd
+# import pandas as pd
 from Scripts.SavedSignalsClass import *
 
 
@@ -62,13 +62,13 @@ def get_o_d(_d:dict):
     _o = get_oo_jj(_a)
     return _o
 
-def save_pd_csv(data_dict, pdl, fname_full, x_com='', y_com=''):
-    pdf = pd.DataFrame()
-    for channel, xarr, yarr, xUnit in data_dict.items():
-        _fx = ['Time', str(xUnit)]
-        _fy = ['CH'+str(channel), y_com]
-        pdf[str(channel)+'_x'] = _fx.extend(xarr)
-        pdf[str(channel)+'_y'] = _fy.extend(yarr)
-    for i in pdl:
-        pass
-    pass
+# def save_pd_csv(data_dict, pdl, fname_full, x_com='', y_com=''):
+#     pdf = pd.DataFrame()
+#     for channel, xarr, yarr, xUnit in data_dict.items():
+#         _fx = ['Time', str(xUnit)]
+#         _fy = ['CH'+str(channel), y_com]
+#         pdf[str(channel)+'_x'] = _fx.extend(xarr)
+#         pdf[str(channel)+'_y'] = _fy.extend(yarr)
+#     for i in pdl:
+#         pass
+#     pass

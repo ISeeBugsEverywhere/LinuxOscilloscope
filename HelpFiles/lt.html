@@ -1,7 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html>
 <html>
+<style>
+code {
+  font-family: Consolas,"courier new";
+  color: crimson;
+  background-color: #f1f1f1;
+  padding: 2px;
+  font-size: 125%;
+  font-weight: bold;
+}
+</style>
 <body>
+<h3>Signalo perskaičiavimas</h3>
+Signalo vertes galima perskaičiuoti, atsižvelgiant į apkrovos varžą, kontakto plotą, etc ... <br> Tam naudojamas po grafiko langu esantis įvesties laukas, kur galima įvesti perskaičiavimo išraišką:<br>
+Kintamieji:<br>
+<code>y</code> - signalo y ašies vertės (x verčių [laiko skalės] perskaičiuoti negalima)<br>
+Matematiniai veiksmai - <code>/*-+</code><br>
+Specialios funkcijos pasiekiamos taip:<br>
+<code>np.sqrt(), np.cbrt(), np.min(), np,max(),</code> etc ... <br>
+<code>SVARBU: perskaičiuojami visų aktyvių kanalų signalai, +M išsaugo perskaičiuotus signalus, mygtukas SAVE ALL išsaugo perskaičiuotus signalus.</code>
+<h4>Pavyzdys:</h4>
+Signalo vertės invertuojamos, perskaičiuojamos į srovės tankį (mA/cm<sup>2</sup>)<br>
+esant R=1000.0 Ω apkrovos varžai ir 0.06 cm<sup>2</sup> kontakto plotui:<br>
+<code>-1.0*y*(1000.0/(1000.0*0.06))</code>
+
 <h3>Rigol DS1102E</h3>
 <img src="PICS/rigol.jpg" style="width: 5vw; min-width: 330px;"/>
 <p>

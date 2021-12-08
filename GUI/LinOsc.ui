@@ -571,22 +571,6 @@ active channel(s)</string>
             </property>
            </widget>
           </item>
-          <item row="7" column="1">
-           <spacer name="horizontalSpacer_7">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>68</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
           <item row="4" column="1">
            <widget class="QPushButton" name="clrButton">
             <property name="text">
@@ -660,6 +644,13 @@ active channel(s)</string>
            <widget class="QPushButton" name="logMode">
             <property name="text">
              <string>LOG(X,Y)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QPushButton" name="helpButton">
+            <property name="text">
+             <string>HELP?</string>
             </property>
            </widget>
           </item>

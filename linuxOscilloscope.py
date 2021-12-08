@@ -114,6 +114,7 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.clrButton.clicked.connect(self.CLRFN)
         #log mode
         self.ui.logMode.clicked.connect(self.log_mode_fn)
+        self.ui.helpButton.clicked.connect(lambda: self.show_help(True))
         pass
 
     def log_mode_fn(self):
@@ -179,32 +180,7 @@ class LOsc(QtWidgets.QMainWindow):
                 ssig = SavedSignal(dx, dy, txt4, color=QtGui.QColor(COLORS[self.next_color]))
                 self._saved_signals.append(ssig)
                 self.next_color = self.next_color + 1
-        # for i in dataItems:
-        #     if i is not None:
-        #         if i.name() == "1":
-        #             x_i, y_i = i.getData()
-        #             ssig =  SavedSignal(x_i, y_i, name=txt1, color=QtGui.QColor(COLORS[self.next_color]))
-        #             self._saved_signals.append(ssig)
-        #             self.next_color = self.next_color + 1
-        #             self.ui.oscillographPlot.plotItem.removeItem(i)
-        #         if i.name() == "2":
-        #             x_i, y_i = i.getData()
-        #             ssig = SavedSignal(x_i, y_i, name=txt2, color=QtGui.QColor(COLORS[self.next_color]))
-        #             self._saved_signals.append(ssig)
-        #             self.next_color = self.next_color + 1
-        #             self.ui.oscillographPlot.plotItem.removeItem(i)
-        #         if i.name() == "3":
-        #             x_i, y_i = i.getData()
-        #             ssig = SavedSignal(x_i, y_i, name=txt3, color=QtGui.QColor(COLORS[self.next_color]))
-        #             self._saved_signals.append(ssig)
-        #             self.next_color = self.next_color + 1
-        #             self.ui.oscillographPlot.plotItem.removeItem(i)
-        #         if i.name() == "4":
-        #             x_i, y_i = i.getData()
-        #             ssig = SavedSignal(x_i, y_i, name=txt4, color=QtGui.QColor(COLORS[self.next_color]))
-        #             self._saved_signals.append(ssig)
-        #             self.next_color = self.next_color + 1
-        #             self.ui.oscillographPlot.plotItem.removeItem(i)
+
         self.ui.oscillographPlot.plotItem.clear()
         # išsaugota, pašalinta, metas atnaujinti.
         self.replot_saved_graphs()
@@ -476,6 +452,10 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.connectButton.setIcon(icon)
         self.ui.connectButton.setIconSize(QtCore.QSize(32, 32))
         self.ui.oscillographPlot.addLegend()
+        iconh = QtGui.QIcon()
+        iconh.addPixmap(QtGui.QPixmap("GUI/help.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.ui.helpButton.setIcon(iconh)
+        self.ui.helpButton.setIconSize(QtCore.QSize(32, 32))
 
     def get_data_fn(self):
 
