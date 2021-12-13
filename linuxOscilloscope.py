@@ -570,6 +570,16 @@ class LOsc(QtWidgets.QMainWindow):
         iconq.addPixmap(QtGui.QPixmap("GUI/quit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.ui.quitButton.setIcon(iconq)
         self.ui.quitButton.setIconSize(QtCore.QSize(32, 32))
+        iconsave = QtGui.QIcon()
+        iconsave.addPixmap(QtGui.QPixmap("GUI/save.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.ui.save_btn.setIcon(iconsave)
+        self.ui.save_btn.setIconSize(QtCore.QSize(32,32))
+        self.ui.saveAllBtn.setIcon(iconsave)
+        self.ui.saveAllBtn.setIconSize(QtCore.QSize(32, 32))
+        icondir = QtGui.QIcon()
+        icondir.addPixmap(QtGui.QPixmap("GUI/directory.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.ui.dir_btn.setIcon(icondir)
+        self.ui.dir_btn.setIconSize(QtCore.QSize(32, 32))
 
     def get_data_fn(self):
 
