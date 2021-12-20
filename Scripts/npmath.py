@@ -83,11 +83,14 @@ def prepend_line_at(file_name, text, index = 0):
     pass
 
 
-def make_xy_header(ss_arr):
+def make_xy_header(ss_arr, sigs):
+    hdr = ''
+    for key, val in sigs.items():
+        hdr = hdr + str(key)+'_x,'+str(key)+'_y,'
     header = ''
     for i in ss_arr:
         header = header + i.eq+'_x,'+i.eq+'_y,'
-    return header
+    return hdr+header
     pass
 
 

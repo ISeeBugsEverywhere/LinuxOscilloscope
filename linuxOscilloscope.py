@@ -255,7 +255,7 @@ class LOsc(QtWidgets.QMainWindow):
         # self.ui.oscillographPlot.plotItem.setLogMode(True, False)
         # self.ui.oscillographPlot.plotItem.replot()
         # insert a comment:
-        header = make_xy_header(self._saved_signals)
+        header = make_xy_header(self._saved_signals, self._data_mod)
         prepend_line_at(full_path, header, 1)
         txt = self.ui.commentField.text()
         if len(txt) > 0:
