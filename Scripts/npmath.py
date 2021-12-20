@@ -59,5 +59,35 @@ def prepend_line(file_name, line):
     os.remove(file_name)
     # Rename dummy file as the original file
     os.rename(dummy_file, file_name)
+    pass
+
+def prepend_line_at(file_name, text, index = 0):
+    """ Insert given string as a new line at the beginning of a file """
+    # define name of temporary dummy file
+    dummy_file = file_name + '.bak'
+    idx = 0
+    # open original file in read mode and dummy file in write mode
+    with open(file_name, 'r') as read_obj, open(dummy_file, 'w') as write_obj:
+        # Write given line to the dummy file
+        # write_obj.write(line + '\n')
+        # Read lines from original file one by one and append them to the dummy file
+        for line in read_obj:
+            if idx == index:
+                write_obj.write(text + '\n')
+            write_obj.write(line)
+            idx = idx + 1
+    # remove original file
+    os.remove(file_name)
+    # Rename dummy file as the original file
+    os.rename(dummy_file, file_name)
+    pass
+
+
+def make_xy_header(ss_arr):
+    header = ''
+    for i in ss_arr:
+        header = header + i.eq+'_x,'+i.eq+'_y,'
+    return header
+    pass
 
 

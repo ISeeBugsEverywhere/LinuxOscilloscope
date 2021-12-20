@@ -255,6 +255,8 @@ class LOsc(QtWidgets.QMainWindow):
         # self.ui.oscillographPlot.plotItem.setLogMode(True, False)
         # self.ui.oscillographPlot.plotItem.replot()
         # insert a comment:
+        header = make_xy_header(self._saved_signals)
+        prepend_line_at(full_path, header, 1)
         txt = self.ui.commentField.text()
         if len(txt) > 0:
             prepend_line(full_path, txt)
@@ -274,23 +276,27 @@ class LOsc(QtWidgets.QMainWindow):
         dataItems = self.ui.oscillographPlot.plotItem.listDataItems()
         for channel, (dx, dy, tunit) in self._data_mod.items():
             print("CHAN", channel)
+            eq = '' # recalculations are the same for all signals
+            if len(self.ui.formulaEdit.text()) >0:
+                eq = self.ui.formulaEdit.text()
+            else:
+                eq = 'y'
             if '1' in channel:
-                ssig = SavedSignal(dx, dy, txt1, color=QtGui.QColor(COLORS[self.next_color]))
+                ssig = SavedSignal(dx, dy, txt1, color=QtGui.QColor(COLORS[self.next_color]), EQ = eq)
                 self._saved_signals.append(ssig)
                 self.next_color = self.next_color + 1
             if '2' in channel:
-                ssig = SavedSignal(dx, dy, txt2, color=QtGui.QColor(COLORS[self.next_color]))
+                ssig = SavedSignal(dx, dy, txt2, color=QtGui.QColor(COLORS[self.next_color]), EQ = eq)
                 self._saved_signals.append(ssig)
                 self.next_color = self.next_color + 1
             if '3' in channel:
-                ssig = SavedSignal(dx, dy, txt3, color=QtGui.QColor(COLORS[self.next_color]))
+                ssig = SavedSignal(dx, dy, txt3, color=QtGui.QColor(COLORS[self.next_color]), EQ = eq)
                 self._saved_signals.append(ssig)
                 self.next_color = self.next_color + 1
             if '4' in channel:
-                ssig = SavedSignal(dx, dy, txt4, color=QtGui.QColor(COLORS[self.next_color]))
+                ssig = SavedSignal(dx, dy, txt4, color=QtGui.QColor(COLORS[self.next_color]), EQ = eq)
                 self._saved_signals.append(ssig)
                 self.next_color = self.next_color + 1
-
         self.ui.oscillographPlot.plotItem.clear()
         # išsaugota, pašalinta, metas atnaujinti.
         self.replot_saved_graphs()
@@ -298,6 +304,7 @@ class LOsc(QtWidgets.QMainWindow):
     def replot_saved_graphs(self):
         for i in self._saved_signals:
             dataItems = self.ui.oscillographPlot.plotItem.listDataItems()
+            # print(len(dataItems), "kiek rasta data items")
             for item in dataItems:
                 if item.name() == i.name:
                     self.ui.oscillographPlot.plotItem.removeItem(item)
@@ -1003,3 +1010,4 @@ class LOsc(QtWidgets.QMainWindow):
             # console(i.name(), " ", y_name)
             if i is not None:
                 graph.removeItem(i)
+        graph.plotItem.legend.clear()
