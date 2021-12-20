@@ -262,6 +262,7 @@ class LOsc(QtWidgets.QMainWindow):
             prepend_line(full_path, txt)
         if self.LOGMODE:
             self.ui.oscillographPlot.plotItem.setLogMode(True, True)
+        self.ui.saved_state_label.setText(f_name)
 
 
     def PMBtn(self):
@@ -300,6 +301,7 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.oscillographPlot.plotItem.clear()
         # išsaugota, pašalinta, metas atnaujinti.
         self.replot_saved_graphs()
+        self.ui.saved_state_label.setText("NOT SAVED.")
 
     def replot_saved_graphs(self):
         for i in self._saved_signals:
@@ -321,10 +323,12 @@ class LOsc(QtWidgets.QMainWindow):
                     self.ui.oscillographPlot.plotItem.removeItem(item)
         self._saved_signals.pop()
         self.replot_saved_graphs()
+        self.ui.saved_state_label.setText("NOT SAVED.")
 
     def CLRFN(self):
         self.clear_plotted_items(self.ui.oscillographPlot)
         self._saved_signals = []
+        self.ui.saved_state_label.setText("NOT SAVED.")
         pass
 
     def save_all_csv_fn(self):
