@@ -7,8 +7,17 @@ import os, sys
 
 def do_math_on_arrays(y, expr):
     # y = np.asarray(arr) #
-    ret = eval(expr)
-    return ret
+    # ret = None
+    if (len(expr) > 0) and ('y' in expr):
+        try:
+            ret = eval(expr)
+            return ret
+        except:
+            ret = y
+            return ret
+    else:
+        return y
+    # return ret
 
 def get_eq_mode(s):
     if len(s) > 0:
