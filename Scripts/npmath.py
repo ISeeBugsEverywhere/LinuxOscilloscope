@@ -98,7 +98,7 @@ def make_xy_header(ss_arr, sigs):
         hdr = hdr + str(key)+'_x,'+str(key)+'_y,'
     header = ''
     for i in ss_arr:
-        header = header + i.eq+'_x,'+i.eq+'_y,'
+        header = header + 'X_x,'+i.eq+','
     return hdr+header
     pass
 
