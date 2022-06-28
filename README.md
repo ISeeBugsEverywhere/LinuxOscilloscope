@@ -2,7 +2,7 @@
 LinuxOscilloscope (LO) is a very simple application with an aim to control various oscilloscopes under Linux and Windows operating systems.
 
 # Abilities
-LO can connect to a oscilloscope via RS232 (not implemented YET), TCP/IP or USB interface. Requirements fro oscilloscopes:
+LO can connect to a oscilloscope via RS232 (not implemented YET), TCP/IP or USB interface. Requirements for the oscilloscopes:
 - for USB: Oscilloscope must be compatible with USBTMC protocol, Linux OS should recognize it as /dev/usbtmc* device.
 - for TCP/IP: Oscilloscope must support SCPI protocol.
 - for RS232: **not implemented yet**
