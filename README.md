@@ -36,7 +36,8 @@ It subtracts a part of signal from a whole signal. A part is on left side of tri
 A simple math can be done with a signal(s): multiplication, subtraction, division ...:
 $$ y\cdot np.pi \cdot 25 $$
 where - y: signal from a channel. this equation will be applied onto all signals from all channels!
-
+It is possible to use `numpy` functions from `numpy` module, aliased as `np`.
+There is no possible to combine signals like this: $CH1 \cdot CH2$ <-- It is not possible.
 
 
 
