@@ -30,6 +30,17 @@ Implemented wrappers:
 
 **LO** gets data just from active channels - at first, you need to activate at least one. Is it possible to obtain data continuously, by checking a box *Live update*.
 
+*correct zero level* - feature useful to TOF/XTOF measurements. If you don't know anything about TOF or XTOF - this feature is useless for you.
+It subtracts a part of signal from a whole signal. A part is on left side of trigger.
+
+A simple math can be done with a signal(s): multiplication, subtraction, division ...:
+$$ y\cdot np.pi \cdot 25 $$
+where - y: signal from a channel. this equation will be applied onto all signals from all channels!
+
+
+
+
+
 
 
 
@@ -40,5 +51,6 @@ If you want to add other oscilloscope, you need to write a wrapper class and pla
 # FUN
 LO can save data directly into USB flash drive, attached to an oscilloscope itself.
 For Rigol, LO simulates key-press:
+(It supports just lower case letters. Upper case letters are not implemented yet)
 
 ![RIGOL](GUI/rigol.gif)
