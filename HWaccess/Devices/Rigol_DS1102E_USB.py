@@ -248,24 +248,48 @@ class Oscilloscope:
         # self.device.write(":KEY:MNU")
         self.device.write(":key:storage")
         time.sleep(0.1)
+        time.sleep(0.5)
+        self.screenshot()
+        time.sleep(3)
         self.device.write(":key:f1")
         time.sleep(0.1)
+        time.sleep(0.5)
+        self.screenshot()
+        time.sleep(3)
         i = 0
         for k in range(0, 4):
             self.device.write(":key:-func")
             time.sleep(0.1)
+            time.sleep(0.5)
+            self.screenshot()
+            time.sleep(3)
         time.sleep(0.1)
         self.device.write(":key:+func")
         time.sleep(0.1)
+        time.sleep(0.5)
+        self.screenshot()
+        time.sleep(3)
         self.device.write(":key:func")
         time.sleep(0.1)
+        time.sleep(0.5)
+        self.screenshot()
+        time.sleep(3)
         self.device.write(":key:f4")
         time.sleep(0.1)
+        time.sleep(0.5)
+        self.screenshot()
+        time.sleep(3)
         self.device.write(":key:f2")
         time.sleep(0.1)
+        time.sleep(0.5)
+        self.screenshot()
+        time.sleep(3)
         for i in range(0,8):
             self.device.write(":key:f3")
             time.sleep(0.1)
+            time.sleep(0.5)
+            self.screenshot()
+            time.sleep(3)
         curr_idx = 0
         next_idx = 0
         for i in f_name:
@@ -273,23 +297,44 @@ class Oscilloscope:
             step, sign = self._get_diff_(next_idx, curr_idx)
             if step == 0:
                 self.device.write(":key:func")
+                time.sleep(0.5)
+                self.screenshot()
+                time.sleep(3)
             else:
                 if sign == "+":
                     for k in range(0, step):
                         self.device.write(":key:+func")
                         time.sleep(0.1)
+                        time.sleep(0.5)
+                        self.screenshot()
+                        time.sleep(3)
                     self.device.write(":key:func")
+                    time.sleep(0.5)
+                    self.screenshot()
+                    time.sleep(3)
                     curr_idx = next_idx
                 elif sign == "-":
                     for k in range(0, step):
                         self.device.write(":key:-func")
                         time.sleep(0.1)
+                        time.sleep(0.5)
+                        self.screenshot()
+                        time.sleep(3)
                     self.device.write(":key:func")
+                    time.sleep(0.5)
+                    self.screenshot()
+                    time.sleep(3)
                     curr_idx = next_idx
             pass
         self.device.write(":key:f4")
         time.sleep(0.1)
+        time.sleep(0.5)
+        self.screenshot()
+        time.sleep(3)
         self.device.write(":key:mnu")
         time.sleep(0.1)
+        time.sleep(0.5)
+        self.screenshot()
+        time.sleep(3)
         self.device.write(":key:run")
         pass
