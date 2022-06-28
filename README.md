@@ -37,7 +37,21 @@ A simple math can be done with a signal(s): multiplication, subtraction, divisio
 $$ y\cdot np.pi \cdot 25 $$
 where - y: signal from a channel. this equation will be applied onto all signals from all channels!
 It is possible to use `numpy` functions from `numpy` module, aliased as `np`.
-There is no possible to combine signals like this: $CH1 \cdot CH2$ <-- It is not possible.
+There isn't possible to combine signals like this: $CH1 \cdot CH2$ <-- It is not possible.
+
+**+M, -M, CLR buttons** :
+
+Keeps previous signals on the screen. CLR - clears all signals, -M - removes just last one added.
+**Save all** button - saves all displayed signals.
+
+NOTE - if an equation was applied, these signals will be displayed and saved as a result of an equation.
+
+If there is a need to save not-recalculated signal - last, not recalculated signal will be saved using a button **Save**. File will be stored in a directory, selected by user.
+
+It is possible to add some comments using fields **CH1 com** and so on.
+
+Main comment (a header) can be set using a field above chart area.
+
 
 
 
