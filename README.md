@@ -53,6 +53,18 @@ It is possible to add some comments using fields **CH1 com** and so on.
 Main comment (a header) can be set using a field above chart area.
 
 
+![LO2](GUI/LO2.png)
+
+In this tab it is possible to specify some parameters.
+Is it possible also to execute *SCPI* commands or sets of *SCPI* commands on an oscilloscope.
+
+
+It is possible to save a signal(s) into an attached USB flash drive, using an oscilloscope itself.
+
+- Screenshot - will save a **\*.bmp** file,
+- CSV - will save a signal in a CSV file format
+- Save all - will save a signal in a CSV as well as a screenshot in a **\*.bmp** file.
+
 
 
 
