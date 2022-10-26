@@ -1,14 +1,17 @@
 #!/usr/bin/python3
 
+from datetime import datetime
 import glob
-import os, sys
+import os
+import sys
 import platform
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from GUI.LinOsc import Ui_oscillWindow
 import numpy as np
-import math, time
-import  traceback
+import math
+import time
+import traceback
 from GUI.DevDlg import Dialog
 import importlib.util
 import importlib
@@ -27,7 +30,6 @@ from HWaccess.USBTMC import *
 
 _new_line = os.linesep
 
-from datetime import datetime
 # try:
 #     if 'windows' in platform.system().lower():
 #         from HWaccess.USBTMC_mod import USBTMCMOD as USBTMC
@@ -40,106 +42,106 @@ R_THRAED = "Stop continuous\ndata acquisition"
 START = "Get data from\nselected channel(s)"
 
 COLORS = ['blue',
- 'blueviolet',
- 'brown',
- 'coral',
- 'cyan',
- 'darkblue',
- 'darkcyan',
- 'darkgoldenrod',
- 'darkgray',
- 'darkgreen',
- 'darkgrey',
- 'darkkhaki',
- 'darkmagenta',
- 'darkolivegreen',
- 'darkorange',
- 'darkorchid',
- 'darkred',
- 'darksalmon',
- 'darkseagreen',
- 'darkslateblue',
- 'darkslategray',
- 'darkslategrey',
- 'darkturquoise',
- 'darkviolet',
- 'deeppink',
- 'deepskyblue',
- 'firebrick',
- 'floralwhite',
- 'forestgreen',
- 'fuchsia',
- 'gainsboro',
- 'ghostwhite',
- 'gold',
- 'goldenrod',
- 'green',
- 'greenyellow',
- 'grey',
- 'honeydew',
- 'hotpink',
- 'indianred',
- 'indigo',
- 'ivory',
- 'khaki',
- 'lavender',
- 'lavenderblush',
- 'lawngreen',
- 'lime',
- 'limegreen',
- 'linen',
- 'magenta',
- 'maroon',
- 'mediumaquamarine',
- 'mediumblue',
- 'mediumorchid',
- 'mediumpurple',
- 'mediumseagreen',
- 'mediumslateblue',
- 'mediumspringgreen',
- 'mediumturquoise',
- 'mediumvioletred',
- 'midnightblue',
- 'mintcream',
- 'mistyrose',
- 'moccasin',
- 'navajowhite',
- 'navy',
- 'oldlace',
- 'olive',
- 'olivedrab',
- 'orange',
- 'orangered',
- 'orchid',
- 'palegoldenrod',
- 'palegreen',
- 'paleturquoise',
- 'palevioletred',
- 'papayawhip',
- 'peachpuff',
- 'peru',
- 'pink',
- 'plum',
- 'powderblue',
- 'purple',
- 'red',
- 'rosybrown',
- 'royalblue',
- 'saddlebrown',
- 'salmon',
- 'sandybrown',
- 'seagreen',
- 'seashell',
- 'sienna',
- 'silver',
- 'skyblue',
- 'slateblue',
- 'springgreen',
- 'steelblue',
- 'tan',
- 'teal',
- 'thistle',
- 'tomato']
+          'blueviolet',
+          'brown',
+          'coral',
+          'cyan',
+          'darkblue',
+          'darkcyan',
+          'darkgoldenrod',
+          'darkgray',
+          'darkgreen',
+          'darkgrey',
+          'darkkhaki',
+          'darkmagenta',
+          'darkolivegreen',
+          'darkorange',
+          'darkorchid',
+          'darkred',
+          'darksalmon',
+          'darkseagreen',
+          'darkslateblue',
+          'darkslategray',
+          'darkslategrey',
+          'darkturquoise',
+          'darkviolet',
+          'deeppink',
+          'deepskyblue',
+          'firebrick',
+          'floralwhite',
+          'forestgreen',
+          'fuchsia',
+          'gainsboro',
+          'ghostwhite',
+          'gold',
+          'goldenrod',
+          'green',
+          'greenyellow',
+          'grey',
+          'honeydew',
+          'hotpink',
+          'indianred',
+          'indigo',
+          'ivory',
+          'khaki',
+          'lavender',
+          'lavenderblush',
+          'lawngreen',
+          'lime',
+          'limegreen',
+          'linen',
+          'magenta',
+          'maroon',
+          'mediumaquamarine',
+          'mediumblue',
+          'mediumorchid',
+          'mediumpurple',
+          'mediumseagreen',
+          'mediumslateblue',
+          'mediumspringgreen',
+          'mediumturquoise',
+          'mediumvioletred',
+          'midnightblue',
+          'mintcream',
+          'mistyrose',
+          'moccasin',
+          'navajowhite',
+          'navy',
+          'oldlace',
+          'olive',
+          'olivedrab',
+          'orange',
+          'orangered',
+          'orchid',
+          'palegoldenrod',
+          'palegreen',
+          'paleturquoise',
+          'palevioletred',
+          'papayawhip',
+          'peachpuff',
+          'peru',
+          'pink',
+          'plum',
+          'powderblue',
+          'purple',
+          'red',
+          'rosybrown',
+          'royalblue',
+          'saddlebrown',
+          'salmon',
+          'sandybrown',
+          'seagreen',
+          'seashell',
+          'sienna',
+          'silver',
+          'skyblue',
+          'slateblue',
+          'springgreen',
+          'steelblue',
+          'tan',
+          'teal',
+          'thistle',
+          'tomato']
 
 
 class LOsc(QtWidgets.QMainWindow):
@@ -149,24 +151,26 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui = Ui_oscillWindow()
         self.ui.setupUi(self)
         self.setup_gui_fn()
-        self._active = None # 0 - lxi, 1 - rs232, 2 - usbtmc, or strings lxi, rs232, usbtmc
+        self._active = None  # 0 - lxi, 1 - rs232, 2 - usbtmc, or strings lxi, rs232, usbtmc
 
-        #threads:
+        # threads:
         self._worker = None
         self._thread = QtCore.QThread(self)
-        self._channels = {1:None, 2:None, 3:None, 4:None} #dictionry for channels
+        self._channels = {1: None, 2: None, 3: None,
+                          4: None}  # dictionry for channels
         self._gui_()
         self._signals_()
         self.OSCILLOSCOPE = None
-        self._buttons = {1:self.ui.ch1_btn, 2:self.ui.ch2_btn, 3:self.ui.ch3_btn, 4:self.ui.ch4_btn}
-        self._colors = [(255,255,0), (0,0,255), (0,128,0),(139,0,0)]
+        self._buttons = {1: self.ui.ch1_btn, 2: self.ui.ch2_btn,
+                         3: self.ui.ch3_btn, 4: self.ui.ch4_btn}
+        self._colors = [(255, 255, 0), (0, 0, 255), (0, 128, 0), (139, 0, 0)]
         self._data = {}
-        self._data_mod  = {}
+        self._data_mod = {}
         self._loaded_cmds = []
         self.counter = 0
         self._saved_signals = []
         self.next_color = 0
-        self.LOGMODE=False
+        self.LOGMODE = False
         pass
 
     def _signals_(self):
@@ -177,11 +181,13 @@ class LOsc(QtWidgets.QMainWindow):
         # quit actions:
         self.ui.quitButton.clicked.connect(self.quit_fn)
         self.ui.actionQuit_Ctrl_Q.triggered.connect(self.quit_fn)
-        self.quitShortcut = QtWidgets.QShortcut(QtGui.QKeySequence('Ctrl+Q'), self)
+        self.quitShortcut = QtWidgets.QShortcut(
+            QtGui.QKeySequence('Ctrl+Q'), self)
         self.quitShortcut.activated.connect(self.quit_fn)
         self.ui.rs232Widget.returnPorts.connect(self.rescan_ports_fn)
         self.ui.rs232Combo.currentIndexChanged.connect(self.idx_fn)
-        self.ui.rs232Widget.ui.comPortBox.currentIndexChanged.connect(self.idxfn)
+        self.ui.rs232Widget.ui.comPortBox.currentIndexChanged.connect(
+            self.idxfn)
         # buttons:
         self.ui.connectButton.clicked.connect(self.connect_device_fn)
         self.ui.get_data_btn.clicked.connect(self.get_data_fn)
@@ -203,18 +209,18 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.executeAllButton.clicked.connect(self.execute_all_fn)
         self.ui.cmdsButton.clicked.connect(self.get_cmds_fn)
         self.ui.clearButton.clicked.connect(self.clear_fn)
-        self.ui.help_button.clicked.connect(lambda : self.show_help(True))
+        self.ui.help_button.clicked.connect(lambda: self.show_help(True))
         self.ui.save_all_button.clicked.connect(self.save_all_fn)
         self.ui.rescan_ports_button.clicked.connect(self._get_ports_)
         self.ui.save_csv_button.clicked.connect(self.save_all_csv_fn)
         # autoconnect feature
         self.ui.autoConnect.clicked.connect(self.autoconnect)
-        #-M, +M, CLR, SAVE ALL buttons:
+        # -M, +M, CLR, SAVE ALL buttons:
         self.ui.saveAllBtn.clicked.connect(self.SVEAFN)
         self.ui.plusMButton.clicked.connect(self.PMBtn)
         self.ui.minusMButton.clicked.connect(self.MMBtn)
         self.ui.clrButton.clicked.connect(self.CLRFN)
-        #log mode
+        # log mode
         self.ui.logMode.clicked.connect(self.log_mode_fn)
         self.ui.helpButton.clicked.connect(lambda: self.show_help(True))
         pass
@@ -238,7 +244,8 @@ class LOsc(QtWidgets.QMainWindow):
         # self.ui.oscillographPlot.plotItem.replot()
         if self.LOGMODE:
             self.ui.oscillographPlot.plotItem.setLogMode(False, False)
-        exporter = pyqtgraph.exporters.CSVExporter(self.ui.oscillographPlot.plotItem)
+        exporter = pyqtgraph.exporters.CSVExporter(
+            self.ui.oscillographPlot.plotItem)
         f_name = self.ui.file_name_entry.text()
         if 'csv' not in f_name:
             if len(f_name) == 0:
@@ -264,7 +271,6 @@ class LOsc(QtWidgets.QMainWindow):
             self.ui.oscillographPlot.plotItem.setLogMode(True, True)
         self.ui.saved_state_label.setText(f_name)
 
-
     def PMBtn(self):
         if self.ui.ch1_comment.isEnabled():
             txt1 = self.ui.ch1_comment.text()+"_CH1"
@@ -277,25 +283,29 @@ class LOsc(QtWidgets.QMainWindow):
         dataItems = self.ui.oscillographPlot.plotItem.listDataItems()
         for channel, (dx, dy, tunit) in self._data_mod.items():
             print("CHAN", channel)
-            eq = '' # recalculations are the same for all signals
-            if len(self.ui.formulaEdit.text()) >0:
+            eq = ''  # recalculations are the same for all signals
+            if len(self.ui.formulaEdit.text()) > 0:
                 eq = self.ui.formulaEdit.text()
             else:
                 eq = 'y'
             if '1' in channel:
-                ssig = SavedSignal(dx, dy, txt1, color=QtGui.QColor(COLORS[self.next_color]), EQ = eq)
+                ssig = SavedSignal(dx, dy, txt1, color=QtGui.QColor(
+                    COLORS[self.next_color]), EQ=eq)
                 self._saved_signals.append(ssig)
                 self.next_color = self.next_color + 1
             if '2' in channel:
-                ssig = SavedSignal(dx, dy, txt2, color=QtGui.QColor(COLORS[self.next_color]), EQ = eq)
+                ssig = SavedSignal(dx, dy, txt2, color=QtGui.QColor(
+                    COLORS[self.next_color]), EQ=eq)
                 self._saved_signals.append(ssig)
                 self.next_color = self.next_color + 1
             if '3' in channel:
-                ssig = SavedSignal(dx, dy, txt3, color=QtGui.QColor(COLORS[self.next_color]), EQ = eq)
+                ssig = SavedSignal(dx, dy, txt3, color=QtGui.QColor(
+                    COLORS[self.next_color]), EQ=eq)
                 self._saved_signals.append(ssig)
                 self.next_color = self.next_color + 1
             if '4' in channel:
-                ssig = SavedSignal(dx, dy, txt4, color=QtGui.QColor(COLORS[self.next_color]), EQ = eq)
+                ssig = SavedSignal(dx, dy, txt4, color=QtGui.QColor(
+                    COLORS[self.next_color]), EQ=eq)
                 self._saved_signals.append(ssig)
                 self.next_color = self.next_color + 1
         self.ui.oscillographPlot.plotItem.clear()
@@ -312,8 +322,8 @@ class LOsc(QtWidgets.QMainWindow):
                     self.ui.oscillographPlot.plotItem.removeItem(item)
         for i in self._saved_signals:
             cpen = mkPen(color=i.color, width=i.width)
-            self.ui.oscillographPlot.plotItem.plot(i.x, i.y, pen=cpen, name =i.name)
-
+            self.ui.oscillographPlot.plotItem.plot(
+                i.x, i.y, pen=cpen, name=i.name)
 
     def MMBtn(self):
         for i in self._saved_signals:
@@ -341,26 +351,26 @@ class LOsc(QtWidgets.QMainWindow):
         fname = self.ui.name_all_box.text()
         path = self.ui.memory_box.currentText()
         self.OSCILLOSCOPE.save_all(fname, path)
-        time.sleep(2.0) # in seconds
+        time.sleep(2.0)  # in seconds
         self.screenshot_fn()
         pass
 
     def show_help(self, swith=False):
-        #QWebKit part:
+        # QWebKit part:
         # file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "HelpFiles/lt.html"))
         # local_url = QtCore.QUrl.fromLocalFile(file_path)
         # self.ui.webView.load(local_url)
         # self.ui.webView.show()
         # if swith:
         #     self.ui.tabWidget.setCurrentIndex(3)
-        #QwebEngine part:
-        file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "HelpFiles/lt.html"))
+        # QwebEngine part:
+        file_path = os.path.abspath(os.path.join(
+            os.path.dirname(__file__), "HelpFiles/lt.html"))
         local_url = QtCore.QUrl.fromLocalFile(file_path)
         self.ui.webWidget.load(local_url)
         self.ui.webWidget.show()
         if swith:
             self.ui.tabWidget.setCurrentIndex(3)
-
 
     def rst_fn(self):
         self.OSCILLOSCOPE.reset()
@@ -373,7 +383,14 @@ class LOsc(QtWidgets.QMainWindow):
         try:
             cmd = self.ui.cmdsBox.currentText()
             if '?' in cmd:
-                ret = self.OSCILLOSCOPE.ask(cmd)
+                ret = 'NONE'
+                if 'length' in cmd:
+                    rt1, rt2 = cmd.split('length')
+                    cmdask = rt1.replace(',', '')
+                    ll = int(rt2.replace('=', ''))
+                    ret = self.OSCILLOSCOPE.ask(cmdask, length=ll)
+                else:
+                    ret = self.OSCILLOSCOPE.ask(cmd)
                 # self.ui.outputBox.appendPlainText(str(ret))
                 self.append_output_paragraph(str(ret), 1)
             else:
@@ -382,12 +399,21 @@ class LOsc(QtWidgets.QMainWindow):
             if idx == -1:
                 self.ui.cmdsBox.addItem(cmd)
         except Exception as ex:
-            self.append_output_paragraph(str(ex)+"\nGreičiausiai neteisinga komanda arba prietaisas atsijungė.", -1)
+            self.append_output_paragraph(
+                str(ex)+"\nGreičiausiai neteisinga komanda arba prietaisas atsijungė.", -1)
+            self.append_output_paragraph("\n"+str(self.ui.cmdsBox.currentText()), 1)
 
     def execute_all_fn(self):
         for i in self._loaded_cmds:
             if '?' in i:
-                ret = self.OSCILLOSCOPE.ask(i)
+                ret = 'NONE'
+                if 'length' in i:
+                    rt1, rt2 = i.split('length')
+                    cmdask = rt1.replace(',', '')
+                    ll = int(rt2.replace('=', ''))
+                    ret = self.OSCILLOSCOPE.ask(cmdask, length=ll)
+                else:
+                    ret = self.OSCILLOSCOPE.ask(i)
                 # self.ui.outputBox.appendPlainText(str(ret))
                 self.append_output_paragraph(ret, 1)
             else:
@@ -402,13 +428,15 @@ class LOsc(QtWidgets.QMainWindow):
 
     def get_cmds_fn(self):
         dir_ = os.path.join(os.getcwd(), "CmdSets")
-        dlg, _ = QtWidgets.QFileDialog.getOpenFileName(self, caption='Select a file containing the commands', directory=dir_)
+        dlg, _ = QtWidgets.QFileDialog.getOpenFileName(
+            self, caption='Select a file containing the commands', directory=dir_)
         if dlg is not None and dlg:
             with open(dlg, 'r') as d:
                 lines = d.readlines()
                 for i in lines:
                     self._loaded_cmds.append(i)
-                self.ui.statusbar.showMessage('Loaded '+str(len(self._loaded_cmds))+' commands')
+                self.ui.statusbar.showMessage(
+                    'Loaded '+str(len(self._loaded_cmds))+' commands')
             pass
         pass
 
@@ -419,8 +447,6 @@ class LOsc(QtWidgets.QMainWindow):
                 counter = counter + 1
         if counter == 0:
             self.ui.get_data_btn.setEnabled(False)
-
-
 
     def get_idn(self):
         name = self.OSCILLOSCOPE.get_name()
@@ -467,15 +493,13 @@ class LOsc(QtWidgets.QMainWindow):
             pass
         self._check_btns()
 
-
-
     def clear_output(self):
         self.ui.infoText.clear()
         pass
 
-
     def select_dir(self):
-        dlg = str(QtWidgets.QFileDialog.getExistingDirectory(self, "Choose a directory", directory=os.getcwd()))
+        dlg = str(QtWidgets.QFileDialog.getExistingDirectory(
+            self, "Choose a directory", directory=os.getcwd()))
         if dlg is not None and dlg:
             self.ui.dir_label.setText(dlg)
             save_last_path(dlg)
@@ -488,14 +512,12 @@ class LOsc(QtWidgets.QMainWindow):
         _lo = len(_o)
         large_txt = ""
         for i in _o:
-            large_txt = large_txt + str(i)+"<br>" # for html!
+            large_txt = large_txt + str(i)+"<br>"  # for html!
         self.append_html_paragraph(large_txt, 0, False)
         pass
 
-
-
     def save_oscillogramme(self):
-        f_name= self.ui.file_name_entry.text()
+        f_name = self.ui.file_name_entry.text()
         if 'csv' not in f_name:
             f_name = f_name+f'{self.counter:04}'+'.csv'
         else:
@@ -503,21 +525,25 @@ class LOsc(QtWidgets.QMainWindow):
         self.counter = self.counter + 1
         f_path = self.ui.dir_label.text()
         full_path = os.path.join(f_path, f_name)
-        all_data = self.ui.infoText.toPlainText() # gets all data into one string
+        all_data = self.ui.infoText.toPlainText()  # gets all data into one string
         all_data = all_data.replace(",", ",")
         w_data = ""
         if self.ui.ch1_comment.isEnabled():
             txt = self.ui.ch1_comment.text()
-            all_data = all_data.replace("%COM"+str(self.OSCILLOSCOPE.CH1)+"%", txt)
+            all_data = all_data.replace(
+                "%COM"+str(self.OSCILLOSCOPE.CH1)+"%", txt)
         if self.ui.ch2_comment.isEnabled():
             txt = self.ui.ch2_comment.text()
-            all_data = all_data.replace("%COM"+str(self.OSCILLOSCOPE.CH2)+"%", txt)
+            all_data = all_data.replace(
+                "%COM"+str(self.OSCILLOSCOPE.CH2)+"%", txt)
         if self.ui.ch3_comment.isEnabled():
             txt = self.ui.ch3_comment.text()
-            all_data = all_data.replace("%COM"+str(self.OSCILLOSCOPE.CH3)+"%", txt)
+            all_data = all_data.replace(
+                "%COM"+str(self.OSCILLOSCOPE.CH3)+"%", txt)
         if self.ui.ch4_comment.isEnabled():
             txt = self.ui.ch4_comment.text()
-            all_data = all_data.replace("%COM"+str(self.OSCILLOSCOPE.CH4)+"%", txt)
+            all_data = all_data.replace(
+                "%COM"+str(self.OSCILLOSCOPE.CH4)+"%", txt)
         w_data = all_data.replace("%TIME%", "S?")
         # writer it into a file:
         with open(full_path, 'w') as wrt:
@@ -535,7 +561,8 @@ class LOsc(QtWidgets.QMainWindow):
                 self._worker.stop(True)
                 self._worker = None
                 # console("Thread stopped.")
-                self._thread.exit(-27) # how about this? wrong again, leave it as is for a while
+                # how about this? wrong again, leave it as is for a while
+                self._thread.exit(-27)
                 # self._thread.terminate() # wrong approach here, need to fix it
                 self.ui.get_data_btn.setText(START)
         pass
@@ -553,7 +580,8 @@ class LOsc(QtWidgets.QMainWindow):
 
     def _gui_(self):
         self.setWindowIcon(QtGui.QIcon('GUI/usb.png'))
-        sys.path.append(os.getcwd() + "/HWaccess/Devices/") # stupid location for this entry
+        # stupid location for this entry
+        sys.path.append(os.getcwd() + "/HWaccess/Devices/")
         self.ui.dir_label.setText(get_last_path())
         ips = get_last_ips()
         console(ips)
@@ -563,37 +591,42 @@ class LOsc(QtWidgets.QMainWindow):
                 self.ui.lxiCombo.addItem(str(i))
         self.show_help()
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("GUI/reload.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("GUI/reload.png"),
+                        QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.ui.rescan_ports_button.setIcon(icon1)
         self.ui.rescan_ports_button.setIconSize(QtCore.QSize(32, 32))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("GUI/comport.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("GUI/comport.png"),
+                       QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.ui.autoConnect.setIcon(icon)
         self.ui.autoConnect.setIconSize(QtCore.QSize(32, 32))
         self.ui.connectButton.setIcon(icon)
         self.ui.connectButton.setIconSize(QtCore.QSize(32, 32))
         self.ui.oscillographPlot.addLegend()
         iconh = QtGui.QIcon()
-        iconh.addPixmap(QtGui.QPixmap("GUI/help.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        iconh.addPixmap(QtGui.QPixmap("GUI/help.png"),
+                        QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.ui.helpButton.setIcon(iconh)
         self.ui.helpButton.setIconSize(QtCore.QSize(32, 32))
         iconq = QtGui.QIcon()
-        iconq.addPixmap(QtGui.QPixmap("GUI/quit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        iconq.addPixmap(QtGui.QPixmap("GUI/quit.png"),
+                        QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.ui.quitButton.setIcon(iconq)
         self.ui.quitButton.setIconSize(QtCore.QSize(32, 32))
         iconsave = QtGui.QIcon()
-        iconsave.addPixmap(QtGui.QPixmap("GUI/save.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        iconsave.addPixmap(QtGui.QPixmap("GUI/save.png"),
+                           QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.ui.save_btn.setIcon(iconsave)
-        self.ui.save_btn.setIconSize(QtCore.QSize(32,32))
+        self.ui.save_btn.setIconSize(QtCore.QSize(32, 32))
         self.ui.saveAllBtn.setIcon(iconsave)
         self.ui.saveAllBtn.setIconSize(QtCore.QSize(32, 32))
         icondir = QtGui.QIcon()
-        icondir.addPixmap(QtGui.QPixmap("GUI/directory.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icondir.addPixmap(QtGui.QPixmap("GUI/directory.png"),
+                          QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.ui.dir_btn.setIcon(icondir)
         self.ui.dir_btn.setIconSize(QtCore.QSize(32, 32))
 
     def get_data_fn(self):
-
         """Gets a data and displays it"""
         # console("Gets a data")
         self._data = {}  # clears a dictionary
@@ -603,7 +636,8 @@ class LOsc(QtWidgets.QMainWindow):
                 self._worker.stop(True)
                 self._worker = None
                 # console("Thread stopped.")
-                self._thread.exit(-27) # how about this? wrong again, leave it as is for a while
+                # how about this? wrong again, leave it as is for a while
+                self._thread.exit(-27)
                 # self._thread.terminate() # wrong approach here, need to fix it
                 self.ui.live_update_box.setChecked(False)
                 self.ui.get_data_btn.setText(START)
@@ -630,14 +664,19 @@ class LOsc(QtWidgets.QMainWindow):
                     if btn.isChecked():
                         if self._channels[index] is not None:
                             channel = self._channels[index]
-                            y_array, x_array, t_Unit = self.OSCILLOSCOPE.get_xy(channel)
+                            y_array, x_array, t_Unit = self.OSCILLOSCOPE.get_xy(
+                                channel)
                             np_x = np.asarray(x_array)
                             np_y = np.asarray(y_array)
-                            npx, npy = get_mod_array(np_x, np_y, self.ui.corZeroBox.isChecked(), self.ui.formulaEdit.text())
+                            npx, npy = get_mod_array(
+                                np_x, np_y, self.ui.corZeroBox.isChecked(), self.ui.formulaEdit.text())
                             # graph.plot(npx, npy, pen=cpen, name=y_name)
-                            self._data[channel]=[x_array, y_array, t_Unit] # data saugoma nemodifikuoti
-                            self._data_mod[channel]=[npx, npy, t_Unit] # data_mod saugoma tik modifikuoti!
-                            self.update_graph(self.ui.oscillographPlot, npx, npy, str(index), t_Unit, color=self._colors[index-1])
+                            # data saugoma nemodifikuoti
+                            self._data[channel] = [x_array, y_array, t_Unit]
+                            # data_mod saugoma tik modifikuoti!
+                            self._data_mod[channel] = [npx, npy, t_Unit]
+                            self.update_graph(self.ui.oscillographPlot, npx, npy, str(
+                                index), t_Unit, color=self._colors[index-1])
                 self.fill_info_with_data()
                 self.ui.saved_state_label.setText("NOT SAVED.")
                 pass
@@ -646,8 +685,10 @@ class LOsc(QtWidgets.QMainWindow):
         index = list(self._channels.values()).index(channel)+1
         np_x = np.asarray(x)
         np_y = np.asarray(y)
-        npx, npy = get_mod_array(np_x, np_y, self.ui.corZeroBox.isChecked(), self.ui.formulaEdit.text())
-        self.update_graph(self.ui.oscillographPlot, npx, npy, str(index), x_unit, color=self._colors[index - 1])
+        npx, npy = get_mod_array(
+            np_x, np_y, self.ui.corZeroBox.isChecked(), self.ui.formulaEdit.text())
+        self.update_graph(self.ui.oscillographPlot, npx, npy, str(
+            index), x_unit, color=self._colors[index - 1])
         self._data[channel] = [x, y, x_unit]
         self._data_mod[channel] = [npx, npy, x_unit]
         self.fill_info_with_data()
@@ -665,7 +706,6 @@ class LOsc(QtWidgets.QMainWindow):
                 if self._channels[index] is not None:
                     channel.append(self._channels[index])
         return channel
-
 
     def setup_gui_fn(self):
         self.update_ports_fn()
@@ -698,7 +738,8 @@ class LOsc(QtWidgets.QMainWindow):
                     self.ui.usbtmcCombo.addItem(mypath + "/" + f)
         except Exception as ex:
             self.append_html_paragraph(str(ex), -1, True)
-            self.append_html_paragraph('There aren\'t any USBTMC devices or you are running on Windows machine', -1, True)
+            self.append_html_paragraph(
+                'There aren\'t any USBTMC devices or you are running on Windows machine', -1, True)
             pass
         try:
             if "windows" in platform.system().lower():
@@ -708,7 +749,8 @@ class LOsc(QtWidgets.QMainWindow):
         except Exception as ex:
             traceback.print_exc()
             self.append_html_paragraph(str(ex), -1, True)
-            self.append_html_paragraph('Problems with USBTMC (python-usbtmc)', -1, True)
+            self.append_html_paragraph(
+                'Problems with USBTMC (python-usbtmc)', -1, True)
             pass
 
     def lxi_state_fn(self):
@@ -749,7 +791,7 @@ class LOsc(QtWidgets.QMainWindow):
             self._worker = None
             # console("Thread stopped.")
             # self._thread.exit(-27)  # how about this? wrong again, leave it as is for a while
-            self._thread.terminate() # wrong approach here, need to fix it
+            self._thread.terminate()  # wrong approach here, need to fix it
         if self.OSCILLOSCOPE is not None:
             self.OSCILLOSCOPE.close()
         if self._thread.isRunning():
@@ -769,7 +811,7 @@ class LOsc(QtWidgets.QMainWindow):
             port = self.ui.rs232Combo.currentText()
             pre = ''
             if 'linux' in platform.system().lower():
-                pre='/dev/'
+                pre = '/dev/'
                 print('linux')
             return pre+port, 1, params
         elif self.ui.usbtmcRadio.isChecked():
@@ -779,12 +821,12 @@ class LOsc(QtWidgets.QMainWindow):
     def connect_device_fn(self):
         try:
             if self.ui.connectButton.text() == "Connect":
-                #self.collect_update_info()
-                #dialog for the correct device:
+                # self.collect_update_info()
+                # dialog for the correct device:
                 dlg_stat = False
                 dialog = Dialog()
                 if dialog.exec_():
-                    dlg_stat=True
+                    dlg_stat = True
                     dvc = dialog.get_device()
                     global GOM
                     GOM = importlib.import_module(dvc)
@@ -816,7 +858,7 @@ class LOsc(QtWidgets.QMainWindow):
             if self.ui.autoConnect.text() != "Disconnect":
                 port, status, params = self.get_port_parameters()
                 # print("STATUS::ERR::", status)
-                global GOM #switch to enable global GOM
+                global GOM  # switch to enable global GOM
                 files = glob.glob("HWaccess/Devices/*.py")
                 dvces = []
                 for i in files:
@@ -824,7 +866,7 @@ class LOsc(QtWidgets.QMainWindow):
                     dvces.append(device)
                     pass
                 dvces.sort()  # in-place sorte
-                if status == 0: #lxi device
+                if status == 0:  # lxi device
                     dummy_device = lxi(port)
                     idn = str(dummy_device.ask("*idn?"))
                     for i in dvces:
@@ -837,7 +879,7 @@ class LOsc(QtWidgets.QMainWindow):
                     self.ui.autoConnect.setText("Disconnect")
                 elif status == 1:
                     pass
-                elif status == 2:#         usbtmc case
+                elif status == 2:  # usbtmc case
                     # print("THIS::CASE::2")
                     dummy_device = USBTMC(port)
                     idn = str(dummy_device.ask("*idn?"))
@@ -908,21 +950,19 @@ class LOsc(QtWidgets.QMainWindow):
             self.append_html_paragraph(str(ex), -1, True)
             pass
 
-
-
-    def append_html_paragraph(self, text, status=0, show = False):
+    def append_html_paragraph(self, text, status=0, show=False):
         txt = str(text)
         html_red = '<font color="red">{x}</font>'
         html_black = '<font color="black">{x}</font>'
         html_magenta = '<font color="purple">{x}</font>'
-        if status == 0: #regular info
+        if status == 0:  # regular info
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
             self.ui.infoText.insertPlainText(self._new_line)
             self.ui.infoText.setAlignment(QtCore.Qt.AlignLeft)
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
             self.ui.infoText.insertHtml(html_black.replace('{x}', txt))
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
-        elif status == 1: #some output from device
+        elif status == 1:  # some output from device
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
             self.ui.infoText.insertPlainText(self._new_line)
             self.ui.infoText.setAlignment(QtCore.Qt.AlignRight)
@@ -930,7 +970,7 @@ class LOsc(QtWidgets.QMainWindow):
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
             self.ui.infoText.insertHtml(html_magenta.replace('{x}', txt))
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
-        elif status == -1: #error
+        elif status == -1:  # error
             self.ui.infoText.moveCursor(QtGui.QTextCursor.End)
             self.ui.infoText.insertPlainText(self._new_line)
             self.ui.infoText.setAlignment(QtCore.Qt.AlignLeft)
@@ -946,14 +986,14 @@ class LOsc(QtWidgets.QMainWindow):
         html_red = '<font color="red">{x}</font>'
         html_black = '<font color="black">{x}</font>'
         html_magenta = '<font color="purple">{x}</font>'
-        if status == 0: #regular info
+        if status == 0:  # regular info
             self.ui.outputBox.moveCursor(QtGui.QTextCursor.End)
             self.ui.outputBox.insertPlainText(self._new_line)
             self.ui.outputBox.setAlignment(QtCore.Qt.AlignLeft)
             self.ui.outputBox.moveCursor(QtGui.QTextCursor.End)
             self.ui.outputBox.insertHtml(html_black.replace('{x}', txt))
             self.ui.outputBox.moveCursor(QtGui.QTextCursor.End)
-        elif status == 1: #some output from device
+        elif status == 1:  # some output from device
             self.ui.outputBox.moveCursor(QtGui.QTextCursor.End)
             self.ui.outputBox.insertPlainText(self._new_line)
             self.ui.outputBox.setAlignment(QtCore.Qt.AlignRight)
@@ -961,7 +1001,7 @@ class LOsc(QtWidgets.QMainWindow):
             self.ui.outputBox.moveCursor(QtGui.QTextCursor.End)
             self.ui.outputBox.insertHtml(html_magenta.replace('{x}', txt))
             self.ui.outputBox.moveCursor(QtGui.QTextCursor.End)
-        elif status == -1: #error
+        elif status == -1:  # error
             self.ui.outputBox.moveCursor(QtGui.QTextCursor.End)
             self.ui.outputBox.insertPlainText(self._new_line)
             self.ui.outputBox.setAlignment(QtCore.Qt.AlignLeft)
@@ -976,7 +1016,7 @@ class LOsc(QtWidgets.QMainWindow):
             self.ui.idnLabel.setText(_str.replace("MSG", str(msg)))
         pass
 
-    def update_graph(self, graph:pg.PlotWidget, x, y, y_name, x_Unit, y_Unit='V', color=(255, 255, 102) ):
+    def update_graph(self, graph: pg.PlotWidget, x, y, y_name, x_Unit, y_Unit='V', color=(255, 255, 102)):
         """
         Updates a graph
         :param graph: plotWidget
@@ -987,11 +1027,11 @@ class LOsc(QtWidgets.QMainWindow):
         :return:
         """
         sizex = len(x)
-        sizey=len(y)
+        sizey = len(y)
         np_x = np.asarray(x)
         np_y = np.asarray(y)
         if sizex == sizey:
-            dataItems =  graph.listDataItems()
+            dataItems = graph.listDataItems()
             for i in dataItems:
                 # console(i.name(), " ", y_name)
                 if i is not None:
@@ -1005,10 +1045,10 @@ class LOsc(QtWidgets.QMainWindow):
             graph.setLabel('left', "CH scale", units=str(y_Unit))
         else:
             console("Inequality", y_name, " ; ", sizex, " ; ", sizey)
-            self.append_html_paragraph("Inequality: "+ str(y_name)+ " ; "+ str(sizex)+ " ; "+ str(sizey), -1, True)
+            self.append_html_paragraph(
+                "Inequality: " + str(y_name) + " ; " + str(sizex) + " ; " + str(sizey), -1, True)
 
-
-    def clear_plotted_items(self, graph:pg.PlotWidget):
+    def clear_plotted_items(self, graph: pg.PlotWidget):
         dataItems = graph.listDataItems()
         for i in dataItems:
             # console(i.name(), " ", y_name)

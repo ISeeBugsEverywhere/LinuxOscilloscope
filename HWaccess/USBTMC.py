@@ -1,6 +1,8 @@
 import os
 import time
 import numpy as np
+
+
 class USBTMC:
     """
     Very Simple usbmtc device
@@ -38,10 +40,19 @@ class USBTMC:
         self.write(cmd)
         time.sleep(sleep)
         a = self.read_ask(length)
-        return str(a.decode('utf-8'))
+        a_ = ''
+        try:
+            a_ = str(a.decode('utf-8'))
+        except:
+            print(a)
+            a_ = str(np.frombuffer(a))
+        return a_
 
     def read_ask(self, length=4000):
-        return os.read(self.FILE, length).splitlines()[0]
+        try:
+            return os.read(self.FILE, length).splitlines()[0]
+        except:
+            return os.read(self.FILE, length)
 
     def ask_(self, cmd, delay=1, length=4000):
         string = None
@@ -51,8 +62,7 @@ class USBTMC:
             ret = self.read(length)
             string = str(ret, encoding='utf-8', errors='ignore')
         except Exception as ex:
-            string = 'USBTMC failed!'
+            string = 'USBTMC failed!::EX::'+str(ex)
             print('USBTMC failed:')
             print(str(ex))
         return string
-
