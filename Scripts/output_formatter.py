@@ -13,17 +13,18 @@ def get_formatted_array_equalize(x:list, y:list):
     :param y: list
     :return: list rt (list x + list y)
     """
-    rt = []
-    lx = len(x)
-    ly = len(y)
-    if lx > ly:
-        diff = lx - ly
-        for i in range(0, diff):
-            y = y.append("") # ensure equality of array's sizes
-    # compact two lists into one:
-    for i in range(0, lx):
-        rt.append(str(x[i])+" , "+str(y[i])+" , ")
-    return rt
+    if x is not None or y is not None:
+        rt = []
+        lx = len(x)
+        ly = len(y)
+        if lx > ly:
+            diff = lx - ly
+            for i in range(0, diff):
+                y = y.append("") # ensure equality of array's sizes
+        # compact two lists into one:
+        for i in range(0, lx):
+            rt.append(str(x[i])+" , "+str(y[i])+" , ")
+        return rt
 
 
 def get_oo_dict(_dict:dict):
