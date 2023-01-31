@@ -13,7 +13,7 @@ def get_formatted_array_equalize(x:list, y:list):
     :param y: list
     :return: list rt (list x + list y)
     """
-    if x is not None or y is not None:
+    if x is not None and y is not None:
         rt = []
         lx = len(x)
         ly = len(y)
