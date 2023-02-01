@@ -56,9 +56,9 @@ class Oscilloscope(QObject):
         self.Instrument.write(':WAVeform:SOURce '+CH)
         self.Instrument.write(':WAVeform: MODE NORM')
         self.Instrument.write(':WAVeform:FORMat ASCii')
-        self.stop()
+        # self.stop()
         st = self.Instrument.ask(':WAV:DATA?')
-        self.run()
+        # self.run()
         scale = float(self.Instrument.ask(':TIMebase:MAIN:SCALe?'))
         offset = float(self.Instrument.ask(':TIMebase:MAIN:OFFSet?'))
         xr = np.linspace(-500, 500, 1000)*scale/100+offset
