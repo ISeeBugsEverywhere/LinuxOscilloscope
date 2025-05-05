@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="16ad5a40-4671-4450-83fb-304414989d8e" name="Changes" comment="MSO5354">
-      <change beforePath="$PROJECT_DIR$/HWaccess/Devices/Rigol_MSO5354_TCP.py" beforeDir="false" afterPath="$PROJECT_DIR$/HWaccess/Devices/Rigol_MSO5354_TCP.py" afterDir="false" />
+    <list default="true" id="16ad5a40-4671-4450-83fb-304414989d8e" name="Changes" comment="MSO5354 fix">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,14 +25,15 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/egis/PycharmProjects/LinuxOscilloscope/HWaccess/Devices&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "/home/egis/PycharmProjects/LinuxOscilloscope/HWaccess/Devices",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/HWaccess/Devices" />
@@ -76,7 +77,19 @@
       <option name="presentableId" value="LOCAL−00001" />
       <updated>1666795915531</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL−00002" summary="MSO5354 fix">
+      <created>1675183981588</created>
+      <option name="number" value="LOCAL−00002" />
+      <option name="presentableId" value="LOCAL−00002" />
+      <updated>1675183981588</updated>
+    </task>
+    <task id="LOCAL−00003" summary="MSO5354 fix">
+      <created>1675241273878</created>
+      <option name="number" value="LOCAL−00003" />
+      <option name="presentableId" value="LOCAL−00003" />
+      <updated>1675241273878</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -92,6 +105,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="MSO5354" />
-    <option name="LAST_COMMIT_MESSAGE" value="MSO5354" />
+    <MESSAGE value="MSO5354 fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="MSO5354 fix" />
   </component>
 </project>
