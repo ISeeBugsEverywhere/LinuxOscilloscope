@@ -760,6 +760,7 @@ class LOsc(QtWidgets.QMainWindow):
                 # print("STATUS::ERR::", status)
                 global GOM  # switch to enable global GOM
                 files = glob.glob("HWaccess/Devices/*.py")
+                files = [f for f in files if '__' not in f]
                 dvces = []
                 for i in files:
                     device = i.split("/")[-1][:-3]

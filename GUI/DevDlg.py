@@ -20,6 +20,7 @@ class Dialog(QtWidgets.QDialog):
         """
         if "windows" in platform.system().lower():
             files = glob.glob("HWaccess\Devices\*.py")
+            files = [f for f in files if '__' not in f]
             dvces = []
             for i in files:
                 device = i.split("\\")[-1][:-3]
@@ -31,6 +32,7 @@ class Dialog(QtWidgets.QDialog):
             pass
         else:
             files = glob.glob("HWaccess/Devices/*.py")
+            files = [f for f in files if '__' not in f]
             dvces = []
             for i in files:
                 device = i.split("/")[-1][:-3]
