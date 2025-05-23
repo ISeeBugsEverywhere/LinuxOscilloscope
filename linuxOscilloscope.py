@@ -19,6 +19,7 @@ from pyqtgraph import mkPen
 import pyqtgraph as pg
 import pyqtgraph.exporters
 from Scripts.vars import *
+from Scripts.console_log import ConsoleLog
 from Scripts.Threads import ContinuousUpdate
 from Scripts.output_formatter import *
 from Scripts.configparser import *
@@ -27,14 +28,18 @@ from Scripts.SavedSignalsClass import *
 
 from HWaccess.LXI import *
 from HWaccess.USBTMC import *
+from HWaccess.VISADevice import VISADevice
 
 _new_line = os.linesep
 
-# try:
-#     if 'windows' in platform.system().lower():
-#         from HWaccess.USBTMC_mod import USBTMCMOD as USBTMC
-# except:
-#     pass
+#  VISA:
+import pyvisa as visa
+
+# Use NI-VISA backend on Windows, py-VISA on Linux
+if platform.system().lower() == 'windows':
+    RM = visa.ResourceManager()  # Use NI-VISA backend on Windows
+else:
+    RM = visa.ResourceManager('@py')  # Use pure Python backend on Linux
 
 GOM = None
 
@@ -43,6 +48,8 @@ START = "Get data from\nselected channel(s)"
 
 from colorsdef import COLORS
 
+
+DEBUG = False
 
 class LOsc(QtWidgets.QMainWindow):
     def __init__(self):
@@ -78,6 +85,7 @@ class LOsc(QtWidgets.QMainWindow):
         self.ui.lxiRadio.toggled.connect(self.lxi_state_fn)
         self.ui.rs232Radio.toggled.connect(self.rs232_state_fn)
         self.ui.usbtmcRadio.toggled.connect(self.usbtmc_state_fn)
+        self.ui.visaRadio.toggled.connect(self.visa_state_fn)
         # quit actions:
         self.ui.quitButton.clicked.connect(self.quit_fn)
         self.ui.actionQuit_Ctrl_Q.triggered.connect(self.quit_fn)
@@ -123,6 +131,17 @@ class LOsc(QtWidgets.QMainWindow):
         # log mode
         self.ui.logMode.clicked.connect(self.log_mode_fn)
         self.ui.helpButton.clicked.connect(lambda: self.show_help(True))
+        self.ui.actionDebug.triggered.connect(self.debug_fn)
+        pass
+
+    def debug_fn(self):
+        global DEBUG
+        if DEBUG:
+            self.ui.actionDebug.setChecked(False)            
+            DEBUG = False
+        else:
+            self.ui.actionDebug.setChecked(True)
+            DEBUG = True
         pass
 
     def log_mode_fn(self):
@@ -182,32 +201,28 @@ class LOsc(QtWidgets.QMainWindow):
             txt4 = self.ui.ch4_comment.text()+"_CH4"
         dataItems = self.ui.oscillographPlot.plotItem.listDataItems()
         for channel, (dx, dy, tunit) in self._data_mod.items():
-            print("CHAN", channel)
             eq = ''  # recalculations are the same for all signals
             if len(self.ui.formulaEdit.text()) > 0:
                 eq = self.ui.formulaEdit.text()
             else:
                 eq = 'y'
             if '1' in channel:
-                ssig = SavedSignal(dx, dy, txt1, color=QtGui.QColor(
-                    COLORS[self.next_color]), EQ=eq)
+                ssig = SavedSignal(dx, dy, txt1, color=QtGui.QColor(COLORS[self.next_color]), EQ=eq)
                 self._saved_signals.append(ssig)
                 self.next_color = self.next_color + 1
             if '2' in channel:
-                ssig = SavedSignal(dx, dy, txt2, color=QtGui.QColor(
-                    COLORS[self.next_color]), EQ=eq)
+                ssig = SavedSignal(dx, dy, txt2, color=QtGui.QColor(COLORS[self.next_color]), EQ=eq)
                 self._saved_signals.append(ssig)
                 self.next_color = self.next_color + 1
             if '3' in channel:
-                ssig = SavedSignal(dx, dy, txt3, color=QtGui.QColor(
-                    COLORS[self.next_color]), EQ=eq)
+                ssig = SavedSignal(dx, dy, txt3, color=QtGui.QColor(COLORS[self.next_color]), EQ=eq)
                 self._saved_signals.append(ssig)
                 self.next_color = self.next_color + 1
             if '4' in channel:
-                ssig = SavedSignal(dx, dy, txt4, color=QtGui.QColor(
-                    COLORS[self.next_color]), EQ=eq)
+                ssig = SavedSignal(dx, dy, txt4, color=QtGui.QColor(COLORS[self.next_color]), EQ=eq)
                 self._saved_signals.append(ssig)
                 self.next_color = self.next_color + 1
+            pass # for ciklo pabaiga
         self.ui.oscillographPlot.plotItem.clear()
         # išsaugota, pašalinta, metas atnaujinti.
         self.replot_saved_graphs()
@@ -545,7 +560,7 @@ class LOsc(QtWidgets.QMainWindow):
             if self.ui.live_update_box.isChecked():
                 self.ui.get_data_btn.setText(R_THRAED)
                 if self._worker is not None and self._worker.ID == 1:
-                    console("worker is not none")
+                    ConsoleLog("Worker is not none", level='debug', debug=DEBUG)
                 if self._worker is None:
                     # console("worker was NONE")
                     self._thread = QtCore.QThread(self)
@@ -615,6 +630,10 @@ class LOsc(QtWidgets.QMainWindow):
         ports = self.ui.rs232Widget.get_port_names()
         self.ui.rs232Combo.insertItems(0, [str(x.portName()) for x in ports])
         self.get_usbtmc_devices_fn()
+        self.ui.visaCombo.clear()
+        devs = RM.list_resources()
+        devs = [i for i in devs if not i.startswith('ASRL')]
+        self.ui.visaCombo.addItems(devs)
         pass
 
     def rescan_ports_fn(self, ports):
@@ -658,6 +677,7 @@ class LOsc(QtWidgets.QMainWindow):
             self.ui.lxiCombo.setEnabled(True)
             self.ui.rs232Combo.setEnabled(False)
             self.ui.usbtmcCombo.setEnabled(False)
+            self.ui.visaCombo.setEnabled(False)
             pass
         pass
 
@@ -666,6 +686,7 @@ class LOsc(QtWidgets.QMainWindow):
             self.ui.lxiCombo.setEnabled(False)
             self.ui.rs232Combo.setEnabled(True)
             self.ui.usbtmcCombo.setEnabled(False)
+            self.ui.visaCombo.setEnabled(False)
             pass
 
     def usbtmc_state_fn(self):
@@ -673,7 +694,16 @@ class LOsc(QtWidgets.QMainWindow):
             self.ui.lxiCombo.setEnabled(False)
             self.ui.rs232Combo.setEnabled(False)
             self.ui.usbtmcCombo.setEnabled(True)
+            self.ui.visaCombo.setEnabled(False)
             pass
+        pass
+
+    def visa_state_fn(self):
+        if self.ui.visaRadio.isChecked():
+            self.ui.lxiCombo.setEnabled(False)
+            self.ui.rs232Combo.setEnabled(False)
+            self.ui.usbtmcCombo.setEnabled(False)
+            self.ui.visaCombo.setEnabled(True)
         pass
 
     def idxfn(self, index):
@@ -712,11 +742,14 @@ class LOsc(QtWidgets.QMainWindow):
             pre = ''
             if 'linux' in platform.system().lower():
                 pre = '/dev/'
-                print('linux')
+                ConsoleLog('linux', level='debug', debug=DEBUG)
             return pre+port, 1, params
         elif self.ui.usbtmcRadio.isChecked():
             port = self.ui.usbtmcCombo.currentText()
             return port, 2, params
+        elif self.ui.visaRadio.isChecked():
+            port = self.ui.visaCombo.currentText()
+            return port, 3, params
 
     def connect_device_fn(self):
         try:
@@ -757,7 +790,7 @@ class LOsc(QtWidgets.QMainWindow):
         try:
             if self.ui.autoConnect.text() != "Disconnect":
                 port, status, params = self.get_port_parameters()
-                # print("STATUS::ERR::", status)
+                ConsoleLog(f"Device connection status: {status}", level='debug', debug=DEBUG)
                 global GOM  # switch to enable global GOM
                 files = glob.glob("HWaccess/Devices/*.py")
                 files = [f for f in files if '__' not in f]
@@ -781,7 +814,7 @@ class LOsc(QtWidgets.QMainWindow):
                 elif status == 1:
                     pass
                 elif status == 2:  # usbtmc case
-                    # print("THIS::CASE::2")
+                    #                ConsoleLog("Processing USBTMC device", level='debug', debug=DEBUG)
                     dummy_device = USBTMC(port)
                     idn = str(dummy_device.ask("*idn?"))
                     for i in dvces:
@@ -791,6 +824,21 @@ class LOsc(QtWidgets.QMainWindow):
                     self.trigger_device()
                     self.ui.connectButton.setText("Disconnect")
                     self.ui.autoConnect.setText("Disconnect")
+                elif status == 3:  # VISA case
+                    # print("THIS::CASE::3")
+                    device = RM.open_resource(port)
+                    ConsoleLog(f"VISA device: {device}", level='debug', debug=DEBUG)
+                    dummy_device = VISADevice(device)
+                    idn = str(dummy_device.ask("*idn?"))
+                    for i in dvces:
+                        if i.split('_')[1] in idn and i.split('_')[2] == 'VISA':
+                            GOM = importlib.import_module(i)
+                            break
+                    dummy_device.close()
+                    self.trigger_device()
+                    self.ui.connectButton.setText("Disconnect")
+                    self.ui.autoConnect.setText("Disconnect")
+                    pass
             else:
                 if self._worker is not None and self._worker.ID == 1:
                     self._worker.stop(True)
@@ -815,7 +863,7 @@ class LOsc(QtWidgets.QMainWindow):
         try:
             port, status, params = self.get_port_parameters()
             self.OSCILLOSCOPE = GOM.Oscilloscope()
-            # print(self.OSCILLOSCOPE.t_name)
+            ConsoleLog(f"Device name: {self.OSCILLOSCOPE.t_name}", level='debug', debug=DEBUG)
             if status == 0:
                 txt = self.ui.lxiCombo.currentText()
                 idx = self.ui.lxiCombo.findText(txt)
@@ -831,11 +879,17 @@ class LOsc(QtWidgets.QMainWindow):
                 pass
             elif status == 1:
                 self.OSCILLOSCOPE.init_device(port, params)
-                # print("STATUS: RS232", status)
+                ConsoleLog(f"STATUS RS232: {status}", level='debug', debug=DEBUG)
                 pass
             elif status == 2:
                 self.OSCILLOSCOPE.init_device(port, params)
-                print("STATUS USBTMC:", status)
+                ConsoleLog(f"STATUS USBTMC: {status}", level='debug', debug=DEBUG)
+                pass
+            elif status == 3:
+                device = RM.open_resource(port)
+                self.OSCILLOSCOPE.init_device(device, params)
+                ConsoleLog(f"STATUS VISA: {status}", level='debug', debug=DEBUG)
+                pass
             idn = self.OSCILLOSCOPE.get_name()
             self._idnLabel(idn)
             self.setWindowTitle(self.OSCILLOSCOPE.t_name+" : Oscilloscope")
@@ -945,7 +999,7 @@ class LOsc(QtWidgets.QMainWindow):
             graph.setLabel('bottom', "Time scale", units=str(x_Unit))
             graph.setLabel('left', "CH scale", units=str(y_Unit))
         else:
-            console("Inequality", y_name, " ; ", sizex, " ; ", sizey)
+            ConsoleLog(f"Inequality: {y_name} ; {sizex} ; {sizey}", level='error', debug=DEBUG)
             self.append_html_paragraph(
                 "Inequality: " + str(y_name) + " ; " + str(sizex) + " ; " + str(sizey), -1, True)
 

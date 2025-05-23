@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1078</width>
+    <width>1134</width>
     <height>976</height>
    </rect>
   </property>
@@ -138,6 +138,16 @@
          <bool>false</bool>
         </property>
        </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="visaRadio">
+        <property name="text">
+         <string>VISA?</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="visaCombo"/>
       </item>
       <item>
        <spacer name="horizontalSpacer_11">
@@ -605,22 +615,6 @@ active channel(s)</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="0" rowspan="7">
-           <widget class="PlotWidget" name="oscillographPlot">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>600</width>
-              <height>450</height>
-             </size>
-            </property>
-           </widget>
-          </item>
           <item row="8" column="0">
            <widget class="QLineEdit" name="formulaEdit">
             <property name="minimumSize">
@@ -647,6 +641,9 @@ active channel(s)</string>
              <string>Comments?</string>
             </property>
            </widget>
+          </item>
+          <item row="1" column="0" rowspan="7">
+           <widget class="PlotWidget" name="oscillographPlot" native="true"/>
           </item>
          </layout>
         </item>
@@ -1093,8 +1090,8 @@ active channel(s)</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1078</width>
-     <height>27</height>
+     <width>1134</width>
+     <height>28</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -1103,12 +1100,27 @@ active channel(s)</string>
     </property>
     <addaction name="actionQuit_Ctrl_Q"/>
    </widget>
+   <widget class="QMenu" name="menuTestavimas">
+    <property name="title">
+     <string>Testavimas</string>
+    </property>
+    <addaction name="actionDebug"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuTestavimas"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionQuit_Ctrl_Q">
    <property name="text">
     <string>&amp;Quit(Ctrl+Q)</string>
+   </property>
+  </action>
+  <action name="actionDebug">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Debug?</string>
    </property>
   </action>
  </widget>
@@ -1120,14 +1132,15 @@ active channel(s)</string>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>PlotWidget</class>
-   <extends>QGraphicsView</extends>
-   <header>pyqtgraph</header>
-  </customwidget>
-  <customwidget>
    <class>QWebEngineView</class>
    <extends>QWidget</extends>
    <header>PyQt5.QtWebEngineWidgets</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PlotWidget</class>
+   <extends>QWidget</extends>
+   <header>pyqtgraph</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -26,7 +26,10 @@ class USBTMC:
         :param length: length of data to read
         :return:
         '''
-        return os.read(self.FILE, length)
+        if length != 0:
+            return os.read(self.FILE, length)
+        else:
+            return os.read(self.FILE)
 
     def close(self):
         os.close(self.FILE)
