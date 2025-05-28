@@ -15,15 +15,13 @@ class Oscilloscope:
         # ====================
         # THESE ATTRIBUTES MUST BE IMPLEMENTED:
         self.device = None
-        self.t_name="Rigol DHO802 (USB)"
+        self.t_name="Rigol DHO802 (TCP)"
         self.idn = None
         self.mode = "NORM"
         self.CH1 = "CHAN1"
         self.CH2 = "CHAN2"
-        self.CH3 = "CHAN3"
-        self.CH4 = "CHAN4"
-        self.CH_ARR = [self.CH1, self.CH2, self.CH3, self.CH4]
-        self.CH_SIZE = 4
+        self.CH_ARR = [self.CH1, self.CH2]
+        self.CH_SIZE = 2
         # === END OF NECESSARY ATTRIBUTES ==========
         # BELOW any attribute can be implemented
         pass
@@ -41,9 +39,7 @@ class Oscilloscope:
         pass
 
     def reset(self):
-        a, _ = self.device.write("*RST")
-        if _ == -1:
-            print(a)
+        a = self.device.write("*RST")
         pass
 
     def unlock_key(self):
