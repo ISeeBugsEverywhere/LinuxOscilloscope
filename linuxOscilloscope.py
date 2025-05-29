@@ -792,6 +792,7 @@ class LOsc(QtWidgets.QMainWindow):
                 port, status, params = self.get_port_parameters()
                 ConsoleLog(f"Device connection status: {status}", level='debug', debug=DEBUG)
                 global GOM  # switch to enable global GOM
+                ConsoleLog('GOM global?', level='debug', debug=DEBUG)
                 files = glob.glob("HWaccess/Devices/*.py")
                 files = [f for f in files if '__' not in f]
                 dvces = []
@@ -819,6 +820,7 @@ class LOsc(QtWidgets.QMainWindow):
                     idn = str(dummy_device.ask("*idn?"))
                     for i in dvces:
                         if i.split('_')[1] in idn and i.split('_')[2] == 'USB':
+                            # global GOM
                             GOM = importlib.import_module(i)
                             break
                     self.trigger_device()
@@ -831,9 +833,11 @@ class LOsc(QtWidgets.QMainWindow):
                     dummy_device = VISADevice(device)
                     idn = str(dummy_device.ask("*idn?"))
                     for i in dvces:
-                        if i.split('_')[1] in idn and i.split('_')[2] == 'VISA':
+                        if i.split('_')[1] in str(idn).replace('-','') and i.split('_')[2] == 'VISA':
+                            # global GOM
                             GOM = importlib.import_module(i)
                             break
+                    ConsoleLog(idn, debug=DEBUG, level='debug')
                     dummy_device.close()
                     self.trigger_device()
                     self.ui.connectButton.setText("Disconnect")

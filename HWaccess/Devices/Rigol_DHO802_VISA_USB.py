@@ -20,10 +20,8 @@ class Oscilloscope:
         self.mode = "NORM"
         self.CH1 = "CHAN1"
         self.CH2 = "CHAN2"
-        self.CH3 = "CHAN3"
-        self.CH4 = "CHAN4"
-        self.CH_ARR = [self.CH1, self.CH2, self.CH3, self.CH4]
-        self.CH_SIZE = 4
+        self.CH_ARR = [self.CH1, self.CH2]
+        self.CH_SIZE = 2
         # === END OF NECESSARY ATTRIBUTES ==========
         # BELOW any attribute can be implemented
         pass
